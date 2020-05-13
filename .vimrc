@@ -55,6 +55,13 @@ NeoBundle 'surround.vim'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'justmao945/vim-clang'
 NeoBundle 'mattn/sonictemplate-vim'
+" git
+NeoBundle 'tpope/vim-fugitive'
+" comment
+NeoBundle 'tomtom/tcomment_vim'
+
+NeoBundle 'vim-airline/vim-airline'
+NeoBundle 'vim-airline/vim-airline-themes'
 
 
 "----------------------------------------------------------
@@ -65,9 +72,9 @@ filetype plugin indent on
 
 " 未インストールのVimプラグインがある場合、インストールするかどうかを尋ねてくれるようにする設定・・・・・・③
 NeoBundleCheck  
-if neobundle#is_installed('molokai') " molokaiがインストールされていれば
-    colorscheme molokai " カラースキームにmolokaiを設定する
-endif
+"if neobundle#is_installed('molokai') " molokaiがインストールされていれば
+"    colorscheme molokai " カラースキームにmolokaiを設定する
+"endif
 " If you have vim >=8.0 or Neovim >= 0.1.5
 "if (has("termguicolors"))
 " set termguicolors
@@ -82,11 +89,18 @@ endif
 "let g:lightline = { 'colorscheme': 'tender' }
 "let g:airline_theme = 'tender'
 "let macvim_skip_colorscheme=1
-set t_Co=256 " iTerm2など既に256色環境なら無くても良い
-
 set laststatus=2
-set showmode
-set showcmd
+set showtabline=2 " 常にタブラインを表示
+set t_Co=256 " この設定がないと色が正しく表示されない
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline_theme='papercolor' "落ち着いた色調が好き
+let g:airline_powerline_fonts = 1
+set t_Co=256 " iTerm2など既に256色環境なら無くても良い
+set ttimeoutlen=50
+
+"set showmode
+"set showcmd
 set ruler
 set backspace=indent,eol,start
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
@@ -102,22 +116,6 @@ augroup setAutoCompile
 augroup END
 
 
-if &term =~ "xterm"
-    let &t_ti .= "\e[?2004h"
-    let &t_te .= "\e[?2004l"
-    let &pastetoggle = "\e[201~"
-
-    function XTermPasteBegin(ret)
-        set paste
-        return a:ret
-    endfunction
-
-    noremap <special> <expr> <Esc>[200~ XTermPasteBegin("0i")
-    inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
-    cnoremap <special> <Esc>[200~ <nop>
-    cnoremap <special> <Esc>[201~ <nop>
-endif
-
 
 
 " smart indent when entering insert mode with i on empty lines
@@ -129,6 +127,16 @@ function! IndentWithI()
     endif
 endfunction
 nnoremap <expr> i IndentWithI()
+nnoremap <Space>t :Template 
+nnoremap <silent> <Space>w :<C-u>w<CR>
+nnoremap <Space>s :source $HOME/.vimrc<CR>
+nnoremap <Space>v :e $HOME/.vimrc<CR>
+nnoremap <Space>q :q<CR>
+nnoremap Q <Nop>
+
+vnoremap <silent> y y`]
+vnoremap <silent> p p`]
+nnoremap <silent> p p`]`
 
 
 let g:sonictemplate_vim_template_dir = [
