@@ -25,3 +25,27 @@ alias gp='git-foresta --all --style=10 | less -RSX'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+ZSH_AUTOSUGGEST_STRATEGY=(completion history)
+setopt auto_cd
+setopt auto_pushd
+setopt correct
+setopt pushd_ignore_dups
+
+function chpwd() {
+  pwd
+  ls -F
+}
+__call_precmds() {
+  type precmd > /dev/null 2>&1 && precmd
+  for __pre_func in $precmd_functions; do $__pre_func; done
+}
+function cdup() {
+  echo
+  cd ..
+  __call_precmds
+  zle reset-prompt
+}
+zle -N cdup
+bindkey '\^' cdup
+
+function c (){cat $1 | pbcopy}
