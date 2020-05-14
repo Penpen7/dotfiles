@@ -7,7 +7,6 @@
 
 export TERM="xterm-256color" 
 POWERLEVEL9K_MODE="nerdfont-complete"
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(user dir battery newline vcs)
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -23,3 +22,6 @@ alias ...='cd ../../'
 alias ....='cd ../../../'
 alias v='vim'
 alias gp='git-foresta --all --style=10 | less -RSX'
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
