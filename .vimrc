@@ -49,8 +49,8 @@ NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'cohama/lexima.vim'
 NeoBundle 'munshkr/vim-tidal'
+NeoBundle 'octol/vim-cpp-enhanced-highlight'
 "NeoBundle 'jacoborus/tender.vim'
-NeoBundle 'tomasr/molokai'
 NeoBundle 'surround.vim'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'justmao945/vim-clang'
@@ -131,6 +131,7 @@ nnoremap <Space>t :Template
 nnoremap <silent> <Space>w :<C-u>w<CR>
 nnoremap <Space>s :source $HOME/.vimrc<CR>
 nnoremap <Space>v :e $HOME/.vimrc<CR>
+nnoremap <Space>o :e 
 nnoremap <Space>q :q<CR>
 nnoremap Q <Nop>
 
@@ -142,4 +143,15 @@ nnoremap <silent> p p`]`
 let g:sonictemplate_vim_template_dir = [
       \ '$HOME/template'
       \]
+
+" 補完
+
+set completeopt=menuone,noinsert
+
+" 補完表示時のEnterで改行をしない
+inoremap <expr><CR>  pumvisible() ? "<C-y>" : "<CR>"
+
+
+inoremap <expr><C-n> pumvisible() ? "<Down>" : "<C-n>"
+inoremap <expr><C-p> pumvisible() ? "<Up>" : "<C-p>"
 
