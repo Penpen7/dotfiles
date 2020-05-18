@@ -44,12 +44,12 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 "----------------------------------------------------------
 " ここに追加したいVimプラグインを記述する・・・・・・②
 NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'cohama/lexima.vim'
 NeoBundle 'munshkr/vim-tidal'
 NeoBundle 'octol/vim-cpp-enhanced-highlight'
+NeoBundle 'altercation/vim-colors-solarized'
 "NeoBundle 'jacoborus/tender.vim'
 NeoBundle 'surround.vim'
 NeoBundle 'scrooloose/nerdtree'
@@ -63,6 +63,8 @@ NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'vim-airline/vim-airline'
 NeoBundle 'vim-airline/vim-airline-themes'
 
+NeoBundle 'dense-analysis/ale'
+NeoBundle 'junegunn/fzf.vim'
 
 "----------------------------------------------------------
 call neobundle#end()
@@ -89,6 +91,8 @@ NeoBundleCheck
 "let g:lightline = { 'colorscheme': 'tender' }
 "let g:airline_theme = 'tender'
 "let macvim_skip_colorscheme=1
+set background=dark
+colorscheme solarized
 set laststatus=2
 set showtabline=2 " 常にタブラインを表示
 set t_Co=256 " この設定がないと色が正しく表示されない
