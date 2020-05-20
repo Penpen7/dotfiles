@@ -6,7 +6,6 @@ set cursorline
 set cursorcolumn
 set showmatch
 set matchtime=1
-syntax on
 set autoindent
 set ruler
 set shiftwidth=2
@@ -19,80 +18,56 @@ if &term =~ "xterm"
   let &pastetoggle = "\e[201~"
 
   function XTermPasteBegin(ret)
-   set paste
+    set paste
     return a:ret
   endfunction
 
   inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
 endif
-if has('vim_starting')
-    " 初回起動時のみruntimepathにNeoBundleのパスを指定する
-    set runtimepath+=$HOME/.vim/bundle/neobundle.vim/
+" vimrc に以下のように追記
 
-    " NeoBundleが未インストールであればgit cloneする・・・・・・①
-    if !isdirectory(expand("$HOME/.vim/bundle/neobundle.vim/"))
-        echo "install NeoBundle..."
-        call system("git clone git://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim")
-    endif
+" プラグインが実際にインストールされるディレクトリ
+let s:dein_dir = expand('~/.cache/dein')
+" dein.vim 本体
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+" dein.vim がなければ github から落としてくる
+if &runtimepath !~# '/dein.vim'
+  if !isdirectory(s:dein_repo_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+  endif
+  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
 endif
 
-call neobundle#begin(expand('$HOME/.vim/bundle/'))
+" 設定開始
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
 
-" インストールするVimプラグインを以下に記述
-" NeoBundle自身を管理
-NeoBundleFetch 'Shougo/neobundle.vim'
-"----------------------------------------------------------
-" ここに追加したいVimプラグインを記述する・・・・・・②
-NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'Shougo/vimshell.vim'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'cohama/lexima.vim'
-NeoBundle 'munshkr/vim-tidal'
-NeoBundle 'octol/vim-cpp-enhanced-highlight'
-NeoBundle 'altercation/vim-colors-solarized'
-"NeoBundle 'jacoborus/tender.vim'
-NeoBundle 'surround.vim'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'justmao945/vim-clang'
-NeoBundle 'mattn/sonictemplate-vim'
-" git
-NeoBundle 'tpope/vim-fugitive'
-" comment
-NeoBundle 'tomtom/tcomment_vim'
+  " プラグインリストを収めた TOML ファイル
+  " 予め TOML ファイル（後述）を用意しておく
+  let g:rc_dir    = expand('~')
+  let s:toml      = g:rc_dir . '/.dein.toml'
+  let s:lazy_toml = g:rc_dir . '/.dein_lazy.toml'
 
-NeoBundle 'vim-airline/vim-airline'
-NeoBundle 'vim-airline/vim-airline-themes'
+  " TOML を読み込み、キャッシュしておく
+  call dein#load_toml(s:toml,      {'lazy': 0})
+  call dein#load_toml(s:lazy_toml, {'lazy': 1})
 
-NeoBundle 'dense-analysis/ale'
-NeoBundle 'junegunn/fzf.vim'
+  " 設定終了
+  call dein#end()
+  call dein#save_state()
+endif
 
-"----------------------------------------------------------
-call neobundle#end()
-
+" もし、未インストールものものがあったらインストール
+if dein#check_install()
+  call dein#install()
+endif
 " ファイルタイプ別のVimプラグイン/インデントを有効にする
 filetype plugin indent on
 
-" 未インストールのVimプラグインがある場合、インストールするかどうかを尋ねてくれるようにする設定・・・・・・③
-NeoBundleCheck  
-"if neobundle#is_installed('molokai') " molokaiがインストールされていれば
-"    colorscheme molokai " カラースキームにmolokaiを設定する
-"endif
-" If you have vim >=8.0 or Neovim >= 0.1.5
-"if (has("termguicolors"))
-" set termguicolors
-"endif
-
-" For Neovim 0.1.3 and 0.1.4
-"let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-
-" Theme
-"syntax enable
-"colorscheme tender
-"let g:lightline = { 'colorscheme': 'tender' }
-"let g:airline_theme = 'tender'
-"let macvim_skip_colorscheme=1
+" オムニ補完設定
+autocmd FileType typescript setlocal omnifunc=lsp#complete
 set background=dark
-colorscheme solarized
 set laststatus=2
 set showtabline=2 " 常にタブラインを表示
 set t_Co=256 " この設定がないと色が正しく表示されない
@@ -102,6 +77,7 @@ let g:airline_theme='papercolor' "落ち着いた色調が好き
 let g:airline_powerline_fonts = 1
 set t_Co=256 " iTerm2など既に256色環境なら無くても良い
 set ttimeoutlen=50
+set background=dark
 
 "set showmode
 "set showcmd
@@ -116,26 +92,30 @@ augroup END
 
 augroup setAutoCompile
   autocmd!
-  autocmd BufWritePost *.cpp :!g++ -std=c++14 %:p
+  autocmd BufWritePost *.cpp :!g++ -std=c++14 -D_DEBUG %:p
 augroup END
 
 
+let fortran_free_source=1
+let fortran_have_tabs=1
+let fortran_more_precise=1
+let fortran_do_enddo=1
 
 
 " smart indent when entering insert mode with i on empty lines
 function! IndentWithI()
-    if len(getline('.')) == 0
-        return "cc"
-    else
-        return "i"
-    endif
+  if len(getline('.')) == 0
+    return "cc"
+  else
+    return "i"
+  endif
 endfunction
 nnoremap <expr> i IndentWithI()
-nnoremap <Space>t :Template 
+nnoremap <Space>t :Template<Space>
 nnoremap <silent> <Space>w :<C-u>w<CR>
 nnoremap <Space>s :source $HOME/.vimrc<CR>
 nnoremap <Space>v :e $HOME/.vimrc<CR>
-nnoremap <Space>o :e 
+nnoremap <Space>o :e
 nnoremap <Space>q :q<CR>
 nnoremap Q <Nop>
 
@@ -154,8 +134,6 @@ set completeopt=menuone,noinsert
 
 " 補完表示時のEnterで改行をしない
 inoremap <expr><CR>  pumvisible() ? "<C-y>" : "<CR>"
-
-
 inoremap <expr><C-n> pumvisible() ? "<Down>" : "<C-n>"
 inoremap <expr><C-p> pumvisible() ? "<Up>" : "<C-p>"
-
+noremap <F3> :Autoformat<CR>
