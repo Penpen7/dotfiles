@@ -1,0 +1,27 @@
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+hook_source = '''
+let g:deoplete#enable_at_startup = 1
+'''
+[[plugins]]
+repo = 'Shougo/neco-syntax'
+on_event = 'InsertEnter'
+
+[[plugins]]
+repo = 'zchee/deoplete-clang'
+on_ft = ['c', 'cpp', 'cmake']
+hook_source = '''
+    let g:deoplete#sources#clang#libclang_path = system("llvm-config --prefix")[:-2] . '/lib/libclang.dylib'
+    let g:deoplete#sources#clang#clang_header = system("llvm-config --prefix")[:-2] . '/lib/clang'
+    let g:deoplete#sources#clang#sort_algo = 'priority'
+    let g:deoplete#sources#clang#clang_complete_database="./build/"
+'''
+depends = ['deoplete.nvim']
+
+[[plugins]]
+repo = 'altercation/vim-colors-solarized'
+hook_add = '''
+syntax enable
+set background=dark
+colorscheme solarized
+'''
