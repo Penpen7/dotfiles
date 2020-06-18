@@ -1,31 +1,3 @@
-set tabstop=2
-set wildmenu wildmode=list:longest,full
-set number
-set fenc=utf-8
-set cursorline
-set cursorcolumn
-set showmatch
-set matchtime=1
-set autoindent
-set ruler
-set shiftwidth=2
-set expandtab
-set mouse=a
-
-if &term =~ "xterm"
-  let &t_SI .= "\e[?2004h"
-  let &t_EI .= "\e[?2004l"
-  let &pastetoggle = "\e[201~"
-
-  function XTermPasteBegin(ret)
-    set paste
-    return a:ret
-  endfunction
-
-  inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
-endif
-" vimrc に以下のように追記
-
 " プラグインが実際にインストールされるディレクトリ
 let s:dein_dir = expand('~/.config/nvim/dein')
 " dein.vim 本体
@@ -62,27 +34,18 @@ endif
 if dein#check_install()
   call dein#install()
 endif
+" plugin remove check {{{
+let s:removed_plugins = dein#check_clean()
+if len(s:removed_plugins) > 0
+  call map(s:removed_plugins, "delete(v:val, 'rf')")
+  call dein#recache_runtimepath()
+endif
+" }}}
 " ファイルタイプ別のVimプラグイン/インデントを有効にする
 filetype plugin indent on
 
 " オムニ補完設定
 autocmd FileType typescript setlocal omnifunc=lsp#complete
-set background=dark
-set laststatus=2
-set showtabline=2 " 常にタブラインを表示
-set t_Co=256 " この設定がないと色が正しく表示されない
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline_theme='papercolor' "落ち着いた色調が好き
-let g:airline_powerline_fonts = 1
-set t_Co=256 " iTerm2など既に256色環境なら無くても良い
-set ttimeoutlen=50
-set background=dark
-
-"set showmode
-"set showcmd
-set ruler
-set backspace=indent,eol,start
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
 augroup MyXML
   autocmd!
@@ -99,12 +62,10 @@ augroup allFiles
   autocmd BufWritePost * : :Autoformat
 augroup END
 
-
 let fortran_free_source=1
 let fortran_have_tabs=1
 let fortran_more_precise=1
 let fortran_do_enddo=1
-
 
 " smart indent when entering insert mode with i on empty lines
 function! IndentWithI()
@@ -116,9 +77,11 @@ function! IndentWithI()
 endfunction
 nnoremap <expr> i IndentWithI()
 nnoremap <Space>t :Template<Space>
-nnoremap <silent> <Space>w :<C-u>w<CR>
+nnoremap <silent> <Space>w :w<CR>
 nnoremap <Space>s :source $HOME/.vimrc<CR>
 nnoremap <Space>v :e $HOME/.config/nvim<CR>
+nnoremap <Space>c :!oj t<CR>
+nnoremap <Space>y :e $HOME/template/cpp<CR>
 nnoremap <Space>o :e
 nnoremap <Space>q :q<CR>
 nnoremap Q <Nop>
@@ -128,12 +91,7 @@ vnoremap <silent> p p`]
 nnoremap <silent> p p`]`
 
 
-let g:sonictemplate_vim_template_dir = [
-      \ '$HOME/template'
-      \]
-
 " 補完
-
 set completeopt=menuone,noinsert
 
 " 補完表示時のEnterで改行をしない
@@ -141,5 +99,28 @@ inoremap <expr><CR>  pumvisible() ? "<C-y>" : "<CR>"
 inoremap <expr><C-n> pumvisible() ? "<Down>" : "<C-n>"
 inoremap <expr><C-p> pumvisible() ? "<Up>" : "<C-p>"
 noremap <F3> :Autoformat<CR>
-    let g:formatdef_mycustom_cpp = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename=\"'.expand('%:p').'\" -style=\"{BasedOnStyle: Google, AlignTrailingComments: true, '.(&textwidth ? 'ColumnLimit: '.&textwidth.', ' : '').(&expandtab ? 'UseTab: Never, IndentWidth: '.shiftwidth() : 'UseTab: Always').'}\"'"
-let g:formatters_cpp = ['mycustom_cpp']
+set laststatus=2
+set tabstop=2
+set wildmenu wildmode=list:longest,full
+set number
+set fenc=utf-8
+set cursorline
+set cursorcolumn
+set showmatch
+set matchtime=1
+set autoindent
+set ruler
+set shiftwidth=2
+set expandtab
+set mouse=a
+set background=dark
+set t_Co=256 " iTerm2など既に256色環境なら無くても良い
+set ttimeoutlen=50
+set ruler
+set backspace=indent,eol,start
+set laststatus=2
+set showtabline=2 " 常にタブラインを表示
+set matchtime=1
+set display=lastline
+set expandtab
+colorscheme solarized

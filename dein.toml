@@ -1,6 +1,4 @@
 [[plugins]]
-repo = 'itchyny/lightline.vim'
-[[plugins]]
 repo = 'Shougo/vimshell.vim'
 [[plugins]]
 repo = 'Shougo/unite.vim'
@@ -15,24 +13,49 @@ repo = 'altercation/vim-colors-solarized'
 [[plugins]]
 repo = 'tpope/vim-surround'
 [[plugins]]
-repo = 'scrooloose/nerdtree'
-[[plugins]]
 repo = 'mattn/sonictemplate-vim'
+hook_add = '''
+let g:sonictemplate_vim_template_dir = ['$HOME/template']'''
 [[plugins]]
 repo = 'tpope/vim-fugitive'
 [[plugins]]
 repo = 'tomtom/tcomment_vim'
 [[plugins]]
+repo = 'junegunn/fzf'
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+depends = 'fzf'
+[[plugins]]
+repo = 'Chiel92/vim-autoformat'
+hook_add = '''
+let g:formatdef_mycustom_cpp = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename=\"'.expand('%:p').'\" -style=\"{BasedOnStyle: Google, AlignTrailingComments: true, '.(&textwidth ? 'ColumnLimit: '.&textwidth.', ' : '').(&expandtab ? 'UseTab: Never, IndentWidth: '.shiftwidth() : 'UseTab: Always').'}\"'"
+let g:formatters_cpp = ['mycustom_cpp']
+'''
+[[plugins]]
+repo = 'wordijp/NeoDebug'
+[[plugins]]
+repo = 'ryanoasis/vim-devicons'
+hook_add = 'let g:WebDevIconsUnicodeDecorateFolderNodes = 1'
+
+
+
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+
+[[plugins]]
+repo = 'hail2u/vim-css3-syntax'
+
+[[plugins]]
 repo = 'vim-airline/vim-airline'
+hook_add= '''
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline_theme = 'molokai'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+'''
+depends = ['vim-airline-themes']
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
 [[plugins]]
 repo = 'dense-analysis/ale'
-[[plugins]]
-repo = 'junegunn/fzf.vim'
-[[plugins]]
-repo = 'Chiel92/vim-autoformat'
-[[plugins]]
-repo = 'wordijp/NeoDebug'
-
-
