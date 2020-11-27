@@ -55,7 +55,7 @@ augroup END
 
 augroup setAutoCompile
   autocmd!
-  autocmd BufWritePost *.cpp :!g++ -std=c++14 -g -O0 -D_DEBUG %:p
+  autocmd BufWritePost *.cpp :!g++ -std=gnu++17 -g -O0 -D_DEBUG %:p
 augroup END
 augroup allFiles
   autocmd!
@@ -85,10 +85,13 @@ nnoremap <Space>y :e $HOME/template/cpp<CR>
 nnoremap <Space>o :e
 nnoremap <Space>q :q<CR>
 nnoremap Q <Nop>
+nnoremap <F4> :<C-u>setlocal relativenumber!<CR>
 
 vnoremap <silent> y y`]
-vnoremap <silent> p p`]
-nnoremap <silent> p p`]`
+if has('nvim')
+  command! -nargs=* Term split | terminal <args>
+  command! -nargs=* Termv vsplit | terminal <args>
+endif
 
 
 " 補完
@@ -98,6 +101,7 @@ set completeopt=menuone,noinsert
 inoremap <expr><CR>  pumvisible() ? "<C-y>" : "<CR>"
 inoremap <expr><C-n> pumvisible() ? "<Down>" : "<C-n>"
 inoremap <expr><C-p> pumvisible() ? "<Up>" : "<C-p>"
+
 noremap <F3> :Autoformat<CR>
 set laststatus=2
 set tabstop=2
@@ -123,4 +127,9 @@ set showtabline=2 " 常にタブラインを表示
 set matchtime=1
 set display=lastline
 set expandtab
+set relativenumber
+set inccommand=split
+let g:python3_host_prog='$HOME/.pyenv/shims/python'
+
 colorscheme solarized
+
