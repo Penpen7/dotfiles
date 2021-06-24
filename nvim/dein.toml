@@ -1,4 +1,9 @@
 [[plugins]]
+repo = 'itchyny/calendar.vim'
+[[plugins]]
+repo = 'mattn/emmet-vim'
+
+[[plugins]]
 repo = 'tpope/vim-endwise'
 
 [[plugins]]
@@ -38,13 +43,6 @@ repo = 'junegunn/fzf.vim'
 depends = 'fzf'
 
 [[plugins]]
-repo = 'Chiel92/vim-autoformat'
-hook_add = '''
-let g:formatdef_mycustom_cpp = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename=\"'.expand('%:p').'\" -style=\"{BasedOnStyle: Google, AlignTrailingComments: true, '.(&textwidth ? 'ColumnLimit: '.&textwidth.', ' : '').(&expandtab ? 'UseTab: Never, IndentWidth: '.shiftwidth() : 'UseTab: Always').'}\"'"
-let g:formatters_cpp = ['mycustom_cpp']
-'''
-
-[[plugins]]
 repo = 'wordijp/NeoDebug'
 
 [[plugins]]
@@ -73,6 +71,16 @@ repo = 'vim-airline/vim-airline-themes'
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'
+hook_add = '''
+if !exists("g:quickrun_config")
+  let g:quickrun_config={}
+endif
+augroup rust_quickrun
+autocmd BufNewFile,BufRead *.crs setf rust
+autocmd BufNewFile,BufRead *.rs  let g:quickrun_config.rust = {'exec' : 'cargo run'}
+autocmd BufNewFile,BufRead *.crs let g:quickrun_config.rust = {'exec' : 'cargo script %s -- %a'}
+augroup END
+'''
 
 [[plugins]]
 repo = 'neoclide/coc.nvim'
@@ -91,8 +99,12 @@ hook_add = '''
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
   endfunction
+  "スペースhでHover
+  nmap <silent> <space>h :call CocAction('doHover')<CR>
   nmap <silent> gd <Plug>(coc-definition)
   nmap <silent> gy <Plug>(coc-type-definition)
   nmap <silent> gi <Plug>(coc-implementation)
   nmap <silent> gr <Plug>(coc-references)
+  nmap <silent> <space>fmt <Plug>(coc-format)
+  nmap <silent> <space>r <Plug>(coc-rename) 
 '''

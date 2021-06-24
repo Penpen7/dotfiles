@@ -25,6 +25,8 @@ if dein#load_state(s:dein_dir)
   call dein#load_toml(s:toml,      {'lazy': 0})
   call dein#load_toml(s:lazy_toml, {'lazy': 1})
 
+  let g:dein#enable_notification = 1
+
   " 設定終了
   call dein#end()
   call dein#save_state()
@@ -59,7 +61,7 @@ augroup setAutoCompile
 augroup END
 augroup allFiles
   autocmd!
-  autocmd BufWritePost * : :Autoformat
+"  autocmd BufWritePost * : :Autoformat
 augroup END
 
 let fortran_free_source=1
@@ -102,7 +104,6 @@ inoremap <expr><CR>  pumvisible() ? "<C-y>" : "<CR>"
 inoremap <expr><C-n> pumvisible() ? "<Down>" : "<C-n>"
 inoremap <expr><C-p> pumvisible() ? "<Up>" : "<C-p>"
 
-noremap <F3> :Autoformat<CR>
 set laststatus=2
 set tabstop=2
 set wildmenu wildmode=list:longest,full
