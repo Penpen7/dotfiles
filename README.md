@@ -1,2 +1,2 @@
 # description
-This is my vim setting file
+This is my setting files
