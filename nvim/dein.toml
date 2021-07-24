@@ -1,19 +1,8 @@
 [[plugins]]
-repo = 'itchyny/calendar.vim'
-[[plugins]]
-repo = 'mattn/emmet-vim'
-
-[[plugins]]
 repo = 'tpope/vim-endwise'
 
 [[plugins]]
 repo = 'Shougo/vimshell.vim'
-
-[[plugins]]
-repo = 'Shougo/unite.vim'
-
-[[plugins]]
-repo = 'cohama/lexima.vim'
 
 [[plugins]]
 repo = 'octol/vim-cpp-enhanced-highlight'
@@ -25,12 +14,11 @@ repo = 'altercation/vim-colors-solarized'
 repo = 'tpope/vim-surround'
 
 [[plugins]]
-repo = 'mattn/sonictemplate-vim'
-hook_add = '''
-let g:sonictemplate_vim_template_dir = ['$HOME/template']'''
+repo = 'tpope/vim-fugitive'
 
 [[plugins]]
-repo = 'tpope/vim-fugitive'
+repo = 'ryanoasis/vim-devicons'
+hook_add = 'let g:WebDevIconsUnicodeDecorateFolderNodes = 1'
 
 [[plugins]]
 repo = 'tomtom/tcomment_vim'
@@ -43,14 +31,29 @@ repo = 'junegunn/fzf.vim'
 depends = 'fzf'
 
 [[plugins]]
-repo = 'wordijp/NeoDebug'
+repo = 'yuki-yano/fzf-preview.vim'
+rev = 'release/rpc'
+hook_add = '''
+nmap <Leader>f [fzf-p]
+xmap <Leader>f [fzf-p]
 
-[[plugins]]
-repo = 'ryanoasis/vim-devicons'
-hook_add = 'let g:WebDevIconsUnicodeDecorateFolderNodes = 1'
+nnoremap <silent> [fzf-p]p     :<C-u>FzfPreviewFromResourcesRpc project_mru git<CR>
+nnoremap <silent> [fzf-p]gs    :<C-u>FzfPreviewGitStatusRpc<CR>
+nnoremap <silent> [fzf-p]ga    :<C-u>FzfPreviewGitActionsRpc<CR>
+nnoremap <silent> [fzf-p]b     :<C-u>FzfPreviewBuffersRpc<CR>
+nnoremap <silent> [fzf-p]B     :<C-u>FzfPreviewAllBuffersRpc<CR>
+nnoremap <silent> [fzf-p]o     :<C-u>FzfPreviewFromResourcesRpc buffer project_mru<CR>
+nnoremap <silent> [fzf-p]<C-o> :<C-u>FzfPreviewJumpsRpc<CR>
+nnoremap <silent> [fzf-p]g;    :<C-u>FzfPreviewChangesRpc<CR>
+nnoremap <silent> [fzf-p]/     :<C-u>FzfPreviewLinesRpc --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
+nnoremap <silent> [fzf-p]*     :<C-u>FzfPreviewLinesRpc --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+nnoremap          [fzf-p]gr    :<C-u>FzfPreviewProjectGrepRpc<Space>
+xnoremap          [fzf-p]gr    "sy:FzfPreviewProjectGrepRpc<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
+nnoremap <silent> [fzf-p]t     :<C-u>FzfPreviewBufferTagsRpc<CR>
+nnoremap <silent> [fzf-p]q     :<C-u>FzfPreviewQuickFixRpc<CR>
+nnoremap <silent> [fzf-p]l     :<C-u>FzfPreviewLocationListRpc<CR>
+'''
 
-[[plugins]]
-repo = 'scrooloose/nerdtree'
 
 [[plugins]]
 repo = 'hail2u/vim-css3-syntax'
@@ -60,7 +63,7 @@ repo = 'vim-airline/vim-airline'
 hook_add= '''
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline_theme = 'molokai'
+let g:airline_theme = 'papercolor'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 '''
@@ -68,19 +71,6 @@ depends = ['vim-airline-themes']
 
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
-
-[[plugins]]
-repo = 'thinca/vim-quickrun'
-hook_add = '''
-if !exists("g:quickrun_config")
-  let g:quickrun_config={}
-endif
-augroup rust_quickrun
-autocmd BufNewFile,BufRead *.crs setf rust
-autocmd BufNewFile,BufRead *.rs  let g:quickrun_config.rust = {'exec' : 'cargo run'}
-autocmd BufNewFile,BufRead *.crs let g:quickrun_config.rust = {'exec' : 'cargo script %s -- %a'}
-augroup END
-'''
 
 [[plugins]]
 repo = 'neoclide/coc.nvim'

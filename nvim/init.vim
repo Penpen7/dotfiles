@@ -46,28 +46,13 @@ endif
 " ファイルタイプ別のVimプラグイン/インデントを有効にする
 filetype plugin indent on
 
-" オムニ補完設定
 autocmd FileType typescript setlocal omnifunc=lsp#complete
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
-augroup MyXML
-  autocmd!
-  autocmd Filetype xml inoremap <buffer> </ </<C-x><C-o>
-  autocmd Filetype html inoremap <buffer> </ </<C-x><C-o>
-augroup END
-
-augroup setAutoCompile
-  autocmd!
-  autocmd BufWritePost *.cpp :!g++ -std=gnu++17 -g -O0 -D_DEBUG %:p
-augroup END
-augroup allFiles
-  autocmd!
-"  autocmd BufWritePost * : :Autoformat
-augroup END
-
-let fortran_free_source=1
-let fortran_have_tabs=1
-let fortran_more_precise=1
-let fortran_do_enddo=1
+" augroup MyXML
+"   autocmd!
+"   autocmd Filetype xml inoremap <buffer> </ </<C-x><C-o>
+"   autocmd Filetype html inoremap <buffer> </ </<C-x><C-o>
+" augroup END
 
 " smart indent when entering insert mode with i on empty lines
 function! IndentWithI()
@@ -79,14 +64,12 @@ function! IndentWithI()
 endfunction
 nnoremap <expr> i IndentWithI()
 nnoremap <Space>t :Template<Space>
-nnoremap <silent> <Space>w :w<CR>
+nnoremap <Space>w :w<CR>
 nnoremap <Space>s :source $HOME/.vimrc<CR>
 nnoremap <Space>v :e $HOME/.config/nvim<CR>
 nnoremap <Space>c :!oj t<CR>
-nnoremap <Space>y :e $HOME/template/cpp<CR>
 nnoremap <Space>o :e
 nnoremap <Space>q :q<CR>
-nnoremap Q <Nop>
 nnoremap <F4> :<C-u>setlocal relativenumber!<CR>
 
 vnoremap <silent> y y`]
@@ -119,7 +102,6 @@ set shiftwidth=2
 set expandtab
 set mouse=a
 set background=dark
-set t_Co=256 " iTerm2など既に256色環境なら無くても良い
 set ttimeoutlen=50
 set ruler
 set backspace=indent,eol,start
@@ -130,7 +112,5 @@ set display=lastline
 set expandtab
 set relativenumber
 set inccommand=split
-let g:python3_host_prog='$HOME/.pyenv/shims/python'
 
 colorscheme solarized
-
