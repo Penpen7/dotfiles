@@ -5,6 +5,7 @@ export LC_ALL=ja_JP.UTF-8
 export PATH="/usr/local/opt/gnu-time/libexec/gnubin:$PATH"
 export PATH="/usr/local/Cellar/llvm/10.0.0_3/bin/:$PATH"
 export PATH="/usr/local/Cellar/ytop/0.6.2/bin/ytop":$PATH
+export PATH="$HOME/.nodebrew/current/bin":$PATH
 export EDITOR=vim
 export GOBIN=${GOPATH}bin
 export LDFLAGS="${LDFLAGS} -L/usr/local/opt/zlib/lib"

@@ -1,4 +1,4 @@
-DOTFILE=~/dotfile
+DOTFILE=~/dotfiles
 [ -f $DOTFILE/powerlevel/powerlevel10k.zsh ] && source $DOTFILE/powerlevel/powerlevel10k.zsh
 [ -f $DOTFILE/zsh/environment.zsh ] && source $DOTFILE/zsh/environment.zsh
 [ -f $DOTFILE/zsh/alias.zsh ] && source $DOTFILE/zsh/alias.zsh
