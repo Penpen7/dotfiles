@@ -25,14 +25,13 @@ repo = 'tomtom/tcomment_vim'
 
 [[plugins]]
 repo = 'junegunn/fzf'
-
-[[plugins]]
-repo = 'junegunn/fzf.vim'
-depends = 'fzf'
+build = './install --all'
+merged = 0
 
 [[plugins]]
 repo = 'yuki-yano/fzf-preview.vim'
 rev = 'release/rpc'
+depends = 'fzf'
 hook_add = '''
 nmap <Leader>f [fzf-p]
 xmap <Leader>f [fzf-p]
@@ -63,7 +62,7 @@ repo = 'vim-airline/vim-airline'
 hook_add= '''
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline_theme = 'papercolor'
+let g:airline_theme = 'deus'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 '''
@@ -97,4 +96,12 @@ hook_add = '''
   nmap <silent> gr <Plug>(coc-references)
   nmap <silent> <space>fmt <Plug>(coc-format)
   nmap <silent> <space>r <Plug>(coc-rename) 
+'''
+
+[[plugins]]
+repo = 'lifepillar/vim-solarized8'
+hook_add = '''
+set background=dark
+set termguicolors
+colorscheme solarized8
 '''

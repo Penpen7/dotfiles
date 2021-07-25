@@ -28,10 +28,14 @@ on_event = 'InsertEnter'
 
 [[plugins]]
 repo = 'scrooloose/nerdtree'
+hook_add = '''
+nnoremap <silent><C-e> :NERDTreeToggle<CR>
+'''
 
 [[plugins]]
 repo = 'mattn/sonictemplate-vim'
 hook_add = '''
 let g:sonictemplate_vim_template_dir = ['$HOME/template']
 nnoremap <Space>y :e $HOME/template/cpp<CR>
+nnoremap <Space>t :Template<Space>
 '''

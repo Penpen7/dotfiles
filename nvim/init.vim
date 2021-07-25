@@ -43,16 +43,10 @@ if len(s:removed_plugins) > 0
   call dein#recache_runtimepath()
 endif
 " }}}
+
 " ファイルタイプ別のVimプラグイン/インデントを有効にする
 filetype plugin indent on
-
 autocmd FileType typescript setlocal omnifunc=lsp#complete
-nnoremap <silent><C-e> :NERDTreeToggle<CR>
-" augroup MyXML
-"   autocmd!
-"   autocmd Filetype xml inoremap <buffer> </ </<C-x><C-o>
-"   autocmd Filetype html inoremap <buffer> </ </<C-x><C-o>
-" augroup END
 
 " smart indent when entering insert mode with i on empty lines
 function! IndentWithI()
@@ -62,8 +56,8 @@ function! IndentWithI()
     return "i"
   endif
 endfunction
-nnoremap <expr> i IndentWithI()
-nnoremap <Space>t :Template<Space>
+
+" nnoremap <expr> i IndentWithI()
 nnoremap <Space>w :w<CR>
 nnoremap <Space>s :source $HOME/.vimrc<CR>
 nnoremap <Space>v :e $HOME/.config/nvim<CR>
@@ -72,20 +66,11 @@ nnoremap <Space>o :e
 nnoremap <Space>q :q<CR>
 nnoremap <F4> :<C-u>setlocal relativenumber!<CR>
 
-vnoremap <silent> y y`]
+" vnoremap <silent> y y`]
 if has('nvim')
   command! -nargs=* Term split | terminal <args>
   command! -nargs=* Termv vsplit | terminal <args>
 endif
-
-
-" 補完
-set completeopt=menuone,noinsert
-
-" 補完表示時のEnterで改行をしない
-inoremap <expr><CR>  pumvisible() ? "<C-y>" : "<CR>"
-inoremap <expr><C-n> pumvisible() ? "<Down>" : "<C-n>"
-inoremap <expr><C-p> pumvisible() ? "<Up>" : "<C-p>"
 
 set laststatus=2
 set tabstop=2
@@ -101,7 +86,6 @@ set ruler
 set shiftwidth=2
 set expandtab
 set mouse=a
-set background=dark
 set ttimeoutlen=50
 set ruler
 set backspace=indent,eol,start
@@ -112,5 +96,3 @@ set display=lastline
 set expandtab
 set relativenumber
 set inccommand=split
-
-colorscheme solarized
