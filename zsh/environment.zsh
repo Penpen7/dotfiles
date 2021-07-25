@@ -1,6 +1,6 @@
 #!/bin/zsh
 #
-export TERM="xterm-256color"
+# export TERM="xterm-256color"
 export LC_ALL=ja_JP.UTF-8
 export PATH="/usr/local/opt/gnu-time/libexec/gnubin:$PATH"
 export PATH="/usr/local/Cellar/llvm/10.0.0_3/bin/:$PATH"
