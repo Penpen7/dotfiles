@@ -1,5 +1,4 @@
 #!/bin/zsh
-export QT_HOMEBREW=true
 alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'
