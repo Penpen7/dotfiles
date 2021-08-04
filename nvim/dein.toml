@@ -8,9 +8,6 @@ repo = 'Shougo/vimshell.vim'
 repo = 'octol/vim-cpp-enhanced-highlight'
 
 [[plugins]]
-repo = 'altercation/vim-colors-solarized'
-
-[[plugins]]
 repo = 'tpope/vim-surround'
 
 [[plugins]]
@@ -96,6 +93,7 @@ hook_add = '''
   nmap <silent> gr <Plug>(coc-references)
   nmap <silent> <space>fmt <Plug>(coc-format)
   nmap <silent> <space>r <Plug>(coc-rename) 
+  autocmd CursorHold * silent call CocActionAsync('highlight')
 '''
 
 [[plugins]]
@@ -104,4 +102,19 @@ hook_add = '''
 set background=dark
 set termguicolors
 colorscheme solarized8
+let g:solarized_termtrans=1
+let g:solarized_italics=0
+'''
+
+[[plugins]]
+repo = 'callmekohei/switcher.nvim'
+
+[[plugins]]
+repo = 'Penpen7/IMEswitcher.nvim'
+build = 'make'
+
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+hook_add = '''
+nnoremap <silent><C-e> :NERDTreeToggle<CR>
 '''

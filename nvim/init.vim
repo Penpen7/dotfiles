@@ -96,3 +96,18 @@ set display=lastline
 set expandtab
 set relativenumber
 set inccommand=split
+
+if has('gui')
+  set guifont=HackGenNerd:h18
+  set guifontwide=HackGenNerd:h18
+  set guioptions-=T
+  set guioptions-=m
+  set guioptions-=r
+  set guioptions-=R
+  set guioptions-=l
+  set guioptions-=L
+  set guioptions-=b
+endif
+
+autocmd InsertLeave * :call IMESwitch("com.apple.keylayout.ABC")
+autocmd InsertEnter * :call IMESwitch("com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese")

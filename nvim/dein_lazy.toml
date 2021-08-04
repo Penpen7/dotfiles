@@ -27,12 +27,6 @@ repo = 'cohama/lexima.vim'
 on_event = 'InsertEnter'
 
 [[plugins]]
-repo = 'scrooloose/nerdtree'
-hook_add = '''
-nnoremap <silent><C-e> :NERDTreeToggle<CR>
-'''
-
-[[plugins]]
 repo = 'mattn/sonictemplate-vim'
 hook_add = '''
 let g:sonictemplate_vim_template_dir = ['$HOME/template']
