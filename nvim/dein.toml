@@ -107,9 +107,6 @@ let g:solarized_italics=0
 '''
 
 [[plugins]]
-repo = 'callmekohei/switcher.nvim'
-
-[[plugins]]
 repo = 'Penpen7/IMEswitcher.nvim'
 build = 'make'
 hook_add = '''
