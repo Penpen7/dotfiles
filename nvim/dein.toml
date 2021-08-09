@@ -112,6 +112,13 @@ repo = 'callmekohei/switcher.nvim'
 [[plugins]]
 repo = 'Penpen7/IMEswitcher.nvim'
 build = 'make'
+hook_add = '''
+if has('mac')
+  autocmd InsertLeave * :call IMEswitcher#InsertLeave()
+  autocmd InsertEnter * :call IMEswitcher#InsertEnter()
+  nmap <silent><C-j> :call IMEFixModeToggle()<CR>
+endif
+'''
 
 [[plugins]]
 repo = 'scrooloose/nerdtree'
