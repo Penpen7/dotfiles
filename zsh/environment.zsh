@@ -20,3 +20,5 @@ export PKG_CONFIG_PATH="${PKG_CONFIG_PATH} /usr/local/opt/zlib/lib/pkgconfig"
 export PKG_CONFIG_PATH="${PKG_CONFIG_PATH} /usr/local/pkgconfig"
 export FZF_DEFAULT_OPS="--extended"
 export CPATH=$CPATH:/usr/local/include:/Users/naoki/.pyenv/versions/3.6.3/include/python3.6m
+export EDITOR=nvim
+export GIT_EDITOR=nvim
