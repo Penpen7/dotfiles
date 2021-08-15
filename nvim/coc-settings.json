@@ -1,0 +1,32 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": ["go","rust","javascript","c"],
+  "python.jediEnabled": false,
+  "clangd.path": "/Users/naoki/.config/coc/extensions/coc-clangd-data/install/12.0.0/clangd_12.0.0/bin/clangd",
+  "suggest.completionItemKindLabels": {
+    "method": "  メソッド",
+    "function": "  関数",
+    "variable": "[] 変数",
+    "field": "  フィールド",
+    "typeParameter": "<>型",
+    "constant": "  定数",
+    "class": " פּ クラス",
+    "interface": " 蘒インターフェース",
+    "struct": "   構造体",
+    "event": "  イベント",
+    "operator": "  演算子",
+    "module": "  モジュール",
+    "property": "  プロパティ",
+    "enum": " 練列挙体",
+    "reference": "  リファレンス",
+    "keyword": "  キーワード",
+    "file": "  ファイル",
+    "folder": " ﱮ ディレクトリ",
+    "color": "  カラー",
+    "unit": " 塞 ユニット",
+    "snippet": "  スニペット",
+    "text": "  テキスト",
+    "constructor": "  コンストラクタ",
+    "value": "  値",
+    "enumMember": "  列挙体のメンバ"
+  }
+}
