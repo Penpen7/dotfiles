@@ -114,3 +114,8 @@ endif
 
 autocmd InsertLeave * :call IMESwitch("com.apple.keylayout.ABC")
 autocmd InsertEnter * :call IMESwitch("com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese")
+" 最後のカーソル位置を覚えておく
+augroup vimrcEx
+  au BufRead * if line("'\"") > 0 && line("'\"") <= line("$") |
+  \ exe "normal g`\"" | endif
+augroup END
