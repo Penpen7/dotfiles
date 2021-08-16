@@ -97,6 +97,8 @@ set expandtab
 set relativenumber
 set inccommand=split
 set shortmess+=I " 起動時メッセージ表示しない
+set listchars=tab:>-
+set list
 
 if has('gui')
   set guifont=HackGenNerd:h18
