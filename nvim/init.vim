@@ -96,6 +96,7 @@ set display=lastline
 set expandtab
 set relativenumber
 set inccommand=split
+set shortmess+=I " 起動時メッセージ表示しない
 
 if has('gui')
   set guifont=HackGenNerd:h18
