@@ -67,18 +67,12 @@ nnoremap <Space>q :q<CR>
 nnoremap <F4> :<C-u>setlocal relativenumber!<CR>
 
 " vnoremap <silent> y y`]
-if has('nvim')
-  command! -nargs=* Term split | terminal <args>
-  command! -nargs=* Termv vsplit | terminal <args>
-endif
 
 set laststatus=2
 set tabstop=2
 set wildmenu wildmode=list:longest,full
 set number
 set fenc=utf-8
-set cursorline
-set cursorcolumn
 set showmatch
 set matchtime=1
 set autoindent
@@ -112,8 +106,6 @@ if has('gui')
   set guioptions-=b
 endif
 
-autocmd InsertLeave * :call IMESwitch("com.apple.keylayout.ABC")
-autocmd InsertEnter * :call IMESwitch("com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese")
 " 最後のカーソル位置を覚えておく
 augroup vimrcEx
   au BufRead * if line("'\"") > 0 && line("'\"") <= line("$") |
