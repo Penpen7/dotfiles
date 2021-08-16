@@ -33,3 +33,7 @@ let g:sonictemplate_vim_template_dir = ['$HOME/template']
 nnoremap <Space>y :e $HOME/template/cpp<CR>
 nnoremap <Space>t :Template<Space>
 '''
+
+[[plugins]]
+repo='skanehira/denops-docker.vim'
+depends_on=['denops.vim']

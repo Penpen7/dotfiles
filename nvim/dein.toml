@@ -132,3 +132,6 @@ depends = ["bclose.vim"]
 
 [[plugins]]
 repo = "rbgrouleff/bclose.vim"
+
+[[plugins]]
+repo = "vim-denops/denops.vim"
