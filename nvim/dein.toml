@@ -135,3 +135,6 @@ repo = "rbgrouleff/bclose.vim"
 
 [[plugins]]
 repo = "vim-denops/denops.vim"
+
+[[plugins]]
+repo = "sharat87/roast.vim"
