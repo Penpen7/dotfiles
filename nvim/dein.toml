@@ -137,4 +137,4 @@ repo = "rbgrouleff/bclose.vim"
 repo = "vim-denops/denops.vim"
 
 [[plugins]]
-repo = "sharat87/roast.vim"
+repo = "diepm/vim-rest-console"
