@@ -139,3 +139,8 @@ repo = "vim-denops/denops.vim"
 
 [[plugins]]
 repo = "diepm/vim-rest-console"
+
+[[plugins]]
+repo = 'puremourning/vimspector'
+on_ft = ["python", "javascript"]
+build = "./install_gadget.py --enable-python --force-enable-node"
