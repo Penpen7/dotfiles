@@ -75,6 +75,7 @@ build = '''
   git checkout release
 '''
 hook_add = '''
+  let g:coc_global_extensions = ['coc-word', 'coc-diagnostic', 'coc-tsserver', 'coc-rls', 'coc-json', 'coc-jedi', 'coc-go', 'coc-clangd', 'coc-json', 'coc-css', 'coc-cssmodules', 'coc-toml', 'coc-yaml', 'coc-sql']
   inoremap <silent><expr> <TAB>
         \ pumvisible() ? "\<C-n>" :
         \ <SID>check_back_space() ? "\<TAB>" :
