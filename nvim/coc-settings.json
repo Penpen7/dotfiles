@@ -1,16 +1,50 @@
 {
-  "coc.preferences.formatOnSaveFiletypes": ["go","rust","javascript","c"],
+  "coc.preferences.formatOnSaveFiletypes": [
+    "go",
+    "rust",
+    "javascript",
+    "c"
+  ],
   "languageserver": {
     "golangci-lint-languageserver": {
       "command": "golangci-lint-langserver",
-      "filetypes": ["go"],
+      "filetypes": [
+        "go"
+      ],
       "initializationOptions": {
-        "command": ["golangci-lint", "run", "--enable-all", "--disable", "lll", "--out-format", "json"]
+        "command": [
+          "golangci-lint",
+          "run",
+          "--enable-all",
+          "--disable",
+          "lll",
+          "--out-format",
+          "json"
+        ]
       }
+    },
+    "terraform": {
+      "command": "terraform-ls",
+      "args": [
+        "serve"
+      ],
+      "filetypes": [
+        "terraform",
+        "tf"
+      ],
+      "initializationOptions": {},
+      "settings": {}
+    },
+    "shell": {
+      "command": "bash-language-server",
+      "args": ["start"],
+      "filetypes": ["sh","zsh"],
+      "ignoredRootPaths": ["~"]
     }
   },
-  "go.disable": {"diagnostics": true},
-  "python.jediEnabled": false,
+  "go.disable": {
+    "diagnostics": true
+  },
   "clangd.path": "/Users/naoki/.config/coc/extensions/coc-clangd-data/install/12.0.0/clangd_12.0.0/bin/clangd",
   "suggest.completionItemKindLabels": {
     "method": "  メソッド",
