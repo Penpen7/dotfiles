@@ -93,6 +93,9 @@ set inccommand=split
 set shortmess+=I " 起動時メッセージ表示しない
 set listchars=tab:>-
 set list
+set fileencodings=utf-8,sjis,cp932
+set fileformats=unix,dos,mac
+set nofixendofline
 
 if has('gui')
   set guifont=HackGenNerd:h18
