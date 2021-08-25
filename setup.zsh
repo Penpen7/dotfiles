@@ -4,7 +4,7 @@
 REPOSITORY_PATH=$(cd $(dirname $0); pwd)
 ln -sf $REPOSITORY_PATH/zsh/.zshrc $HOME
 ln -sf $REPOSITORY_PATH/tmux/.tmux.conf $HOME
-ln -sf $REPOSITORY_PATH/zsh/.zshenv
+ln -sf $REPOSITORY_PATH/zsh/.zshenv $HOME
 
 # nvim
 NVIM_CONFIG=$HOME/.config/nvim
