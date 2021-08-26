@@ -71,9 +71,7 @@ repo = 'vim-airline/vim-airline-themes'
 [[plugins]]
 repo = 'neoclide/coc.nvim'
 rev = 'release'
-build = '''
-  git checkout release
-'''
+merged = 0
 hook_add = '''
   let g:coc_global_extensions = ['coc-word', 'coc-diagnostic', 'coc-tsserver', 'coc-rls', 'coc-json', 'coc-jedi', 'coc-go', 'coc-clangd', 'coc-json', 'coc-css', 'coc-cssmodules', 'coc-toml', 'coc-yaml', 'coc-sql']
   autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')

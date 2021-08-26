@@ -42,7 +42,8 @@
       "parseJson": {
         "errorsRoot": "Issues",
         "line": "Pos.Line",
-        "column": "Pos.Column",
+        "sourceNameFilter": true,
+        "sourceName": "Pos.Filename",
         "message": "${Text} [${FromLinter}]"
       }
     }
