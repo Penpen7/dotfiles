@@ -109,6 +109,7 @@ let g:solarized_italics=0
 [[plugins]]
 repo = 'Penpen7/IMEswitcher.nvim'
 build = 'make'
+rev = 'feature/fix-japanesemode'
 hook_add = '''
 if has('mac')
   autocmd InsertLeave * :call IMEswitcher#InsertLeave()
