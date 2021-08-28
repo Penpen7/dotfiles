@@ -13,6 +13,7 @@ export PATH="/usr/local/bin":$PATH
 export PATH="/usr/local/sbin":$PATH
 export PATH="$GOPATH/bin":$PATH
 export PATH="$HOME/.nodebrew/current/bin":$PATH
+export PATH="$HOME/.cargo/bin:"$PATH
 if type brew > /dev/null 2>&1; then
   export PATH=`brew --prefix coreutils`"/libexec/gnubin:$PATH"
   export PATH=`brew --prefix llvm`"/bin:$PATH"
@@ -35,3 +36,4 @@ export FZF_DEFAULT_OPS="--extended"
 
 export EDITOR=nvim
 export GIT_EDITOR=nvim
+. "$HOME/.cargo/env"
