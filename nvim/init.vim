@@ -114,3 +114,5 @@ augroup vimrcEx
   au BufRead * if line("'\"") > 0 && line("'\"") <= line("$") |
   \ exe "normal g`\"" | endif
 augroup END
+
+au FileType go setlocal sw=4 ts=4 sts=4
