@@ -6,6 +6,23 @@
     "c"
   ],
   "languageserver": {
+    "golangci-lint-languageserver": {
+      "command": "golangci-lint-langserver",
+      "filetypes": [
+        "go"
+      ],
+      "initializationOptions": {
+        "command": [
+          "golangci-lint",
+          "run",
+          "--enable-all",
+          "--disable",
+          "lll",
+          "--out-format",
+          "json"
+        ]
+      }
+    },
     "terraform": {
       "command": "terraform-ls",
       "args": [
@@ -27,26 +44,6 @@
   },
   "go.disable": {
     "diagnostics": true
-  },
-  "diagnostic-languageserver.enable": true,
-  "diagnostic-languageserver.filetypes": {
-    "go": "golangci-lint"
-  },
-  "diagnostic-languageserver.linters": {
-    "golangci-lint": {
-      "command": "golangci-lint",
-      "rootPatterns": [".git", "go.mod"],
-      "debounce": 100,
-      "args": ["run", "--out-format", "json", "%file"],
-      "sourceName": "golangci-lint",
-      "parseJson": {
-        "errorsRoot": "Issues",
-        "line": "Pos.Line",
-        "sourceNameFilter": true,
-        "sourceName": "Pos.Filename",
-        "message": "${Text} [${FromLinter}]"
-      }
-    }
   },
   "clangd.path": "/Users/naoki/.config/coc/extensions/coc-clangd-data/install/12.0.0/clangd_12.0.0/bin/clangd",
   "suggest.completionItemKindLabels": {
