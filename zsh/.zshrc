@@ -11,5 +11,6 @@ fi
 [ -f $DOTFILE/fzf/.fzf.zsh ] && source $DOTFILE/fzf/.fzf.zsh
 [ -f $DOTFILE/fzf/zsh.zsh ] && source $DOTFILE/fzf/zsh.zsh
 [ -f $DOTFILE/fzf/docker.zsh ] && source $DOTFILE/fzf/docker.zsh
+[ -f $DOTFILE/tmux/split.zsh ] && source $DOTFILE/tmux/split.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f $DOTFILE/zsh/proxy.zsh ] && source $DOTFILE/zsh/proxy.zsh
