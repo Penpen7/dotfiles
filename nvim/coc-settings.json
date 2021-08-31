@@ -15,9 +15,8 @@
         "command": [
           "golangci-lint",
           "run",
-          "--enable-all",
-          "--disable",
-          "lll",
+          "--fast",
+          "--print-issued-lines=false",
           "--out-format",
           "json"
         ]
