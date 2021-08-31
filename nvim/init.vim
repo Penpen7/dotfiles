@@ -96,6 +96,7 @@ set list
 set fileencodings=utf-8,sjis,cp932
 set fileformats=unix,dos,mac
 set nofixendofline
+set clipboard+=unnamedplus
 
 if has('gui')
   set guifont=HackGenNerd:h18
