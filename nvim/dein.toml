@@ -188,3 +188,19 @@ let g:rainbow_conf = {
 	\	}
 	\}
 '''
+
+[[plugins]]
+repo = 'godlygeek/tabular'
+
+[[plugins]]
+repo = 'plasticboy/vim-markdown'
+hook_add = '''
+let g:vim_markdown_math = 1
+'''
+
+[[plugins]]
+repo = 'skanehira/preview-markdown.vim'
+build = 'git clone https://github.com/MichaelMure/mdr.git && cd mdr && go build && go install && cd .. && rm -rf mdr'
+hook_add = '''
+"g:preview_markdown_auto_update = 1
+'''
