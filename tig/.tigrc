@@ -1,0 +1,8 @@
+# ` で commit ID をクリップボードにコピー (Mac用)
+bind generic `      @bash -c "echo -n '%(commit)' | pbcopy"
+
+# ` でファイルパスをクリップボードにコピー (Mac用)
+bind stage   `      @bash -c "echo -n '%(file)' | pbcopy"
+bind status  `      @bash -c "echo -n '%(file)' | pbcopy"
+bind tree    `      @bash -c "echo -n '%(file)' | pbcopy"
+bind blob    `      @bash -c "echo -n '%(file)' | pbcopy"
