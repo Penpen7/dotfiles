@@ -177,3 +177,14 @@ repo = "diepm/vim-rest-console"
 repo = 'puremourning/vimspector'
 on_ft = ["python", "javascript"]
 build = "./install_gadget.py --enable-python --force-enable-node"
+
+[[plugins]]
+repo = 'luochen1990/rainbow'
+hook_add = '''
+let g:rainbow_active = 1
+let g:rainbow_conf = {
+	\	'separately': {
+	\		'nerdtree': 0,
+	\	}
+	\}
+'''
