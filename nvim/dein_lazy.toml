@@ -36,4 +36,4 @@ nnoremap <Space>t :Template<Space>
 
 [[plugins]]
 repo='skanehira/denops-docker.vim'
-depends_on=['denops.vim']
+depends=['denops.vim']
