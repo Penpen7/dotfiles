@@ -204,3 +204,6 @@ build = 'git clone https://github.com/MichaelMure/mdr.git && cd mdr && go build 
 hook_add = '''
 "g:preview_markdown_auto_update = 1
 '''
+
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
