@@ -3,7 +3,8 @@
     "go",
     "rust",
     "javascript",
-    "c"
+    "c",
+    "tf"
   ],
   "languageserver": {
     "golangci-lint-languageserver": {
