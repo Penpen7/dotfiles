@@ -163,6 +163,9 @@ repo = "airblade/vim-gitgutter"
 [[plugins]]
 repo = "iberianpig/tig-explorer.vim"
 depends = ["bclose.vim"]
+hook_add = '''
+nnoremap <Space>g :Tig<CR>
+'''
 
 [[plugins]]
 repo = "rbgrouleff/bclose.vim"
