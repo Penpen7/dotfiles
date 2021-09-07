@@ -65,6 +65,7 @@ nnoremap <Space>c :!oj t<CR>
 nnoremap <Space>o :e
 nnoremap <Space>q :q<CR>
 nnoremap <F4> :<C-u>setlocal relativenumber!<CR>
+nnoremap <ESC><ESC> :nohl<CR>
 
 " vnoremap <silent> y y`]
 
