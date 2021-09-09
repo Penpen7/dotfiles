@@ -2,8 +2,8 @@ DOTFILE=~/dotfiles
 if [ ~/.zshrc -nt ~/.zshrc.zwc ]; then
    zcompile ~/.zshrc
 fi
-bindkey -v
 [ -f ~/dotfiles/powerlevel/powerlevel10k.zsh ] && source $DOTFILE/powerlevel/powerlevel10k.zsh
+bindkey -v
 [ -f $DOTFILE/zsh/alias.zsh ] && source $DOTFILE/zsh/alias.zsh
 [ -f $DOTFILE/zsh/option.zsh ] && source $DOTFILE/zsh/option.zsh
 [ -f $DOTFILE/zsh/shortcut.zsh ] && source $DOTFILE/zsh/shortcut.zsh
