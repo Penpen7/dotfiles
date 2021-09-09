@@ -1,6 +1,5 @@
 #!/bin/zsh
 PERCOL=fzf
-echo $-
 if [[ ! -n $TMUX && $- == *l* ]]; then
   # get the IDs
   ID="`tmux list-sessions`"

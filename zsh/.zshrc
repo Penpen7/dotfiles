@@ -2,7 +2,7 @@ DOTFILE=~/dotfiles
 if [ ~/.zshrc -nt ~/.zshrc.zwc ]; then
    zcompile ~/.zshrc
 fi
-[ -f ~/dotfiles/powerlevel/powerlevel10k.zsh ] && source $DOTFILE/powerlevel/powerlevel10k.zsh
+# [ -f ~/dotfiles/powerlevel/powerlevel10k.zsh ] && source $DOTFILE/powerlevel/powerlevel10k.zsh
 bindkey -v
 [ -f $DOTFILE/zsh/alias.zsh ] && source $DOTFILE/zsh/alias.zsh
 [ -f $DOTFILE/zsh/option.zsh ] && source $DOTFILE/zsh/option.zsh
@@ -14,5 +14,6 @@ bindkey -v
 [ -f $DOTFILE/fzf/docker.zsh ] && source $DOTFILE/fzf/docker.zsh
 [ -f $DOTFILE/tmux/split.zsh ] && source $DOTFILE/tmux/split.zsh
 [ -f $DOTFILE/tmux/tmux.zsh ] && source $DOTFILE/tmux/tmux.zsh
+[ -f $HOME/.zprezto/init.zsh ] && source $HOME/.zprezto/init.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f $DOTFILE/zsh/proxy.zsh ] && source $DOTFILE/zsh/proxy.zsh
