@@ -12,21 +12,17 @@ fi
 
 
 function fzf-select-history() {
-  BUFFER=$(history -n -r 1 | fzf --query "$LBUFFER")
-  CURSOR=$#BUFFER
-  zle clear-screen
+  local selected_command=$(history -n -r 1 | fzf --no-sort --reverse)
+  if [ -n "$selected_command" ]; then
+    BUFFER="${selected_command}"
+  fi
 }
-zle -N fzf-select-history
-bindkey '^r' fzf-select-history
 
 function peco-cdr () {
       local selected_dir=$(cdr -l | awk '{ print $2 }' | \
-      fzf --ansi --preview 'f() { sh -c "exa --icons $1" }; f {}')
+      fzf --reverse --ansi --preview 'f() { zsh -c "exa -1 --icons $1" }; f {}')
     if [ -n "$selected_dir" ]; then
         BUFFER="cd ${selected_dir}"
         zle accept-line
     fi
-    zle clear-screen
 }
-zle -N peco-cdr
-bindkey '^o' peco-cdr
