@@ -37,3 +37,6 @@ nnoremap <Space>t :Template<Space>
 [[plugins]]
 repo='skanehira/denops-docker.vim'
 depends=['denops.vim']
+
+[[plugins]]
+repo = 'tyru/open-browser.vim'
