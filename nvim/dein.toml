@@ -202,15 +202,7 @@ let g:vim_markdown_math = 1
 '''
 
 [[plugins]]
-repo = 'skanehira/preview-markdown.vim'
-build = 'git clone https://github.com/MichaelMure/mdr.git && cd mdr && go build && go install && cd .. && rm -rf mdr'
+repo = 'justinmk/vim-sneak'
 hook_add = '''
-"g:preview_markdown_auto_update = 1
-'''
-
-[[plugins]]
-repo = 'easymotion/vim-easymotion'
-hook_add = '''
-autocmd User EasyMotionPromptBegin silent! CocDisable
-autocmd User EasyMotionPromptEnd silent! CocEnable
+let g:sneak#label = 1
 '''
