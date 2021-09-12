@@ -9,6 +9,7 @@ fi
 [ -f $DOTFILE/zsh/dircolor.zsh ] && source $DOTFILE/zsh/dircolor.zsh
 [ -f $DOTFILE/fzf/zsh.zsh ] && source $DOTFILE/fzf/zsh.zsh
 [ -f $DOTFILE/fzf/docker.zsh ] && source $DOTFILE/fzf/docker.zsh
+[ -f $DOTFILE/fzf/easy-oneliner.zsh ] && source $DOTFILE/fzf/easy-oneliner.zsh
 [ -f $DOTFILE/tmux/split.zsh ] && source $DOTFILE/tmux/split.zsh
 [ -f $DOTFILE/tmux/tmux.zsh ] && source $DOTFILE/tmux/tmux.zsh
 [ -f $HOME/.zprezto/init.zsh ] && source $HOME/.zprezto/init.zsh

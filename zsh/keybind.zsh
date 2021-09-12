@@ -10,3 +10,6 @@ bindkey '^r' fzf-select-history
 
 zle -N ch
 bindkey '^g' ch
+
+zle -N easy-oneliner
+bindkey '^x^x' easy-oneliner
