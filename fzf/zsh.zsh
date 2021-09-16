@@ -47,12 +47,4 @@ function ch() {
   fzf --reverse --no-hscroll --ansi --multi --preview-window down:0 | sed 's#.*\(https*://\)#\1#' | xargs $open > /dev/null 2> /dev/null
 }
 
-function gitc() {
-  local selected_branch=$(git branch | awk '{ print $2 }' | \
-  fzf --reverse --ansi --preview 'f() { zsh -c "git log --first-parent --graph --abbrev-commit --decorate $1" }; f {}')
-  if [ -n "$selected_branch" ]; then
-      BUFFER="git checkout ${selected_branch}"
-      zle accept-line
-  fi
-}
-zle -N gitc
+alias gitc='git branch | fzf --reverse --ansi | git checkout'
