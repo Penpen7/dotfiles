@@ -1,7 +1,8 @@
 DOTFILE=~/dotfiles
 if [ ~/.zshrc -nt ~/.zshrc.zwc ]; then
-   zcompile ~/.zshrc
+  zcompile ~/.zshrc
 fi
+[ -f $DOTFILE/prezto/init.zsh ] && source $DOTFILE/prezto/init.zsh
 [ -f $DOTFILE/zsh/alias.zsh ] && source $DOTFILE/zsh/alias.zsh
 [ -f $DOTFILE/zsh/option.zsh ] && source $DOTFILE/zsh/option.zsh
 [ -f $DOTFILE/zsh/shortcut.zsh ] && source $DOTFILE/zsh/shortcut.zsh
@@ -12,8 +13,12 @@ fi
 [ -f $DOTFILE/fzf/easy-oneliner.zsh ] && source $DOTFILE/fzf/easy-oneliner.zsh
 [ -f $DOTFILE/tmux/split.zsh ] && source $DOTFILE/tmux/split.zsh
 [ -f $DOTFILE/tmux/tmux.zsh ] && source $DOTFILE/tmux/tmux.zsh
-[ -f $HOME/.zprezto/init.zsh ] && source $HOME/.zprezto/init.zsh
 [ -f $DOTFILE/zsh/keybind.zsh ] && source $DOTFILE/zsh/keybind.zsh
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f $DOTFILE/zsh/proxy.zsh ] && source $DOTFILE/zsh/proxy.zsh
 
+find . -type d -name "prezto" -prune -type d -name ".git" -prune -o -type f -name '*.zsh' | while read line; do
+  zcompile $line
+done
+if (which zprof > /dev/null 2>&1); then
+  zprof
+fi

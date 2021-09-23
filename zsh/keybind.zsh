@@ -13,3 +13,16 @@ bindkey '^g' ch
 
 zle -N easy-oneliner
 bindkey '^x^x' easy-oneliner
+
+function __tig() {
+  tig
+}
+zle -N __tig
+bindkey '^g^t' __tig
+
+function __source() {
+  source ~/.zshrc
+}
+zle -N __source
+bindkey -r '^s'
+bindkey '^s' __source

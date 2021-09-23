@@ -47,4 +47,4 @@ function ch() {
   fzf --reverse --no-hscroll --ansi --multi --preview-window down:0 | sed 's#.*\(https*://\)#\1#' | xargs $open > /dev/null 2> /dev/null
 }
 
-alias gitc='git branch | fzf --reverse --ansi | git checkout'
+alias gitc='git branch | fzf --reverse --ansi | xargs git checkout'

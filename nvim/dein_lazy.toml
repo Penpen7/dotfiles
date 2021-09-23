@@ -40,3 +40,19 @@ depends=['denops.vim']
 
 [[plugins]]
 repo = 'tyru/open-browser.vim'
+
+[[plugins]]
+repo = "diepm/vim-rest-console"
+
+[[plugins]]
+repo = 'puremourning/vimspector'
+on_ft = ["python", "javascript"]
+build = "./install_gadget.py --enable-python --force-enable-node"
+
+[[plugins]]
+repo = 'plasticboy/vim-markdown'
+hook_add = '''
+let g:vim_markdown_math = 1
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_new_list_item_indent = 0
+'''

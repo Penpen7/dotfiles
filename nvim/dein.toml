@@ -142,7 +142,6 @@ let g:solarized_italics=0
 [[plugins]]
 repo = 'Penpen7/IMEswitcher.nvim'
 build = 'make'
-rev = 'feature/fix-japanesemode'
 hook_add = '''
 if has('mac')
   autocmd InsertLeave * :call IMEswitcher#InsertLeave()
@@ -151,11 +150,6 @@ if has('mac')
 endif
 '''
 
-[[plugins]]
-repo = 'scrooloose/nerdtree'
-hook_add = '''
-nnoremap <silent><C-e> :NERDTreeToggle<CR>
-'''
 
 [[plugins]]
 repo = "airblade/vim-gitgutter"
@@ -173,13 +167,6 @@ repo = "rbgrouleff/bclose.vim"
 [[plugins]]
 repo = "vim-denops/denops.vim"
 
-[[plugins]]
-repo = "diepm/vim-rest-console"
-
-[[plugins]]
-repo = 'puremourning/vimspector'
-on_ft = ["python", "javascript"]
-build = "./install_gadget.py --enable-python --force-enable-node"
 
 [[plugins]]
 repo = 'luochen1990/rainbow'
@@ -195,13 +182,6 @@ let g:rainbow_conf = {
 [[plugins]]
 repo = 'godlygeek/tabular'
 
-[[plugins]]
-repo = 'plasticboy/vim-markdown'
-hook_add = '''
-let g:vim_markdown_math = 1
-let g:vim_markdown_folding_disabled = 1
-let g:vim_markdown_new_list_item_indent = 0
-'''
 
 [[plugins]]
 repo = 'justinmk/vim-sneak'
