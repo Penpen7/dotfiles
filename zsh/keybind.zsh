@@ -26,3 +26,10 @@ function __source() {
 zle -N __source
 bindkey -r '^s'
 bindkey '^s' __source
+
+function __vim() {
+  vim
+}
+zle -N __vim
+bindkey -r '^v'
+bindkey '^v' __vim
