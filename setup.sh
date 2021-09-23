@@ -55,13 +55,13 @@ ln -sf $REPOSITORY_PATH/nvim/dein_lazy.toml $NVIM_CONFIG
 ln -sf $REPOSITORY_PATH/nvim/coc-settings.json $NVIM_CONFIG
 
 # install node
-if !(type "nodebrew" > /dev/null 2>&1); then
+if (type "nodebrew" > /dev/null 2>&1); then
   nodebrew setup
   nodebrew install v16.5.0
   nodebrew use v16.5.0
 fi
 
-if !(type "npm" > /dev/null 2>&1); then
+if (type "npm" > /dev/null 2>&1); then
   # brew install
   npm install -g nvim bash-language-server
 fi
@@ -71,6 +71,6 @@ if (type "go" > /dev/null 2>&1); then
 fi
 
 # install node
-if !(type "pip3" > /dev/null 2>&1); then
+if (type "pip3" > /dev/null 2>&1); then
   pip3 install pynvim
 fi
