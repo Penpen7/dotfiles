@@ -33,7 +33,7 @@ if !(type "brew" > /dev/null 2>&1); then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-brew bundle
+#brew bundle
 
 # .zshrc
 REPOSITORY_PATH=$(
@@ -63,7 +63,7 @@ fi
 
 if (type "npm" > /dev/null 2>&1); then
   # brew install
-  npm install -g nvim bash-language-server
+  npm install -g neovim bash-language-server
 fi
 
 if (type "go" > /dev/null 2>&1); then
