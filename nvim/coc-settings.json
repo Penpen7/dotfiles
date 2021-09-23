@@ -4,8 +4,15 @@
     "rust",
     "javascript",
     "c",
-    "tf"
+    "tf",
+    "json",
+    "zsh",
+    "sh"
   ],
+  "diagnostic-languageserver.formatFiletypes": {
+    "sh": "shfmt",
+    "zsh": "shfmt"
+  },
   "languageserver": {
     "golangci-lint-languageserver": {
       "command": "golangci-lint-langserver",
@@ -37,9 +44,28 @@
     },
     "shell": {
       "command": "bash-language-server",
-      "args": ["start"],
-      "filetypes": ["sh","zsh"],
-      "ignoredRootPaths": ["~"]
+      "args": [
+        "start"
+      ],
+      "filetypes": [
+        "sh",
+        "zsh"
+      ],
+      "ignoredRootPaths": [
+        "~"
+      ]
+    }
+  },
+  "diagnostic-languageserver.formatters": {
+    "shfmt": {
+      "command": "shfmt",
+      "args": [
+        "-i",
+        "2",
+        "-bn",
+        "-ci",
+        "-sr"
+      ]
     }
   },
   "clangd.path": "/Users/naoki/.config/coc/extensions/coc-clangd-data/install/12.0.0/clangd_12.0.0/bin/clangd",
