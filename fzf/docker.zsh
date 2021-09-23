@@ -22,6 +22,6 @@ docker-run() {
   container="$(docker image ls | sed -e '1d' | fzf --height 40% --reverse | awk -v 'OFS=:' '{print $1,$2}')"
   if [ -n "${container}" ]; then
     echo "runing container from ${container} ..."
-    docker container run -it bash --rm ${container}
+    docker container run -it ${container} bash
   fi
 }
