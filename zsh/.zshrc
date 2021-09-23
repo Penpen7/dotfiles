@@ -16,7 +16,7 @@ fi
 [ -f $DOTFILE/zsh/keybind.zsh ] && source $DOTFILE/zsh/keybind.zsh
 [ -f $DOTFILE/zsh/proxy.zsh ] && source $DOTFILE/zsh/proxy.zsh
 
-find . -type d -name "prezto" -prune -type d -name ".git" -prune -o -type f -name '*.zsh' | while read line; do
+find $DOTFILE -type d -name "prezto" -prune -type d -name ".git" -prune -o -type f -name '*.zsh' | while read line; do
   zcompile $line
 done
 if (which zprof > /dev/null 2>&1); then
