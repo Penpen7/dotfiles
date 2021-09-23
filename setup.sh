@@ -22,7 +22,7 @@ if [[ -z "${HOMEBREW_ON_LINUX-}" ]]; then
 else
   UNAME_MACHINE="$(uname -m)"
   HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
-  sudo apt install -y curl locales-all build-essential
+  apt update && apt install -y curl locales-all build-essential
 fi
 
 # export PATH
@@ -73,5 +73,4 @@ fi
 # install node
 if !(type "pip3" > /dev/null 2>&1); then
   pip3 install pynvim
-  nodebrew use v16.5.0
 fi
