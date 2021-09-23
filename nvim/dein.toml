@@ -188,3 +188,29 @@ repo = 'justinmk/vim-sneak'
 hook_add = '''
 let g:sneak#label = 1
 '''
+[[plugins]]
+repo = 'lambdalisue/fern.vim'
+hook_add = '''
+let g:fern#renderer = 'nerdfont'
+nnoremap <C-e> :Fern . -reveal=% -drawer -toggle -width=40<CR>
+nnoremap <C-n> :Fern . <CR>
+'''
+
+[[plugins]]
+repo = 'lambdalisue/nerdfont.vim'
+
+[[plugins]]
+repo = 'lambdalisue/fern-renderer-nerdfont.vim'
+
+[[plugins]]
+repo = 'lambdalisue/glyph-palette.vim'
+hook_add = '''
+augroup my-glyph-palette
+  autocmd! *
+  autocmd FileType fern call glyph_palette#apply()
+  autocmd FileType nerdtree,startify call glyph_palette#apply()
+augroup END
+'''
+
+[[plugins]]
+repo = 'kassio/neoterm'
