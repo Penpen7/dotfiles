@@ -1,7 +1,13 @@
 #!/bin/zsh
 
+# brew install
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
 # .zshrc
-REPOSITORY_PATH=$(cd $(dirname $0); pwd)
+REPOSITORY_PATH=$(
+  cd $(dirname $0)
+  pwd
+)
 ln -sf $REPOSITORY_PATH/zsh/.zshrc $HOME
 ln -sf $REPOSITORY_PATH/tmux/.tmux.conf $HOME
 ln -sf $REPOSITORY_PATH/zsh/.zshenv $HOME
