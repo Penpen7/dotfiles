@@ -1,0 +1,38 @@
+FROM alpine:3.14
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache \
+    curl \
+    gcc \
+    g++ \
+    git \
+    linux-headers \
+    vim \
+    py-pip \
+    python3-dev \
+    nodejs \
+    npm \
+    fzf \
+    py3-pip
+RUN apk update && apk add --repository http://dl-3.alpinelinux.org/alpine/main/ make cmake libtool openssl unzip m4 automake autoconf musl-libintl musl musl-dev gettext
+RUN git clone https://github.com/neovim/neovim 
+RUN cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo && make install
+
+ENV LANG="ja_JP.UTF-8" LANGUAGE="ja_JP:ja" LC_ALL="ja_JP.UTF-8"
+RUN pip3 install --upgrade pip neovim pynvim && \
+    rm -rf /root/.cache
+RUN npm install -g neovim
+
+WORKDIR /root/.config/nvim
+COPY nvim/init.vim .
+COPY nvim/dein.toml .
+COPY nvim/dein_lazy.toml .
+RUN nvim +:UpdateRemotePlugins +qa
+WORKDIR /root/.config/coc/extensions
+RUN npm install coc-word coc-diagnostic coc-tsserver coc-rls coc-json coc-jedi coc-go coc-clangd coc-json coc-css coc-cssmodules coc-toml coc-sql coc-markdownlint coc-yaml --global-style \
+	--ignore-scripts --no-bin-links --no-package-lock --only=prod
+
+WORKDIR /root
+
+ENTRYPOINT ["nvim"]
+
