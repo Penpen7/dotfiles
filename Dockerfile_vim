@@ -13,8 +13,9 @@ RUN apt-get update && \
 
 RUN apt-get update && \
     apt-get install -y -q --no-install-recommends software-properties-common && \
+    add-apt-repository ppa:neovim-ppa/unstable && \
     apt-get update && \
-    apt-get install -y -q --allow-unauthenticated --no-install-recommends \
+    apt-get install -y -q --no-install-recommends \
       curl \
       gcc \
       g++ \
@@ -25,12 +26,10 @@ RUN apt-get update && \
       unzip \
       fzf \
       gosu \
-      language-pack-ja && \
-    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage && \
-    chmod +x ./nvim.appimage && \
-    ./nvim.appimage --appimage-extract && rm -f ./nvim.appimage && \
-    mv squashfs-root / && \
-    ln -s /squashfs-root/AppRun /usr/bin/nvim && \
+      language-pack-ja \
+      neovim && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
     curl -fsSL https://github.com/denoland/deno/releases/download/v1.14.1/deno-x86_64-unknown-linux-gnu.zip --output deno.zip && \
     unzip deno.zip && \
     chmod 777 deno && \
