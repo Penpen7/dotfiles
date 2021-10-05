@@ -17,6 +17,16 @@ docker-sh() {
     docker exec -it ${container} /bin/sh
   fi
 }
+
+docker-bash() {
+  local container
+  container="$(docker container ls -a -f status=running | sed -e '1d' | fzf --height 40% --reverse | awk '{print $1}')"
+  if [ -n "${container}" ]; then
+    echo "attaching container ..."
+    docker exec -it ${container} /bin/bash
+  fi
+}
+
 docker-run() {
   local container
   container="$(docker image ls | sed -e '1d' | fzf --height 40% --reverse | awk -v 'OFS=:' '{print $1,$2}')"

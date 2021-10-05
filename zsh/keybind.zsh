@@ -28,8 +28,15 @@ bindkey -r '^s'
 bindkey '^s' __source
 
 function __vim() {
-  vim
+  vim $(find . | fzf)
 }
 zle -N __vim
 bindkey -r '^v'
 bindkey '^v' __vim
+
+zle -N docker-sh
+bindkey '^x^s' docker-sh
+zle -N docker-run
+bindkey '^x^r' docker-run
+zle -N docker-bash
+bindkey '^x^b' docker-bash
