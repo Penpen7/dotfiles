@@ -66,7 +66,7 @@ nnoremap <Space>o :e
 nnoremap <Space>t :bo terminal
 nnoremap <Space>q :q<CR>
 nnoremap <F4> :<C-u>setlocal relativenumber!<CR>
-
+nnoremap <ESC><ESC> :nohl<CR>
 " vnoremap <silent> y y`]
 
 set laststatus=2
