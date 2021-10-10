@@ -184,9 +184,10 @@ repo = 'godlygeek/tabular'
 
 
 [[plugins]]
-repo = 'justinmk/vim-sneak'
+repo = 'easymotion/vim-easymotion'
 hook_add = '''
-let g:sneak#label = 1
+autocmd User EasyMotionPromptBegin silent! CocDisable
+autocmd User EasyMotionPromptEnd silent! CocEnable
 '''
 [[plugins]]
 repo = 'lambdalisue/fern.vim'
