@@ -67,6 +67,8 @@ nnoremap <Space>t :bo terminal
 nnoremap <Space>q :q<CR>
 nnoremap <F4> :<C-u>setlocal relativenumber!<CR>
 nnoremap <ESC><ESC> :nohl<CR>
+command! -nargs=* T split | wincmd j | resize 20 | terminal <args>
+autocmd TermOpen * startinsert
 " vnoremap <silent> y y`]
 
 set laststatus=2
