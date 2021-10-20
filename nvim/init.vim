@@ -69,6 +69,7 @@ nnoremap <F4> :<C-u>setlocal relativenumber!<CR>
 nnoremap <ESC><ESC> :nohl<CR>
 command! -nargs=* T split | wincmd j | resize 20 | terminal <args>
 autocmd TermOpen * startinsert
+tnoremap <Esc> <C-\><C-n>
 " vnoremap <silent> y y`]
 
 set laststatus=2
@@ -120,3 +121,4 @@ augroup vimrcEx
 augroup END
 
 au FileType go setlocal sw=4 ts=4 sts=4
+"au BufRead,BufNewFile *.pu            set filetype=plantuml

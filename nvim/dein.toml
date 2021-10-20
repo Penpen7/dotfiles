@@ -73,7 +73,7 @@ repo = 'neoclide/coc.nvim'
 rev = 'release'
 merged = 0
 hook_add = '''
-  let g:coc_global_extensions = ['coc-word', 'coc-diagnostic', 'coc-tsserver', 'coc-rls', 'coc-json', 'coc-jedi', 'coc-go', 'coc-clangd', 'coc-json', 'coc-css', 'coc-cssmodules', 'coc-toml', 'coc-yaml', 'coc-sql', 'coc-markdownlint']
+  let g:coc_global_extensions = ['coc-word', 'coc-diagnostic', 'coc-tsserver', 'coc-rls', 'coc-json', 'coc-jedi', 'coc-go', 'coc-clangd', 'coc-json', 'coc-css', 'coc-cssmodules', 'coc-toml', 'coc-yaml', 'coc-sql']
   autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
 
   inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
@@ -221,3 +221,6 @@ nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
 nnoremap <Leader>o :<C-u>execute "OpenBrowser" "file:///" . expand('%:p:gs?\\?/?')<CR>
 '''
+
+[[plugins]]
+repo = 'aklt/plantuml-syntax'
