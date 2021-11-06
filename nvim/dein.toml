@@ -238,3 +238,7 @@ nnoremap <Leader>o :<C-u>execute "OpenBrowser" "file:///" . expand('%:p:gs?\\?/?
 
 [[plugins]]
 repo = 'aklt/plantuml-syntax'
+
+[[plugins]]
+repo = 'hashivim/vim-terraform'
+on_ft = ['tf']
