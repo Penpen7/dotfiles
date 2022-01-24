@@ -242,3 +242,6 @@ repo = 'aklt/plantuml-syntax'
 [[plugins]]
 repo = 'hashivim/vim-terraform'
 on_ft = ['tf']
+
+[[plugins]]
+repo = "diepm/vim-rest-console"

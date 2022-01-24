@@ -40,11 +40,6 @@ nnoremap <Space>y :e $HOME/template/cpp<CR>
 repo='skanehira/denops-docker.vim'
 depends=['denops.vim']
 
-
-[[plugins]]
-repo = "diepm/vim-rest-console"
-
-
 [[plugins]]
 repo = 'plasticboy/vim-markdown'
 hook_add = '''
