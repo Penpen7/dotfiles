@@ -56,10 +56,10 @@ repo = 'hail2u/vim-css3-syntax'
 
 [[plugins]]
 repo = 'vim-airline/vim-airline'
-hook_add= '''
+hook_add = '''
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline_theme = 'deus'
+let g:airline_theme = 'gruvbox'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 '''
@@ -127,16 +127,6 @@ endif
   nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
   autocmd CursorHold * silent call CocActionAsync('highlight')
-'''
-
-[[plugins]]
-repo = 'lifepillar/vim-solarized8'
-hook_add = '''
-set background=dark
-set termguicolors
-colorscheme solarized8
-let g:solarized_termtrans=1
-let g:solarized_italics=0
 '''
 
 [[plugins]]
@@ -244,3 +234,15 @@ on_ft = ['tf']
 
 [[plugins]]
 repo = "diepm/vim-rest-console"
+
+[[plugins]]
+repo = "morhetz/gruvbox"
+hook_add = '''
+let g:airline_powerline_fonts = 1
+let g:gruvbox_contrast_dark = 'medium'
+let g:gruvbox_transparent_bg = 1
+autocmd SourcePost * highlight Normal     ctermbg=NONE guibg=NONE
+        \ |    highlight LineNr     ctermbg=NONE guibg=NONE
+        \ |    highlight SignColumn ctermbg=NONE guibg=NONE
+colorscheme gruvbox
+'''
