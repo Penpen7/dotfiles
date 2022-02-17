@@ -246,3 +246,24 @@ autocmd SourcePost * highlight Normal     ctermbg=NONE guibg=NONE
         \ |    highlight SignColumn ctermbg=NONE guibg=NONE
 colorscheme gruvbox
 '''
+
+[[plugins]]
+repo = 'alvan/vim-closetag'
+hook_add = '''
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.erb,*.php,*.vue,*.tsx'
+'''
+
+[[plugins]]
+repo = 'nvim-treesitter/nvim-treesitter'
+hook_post_source = '''
+TSUpdate
+'''
+
+[[plugins]]
+repo = 'dhruvasagar/vim-table-mode'
+
+[[plugins]]
+repo = 'machakann/vim-highlightedyank'
+
+[[plugins]]
+repo = 'mbbill/undotree'
