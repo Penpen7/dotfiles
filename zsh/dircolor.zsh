@@ -1,9 +1,7 @@
 # /bin/zsh
-
-if [ ! -e $HOME/.dircolors-solarized ]; then
-  git clone https://github.com/seebi/dircolors-solarized .dircolors-solarized
-fi
-eval `dircolors $HOME/.dircolors-solarized/dircolors.256dark`
+#
+cd $(dirname $0)
+eval `dircolors grubox.dircolors`
 if [ -n "$LS_COLORS" ]; then
     zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 fi
