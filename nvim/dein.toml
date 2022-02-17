@@ -247,20 +247,6 @@ let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.erb,*.php,*.vue,*.tsx'
 '''
 
 [[plugins]]
-repo = 'nvim-treesitter/nvim-treesitter'
-hook_post_update = 'TSUpdate'
-hook_source = '''
-lua <<EOF
-require('nvim-treesitter.configs').setup {
-  ensure_installed = "maintained",
-  highlight = {
-    enable = true,
-  },
-}
-EOF
-'''
-
-[[plugins]]
 repo = 'dhruvasagar/vim-table-mode'
 
 [[plugins]]
