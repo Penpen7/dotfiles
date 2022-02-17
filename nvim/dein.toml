@@ -255,8 +255,15 @@ let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.erb,*.php,*.vue,*.tsx'
 
 [[plugins]]
 repo = 'nvim-treesitter/nvim-treesitter'
-hook_post_source = '''
-TSUpdate
+hook_post_update = 'TSUpdate'
+hook_source = '''
+lua <<EOF
+require('nvim-treesitter.configs').setup {
+  highlight = {
+    enable = true,
+  },
+}
+EOF
 '''
 
 [[plugins]]
