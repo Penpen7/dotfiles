@@ -37,8 +37,8 @@ nnoremap <Space>y :e $HOME/template/cpp<CR>
 '''
 
 [[plugins]]
-repo='skanehira/denops-docker.vim'
-depends=['denops.vim']
+repo = 'skanehira/denops-docker.vim'
+depends = ['denops.vim']
 
 [[plugins]]
 repo = 'plasticboy/vim-markdown'
@@ -57,10 +57,10 @@ hook_source = '''
 lua <<EOF
 require('nvim-treesitter.configs').setup {
   ensure_installed = "all",
+  ignore_install = { "phpdoc", "swift" },
   highlight = {
     enable = true,
   },
 }
 EOF
 '''
-
