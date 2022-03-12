@@ -65,8 +65,9 @@ repo = 'vim-airline/vim-airline-themes'
 repo = 'neoclide/coc.nvim'
 rev = 'release'
 merged = 0
+depends = 'SirVer/ultisnips'
 hook_add = '''
-  let g:coc_global_extensions = ['coc-word', 'coc-diagnostic', 'coc-tsserver', 'coc-rls', 'coc-json', 'coc-jedi', 'coc-go', 'coc-clangd', 'coc-json', 'coc-css', 'coc-cssmodules', 'coc-toml', 'coc-yaml', 'coc-sql']
+  let g:coc_global_extensions = ['coc-word', 'coc-diagnostic', 'coc-tsserver', 'coc-rls', 'coc-json', 'coc-jedi', 'coc-go', 'coc-clangd', 'coc-json', 'coc-css', 'coc-cssmodules', 'coc-toml', 'coc-yaml', 'coc-sql', 'coc-snippets']
   autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
 
   inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
@@ -254,3 +255,5 @@ repo = 'machakann/vim-highlightedyank'
 
 [[plugins]]
 repo = 'mbbill/undotree'
+[[plugins]]
+repo = 'SirVer/ultisnips'
