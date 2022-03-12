@@ -1,13 +1,6 @@
 {
   "coc.preferences.formatOnSaveFiletypes": [
-    "go",
-    "rust",
-    "javascript",
-    "c",
-    "terraform",
-    "json",
-    "zsh",
-    "sh"
+    "*"
   ],
   "diagnostic-languageserver.formatFiletypes": {
     "sh": "shfmt",
