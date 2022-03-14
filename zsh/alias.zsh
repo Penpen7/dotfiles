@@ -1,7 +1,7 @@
 #!/bin/zsh
 alias vim='nvim'
 alias vi='nvim'
-alias v='nvim `git rev-parse --show-toplevel`'
+alias v='nvim'
 alias gp='git-foresta --all --style=10 | less -RSX'
 alias aca='acc submit a.cpp'
 alias va='nvim a.cpp'

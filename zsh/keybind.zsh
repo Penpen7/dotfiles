@@ -28,7 +28,7 @@ bindkey -r '^s'
 bindkey '^s' __source
 
 function __vim() {
-  vim $(find . | fzf)
+  nvim
 }
 zle -N __vim
 bindkey -r '^v'

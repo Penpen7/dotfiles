@@ -88,5 +88,9 @@
     "constructor": "  コンストラクタ",
     "value": "  値",
     "enumMember": "  列挙体のメンバ"
+  },
+  "list.insertMappings": {
+    "<C-n>": "normal:j",
+    "<C-p>": "normal:k"
   }
 }

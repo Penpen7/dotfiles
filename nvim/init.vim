@@ -60,10 +60,8 @@ endfunction
 
 " nnoremap <expr> i IndentWithI()
 nnoremap <Space>w :w<CR>
-nnoremap <Space>s :source $HOME/.vimrc<CR>
 nnoremap <Space>v :e $HOME/.config/nvim<CR>
 nnoremap <Space>c :!oj t<CR>
-nnoremap <Space>o :e
 nnoremap <Space>t :bo terminal
 nnoremap <Space>q :q<CR>
 nnoremap <F4> :<C-u>setlocal relativenumber!<CR>
