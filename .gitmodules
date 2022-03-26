@@ -1,3 +1,6 @@
 [submodule "prezto"]
 	path = prezto
 	url = https://github.com/sorin-ionescu/prezto.git
+[submodule "iterm2-gruvbox"]
+	path = iterm2-gruvbox
+	url = https://github.com/herrbischoff/iterm2-gruvbox.git
