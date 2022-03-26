@@ -35,6 +35,7 @@ endif
 
 " もし、未インストールものものがあったらインストール
 if dein#check_install()
+
   call dein#install()
 endif
 " plugin remove check {{{
@@ -58,7 +59,6 @@ function! IndentWithI()
   endif
 endfunction
 
-" nnoremap <expr> i IndentWithI()
 nnoremap <Space>w :w<CR>
 nnoremap <Space>v :e $HOME/.config/nvim<CR>
 nnoremap <Space>c :!oj t<CR>
@@ -66,10 +66,15 @@ nnoremap <Space>t :bo terminal
 nnoremap <Space>q :q<CR>
 nnoremap <F4> :<C-u>setlocal relativenumber!<CR>
 nnoremap <ESC><ESC> :nohl<CR>
+nnoremap x "_x
+nnoremap j gj
+nnoremap k gk
+nnoremap n nzz
+nnoremap N Nzz
 command! -nargs=* T split | wincmd j | resize 20 | terminal <args>
 autocmd TermOpen * startinsert
 tnoremap <Esc> <C-\><C-n>
-" vnoremap <silent> y y`]
+inoremap <silent> jj <ESC>
 
 set laststatus=2
 set tabstop=2
@@ -100,6 +105,7 @@ set fileencodings=utf-8,sjis,cp932
 set fileformats=unix,dos,mac
 set nofixendofline
 set clipboard+=unnamedplus
+set scroll=3
 
 if has('gui')
   set guifont=HackGenNerd:h18
@@ -120,4 +126,3 @@ augroup vimrcEx
 augroup END
 
 au FileType go setlocal sw=4 ts=4 sts=4
-"au BufRead,BufNewFile *.pu            set filetype=plantuml
