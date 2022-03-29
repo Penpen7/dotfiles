@@ -71,6 +71,12 @@ nnoremap j gj
 nnoremap k gk
 nnoremap n nzz
 nnoremap N Nzz
+nnoremap <C-f> <C-f>zz
+nnoremap <C-b> <C-b>zz
+nnoremap <C-u> <C-u>zz
+nnoremap <C-d> <C-d>zz
+nnoremap <C-p> :bp<CR>
+nnoremap <C-n> :bn<CR>
 command! -nargs=* T split | wincmd j | resize 20 | terminal <args>
 autocmd TermOpen * startinsert
 tnoremap <Esc> <C-\><C-n>
