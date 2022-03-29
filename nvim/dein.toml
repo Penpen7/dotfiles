@@ -201,7 +201,7 @@ repo = 'lambdalisue/fern.vim'
 hook_add = '''
 let g:fern#renderer = 'nerdfont'
 nnoremap <C-e> :Fern . -reveal=% -drawer -toggle -width=40<CR>
-nnoremap <C-n><C-n> :Fern . <CR>
+nnoremap <C-e><C-e> :Fern . <CR>
 '''
 
 [[plugins]]
