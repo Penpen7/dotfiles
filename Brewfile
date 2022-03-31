@@ -55,7 +55,7 @@ cask "kitty"
 cask "mactex"
 cask "slack"
 cask "visual-studio-code"
-if os.mac?
+if OS.mac?
   mas "AmorphousDiskMark", id: 1168254295
   mas "GeoGebra Classic 6", id: 1182481622
   mas "LINE", id: 539883307
