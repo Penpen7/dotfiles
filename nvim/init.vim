@@ -112,6 +112,7 @@ set fileformats=unix,dos,mac
 set nofixendofline
 set clipboard+=unnamedplus
 set scroll=3
+au BufEnter set scroll=3
 
 if has('gui')
   set guifont=HackGenNerd:h18
