@@ -1,4 +1,4 @@
-#!/bin/sh -xeu
+#!/bin/bash -xeu
 
 # zmodload zsh/zprof && zprof
 # First check OS.
