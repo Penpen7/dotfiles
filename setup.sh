@@ -22,7 +22,7 @@ if [[ -z "${HOMEBREW_ON_LINUX-}" ]]; then
 else
   UNAME_MACHINE="$(uname -m)"
   HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
-  apt update && apt install -y curl locales-all build-essential
+  apt update && apt install -y curl locales-all build-essential procps
   brew install gcc
 fi
 
