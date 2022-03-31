@@ -132,3 +132,4 @@ augroup vimrcEx
 augroup END
 
 au FileType go setlocal sw=4 ts=4 sts=4
+source $VIMRUNTIME/macros/matchit.vim
