@@ -55,12 +55,14 @@ cask "kitty"
 cask "mactex"
 cask "slack"
 cask "visual-studio-code"
-mas "AmorphousDiskMark", id: 1168254295
-mas "GeoGebra Classic 6", id: 1182481622
-mas "LINE", id: 539883307
-mas "Logic Pro", id: 634148309
-mas "Magnet", id: 441258766
-mas "Pages", id: 409201541
-mas "PicGIF Lite", id: 844918735
-mas "Skitch", id: 425955336
-mas "Xcode", id: 497799835
+if os.mac?
+  mas "AmorphousDiskMark", id: 1168254295
+  mas "GeoGebra Classic 6", id: 1182481622
+  mas "LINE", id: 539883307
+  mas "Logic Pro", id: 634148309
+  mas "Magnet", id: 441258766
+  mas "Pages", id: 409201541
+  mas "PicGIF Lite", id: 844918735
+  mas "Skitch", id: 425955336
+  mas "Xcode", id: 497799835
+end

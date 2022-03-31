@@ -4,8 +4,8 @@ RUN apt-get update && \
     git \
     sudo \
     curl \
-    locates-all
-RUN useradd -m -s /bin/zsh linuxbrew && \
+    language-pack-ja 
+RUN useradd -m -s /bin/bash linuxbrew && \
     usermod -aG sudo linuxbrew &&  \
     mkdir -p /home/linuxbrew/.linuxbrew && \
     chown -R linuxbrew: /home/linuxbrew/.linuxbrew
@@ -16,3 +16,5 @@ WORKDIR /home/linuxbrew
 COPY --chown=linuxbrew:linuxbrew . dotfiles
 WORKDIR /home/linuxbrew/dotfiles
 RUN ./setup.sh
+RUN ./setup_shell.sh
+RUN ./setup_vim.sh

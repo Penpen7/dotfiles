@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -xeu
 
 # zmodload zsh/zprof && zprof
 # First check OS.
@@ -33,44 +33,17 @@ if !(type "brew" > /dev/null 2>&1); then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-#brew bundle
+# brew bundle
+brew bundle install
 
 # .zshrc
 REPOSITORY_PATH=$(
   cd $(dirname $0)
   pwd
 )
-ln -sf $REPOSITORY_PATH/zsh/.zshrc $HOME
-ln -sf $REPOSITORY_PATH/tmux/.tmux.conf $HOME
-ln -sf $REPOSITORY_PATH/zsh/.zshenv $HOME
-ln -sf $REPOSITORY_PATH/tig/.tigrc $HOME
-ln -sf $REPOSITORY_PATH/preztorc/zpreztorc $HOME/.preztorc
-
-# nvim
-NVIM_CONFIG=$HOME/.config/nvim
-mkdir -p $NVIM_CONFIG
-ln -sf $REPOSITORY_PATH/nvim/init.vim $NVIM_CONFIG
-ln -sf $REPOSITORY_PATH/nvim/dein.toml $NVIM_CONFIG
-ln -sf $REPOSITORY_PATH/nvim/dein_lazy.toml $NVIM_CONFIG
-ln -sf $REPOSITORY_PATH/nvim/coc-settings.json $NVIM_CONFIG
-
 # install node
 if (type "nodebrew" > /dev/null 2>&1); then
   nodebrew setup
   nodebrew install v16.5.0
   nodebrew use v16.5.0
-fi
-
-if (type "npm" > /dev/null 2>&1); then
-  # brew install
-  npm install -g neovim bash-language-server
-fi
-
-if (type "go" > /dev/null 2>&1); then
-  go get github.com/nametake/golangci-lint-langserver
-fi
-
-# install node
-if (type "pip3" > /dev/null 2>&1); then
-  pip3 install pynvim
 fi
