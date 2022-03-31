@@ -23,7 +23,7 @@ else
   UNAME_MACHINE="$(uname -m)"
   HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
   apt update && apt install -y curl locales-all build-essential
-  brew postinstall gcc
+  brew install gcc
 fi
 
 # export PATH
