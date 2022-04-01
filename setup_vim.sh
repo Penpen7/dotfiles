@@ -13,6 +13,8 @@ ln -sf $REPOSITORY_PATH/nvim/dein.toml $NVIM_CONFIG
 ln -sf $REPOSITORY_PATH/nvim/dein_lazy.toml $NVIM_CONFIG
 ln -sf $REPOSITORY_PATH/nvim/coc-settings.json $NVIM_CONFIG
 
+export PATH="$PATH:$HOME/.nodebrew/current/bin"
+
 if (type "npm" > /dev/null 2>&1); then
   # brew install
   npm install -g neovim bash-language-server
@@ -27,4 +29,13 @@ if (type "go" > /dev/null 2>&1); then
   go install github.com/nametake/golangci-lint-langserver@latest
 fi
 
-nvim +:UpdateRemotePlugins +qa
+brew install expect
+expect -c "
+set timeout 10000
+spawn nvim +:UpdateRemotePlugins
+expect {
+  -- \"-- More --\" \"\r\"
+  -- \"Press ENTER or type command to continue\" \"\r\"
+}
+"
+# nvim +:UpdateRemotePlugins +qa
