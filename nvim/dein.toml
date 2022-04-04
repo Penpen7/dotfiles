@@ -73,7 +73,8 @@ repo = 'vim-airline/vim-airline-themes'
 
 [[plugins]]
 repo = 'neoclide/coc.nvim'
-rev = 'release'
+rev = 'master'
+build = 'yarn install --frozen-lockfile'
 merged = 0
 depends = 'SirVer/ultisnips'
 hook_add = '''
