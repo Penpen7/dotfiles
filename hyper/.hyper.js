@@ -140,6 +140,10 @@ module.exports = {
         "network"
       ]
     },
+
+    css: `.line {
+      font-size: 0.9rem;
+    }`,
   },
   opacity: 0.8,
   // a list of plugins to fetch and install from npm
