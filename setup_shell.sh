@@ -10,4 +10,5 @@ ln -sf $REPOSITORY_PATH/tmux/.tmux.conf $HOME
 ln -sf $REPOSITORY_PATH/zsh/.zshenv $HOME
 ln -sf $REPOSITORY_PATH/tig/.tigrc $HOME
 ln -sf $REPOSITORY_PATH/preztorc/zpreztorc $HOME/.preztorc
+ln -sf $REPOSITORY_PATH/hyper/.hyper.js $HOME/.hyper.js
 
