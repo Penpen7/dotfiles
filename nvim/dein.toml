@@ -73,9 +73,7 @@ repo = 'vim-airline/vim-airline-themes'
 
 [[plugins]]
 repo = 'neoclide/coc.nvim'
-rev = 'master'
-build = 'yarn install --frozen-lockfile'
-merged = 0
+rev = 'release'
 depends = 'SirVer/ultisnips'
 hook_add = '''
   let g:coc_global_extensions = ['coc-word', 'coc-diagnostic', 'coc-tsserver', 'coc-rls', 'coc-json', 'coc-jedi', 'coc-go', 'coc-clangd', 'coc-json', 'coc-css', 'coc-cssmodules', 'coc-toml', 'coc-yaml', 'coc-sql', 'coc-snippets']
