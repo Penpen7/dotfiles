@@ -31,8 +31,8 @@ fi
 
 brew install expect
 expect -c "
-set timeout 10000
-spawn nvim +:UpdateRemotePlugins
+set timeout 600
+spawn nvim --headless +:UpdateRemotePlugins
 expect {
   -- \"-- More --\" \"\r\"
   -- \"Press ENTER or type command to continue\" \"\r\"
