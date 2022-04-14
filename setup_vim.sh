@@ -30,12 +30,15 @@ if (type "go" > /dev/null 2>&1); then
 fi
 
 brew install expect
+
 expect -c "
 set timeout 600
 spawn nvim --headless +:UpdateRemotePlugins
 expect {
-  -- \"-- More --\" \"\r\"
-  -- \"Press ENTER or type command to continue\" \"\r\"
+  \"続けるにはENTERを押すかコマンドを入力してください\" {
+    send \"\r\"
+  }
+  failed abort
+  timeout abort
 }
 "
-# nvim +:UpdateRemotePlugins +qa
