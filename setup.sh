@@ -23,7 +23,6 @@ else
   UNAME_MACHINE="$(uname -m)"
   HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
   apt update && apt install -y curl locales-all build-essential procps
-  brew install gcc
 fi
 
 # export PATH
@@ -47,4 +46,5 @@ if (type "nodebrew" > /dev/null 2>&1); then
   nodebrew setup
   nodebrew install v16.5.0
   nodebrew use v16.5.0
+  npm install -g yarn
 fi
