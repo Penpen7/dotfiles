@@ -4,7 +4,7 @@ SHELL ["/home/linuxbrew/.linuxbrew/bin/zsh", "-c"]
 WORKDIR /home/linuxbrew
 COPY --chown=linuxbrew:linuxbrew . dotfiles
 WORKDIR /home/linuxbrew/dotfiles
-RUN ./setup.sh
-RUN ./setup_shell.sh
-RUN ./setup_vim.sh
+RUN /home/linuxbrew/.linuxbrew/bin/zsh -c "./setup.sh"
+RUN /home/linuxbrew/.linuxbrew/bin/zsh -c "./setup_shell.sh"
+RUN /home/linuxbrew/.linuxbrew/bin/zsh -c "./setup_vim.sh"
 CMD ["/bin/zsh"]
