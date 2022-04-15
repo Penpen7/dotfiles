@@ -1,5 +1,5 @@
 FROM raosys/ubuntu-brew:latest
-ENV CI 1
+ENV CI=${CI}
 SHELL ["/home/linuxbrew/.linuxbrew/bin/zsh", "-c"]
 WORKDIR /home/linuxbrew
 COPY --chown=linuxbrew:linuxbrew . dotfiles

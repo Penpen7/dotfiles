@@ -16,7 +16,8 @@ brew "neovim"
 brew "zsh"
 brew "fzf"
 brew "deno"
-if !ENV["CI"]
+
+if ENV["CI"] == "1"
   brew "awscli"
   brew "bat"
   brew "cmake"
@@ -57,6 +58,7 @@ if !ENV["CI"]
   cask "slack"
   cask "visual-studio-code"
 end
+
 if OS.mac?
   mas "AmorphousDiskMark", id: 1168254295
   mas "GeoGebra Classic 6", id: 1182481622
