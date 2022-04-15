@@ -17,7 +17,7 @@ brew "zsh"
 brew "fzf"
 brew "deno"
 
-if ENV["CI"] == "1"
+if ENV["CI"] != "1"
   brew "awscli"
   brew "bat"
   brew "cmake"
