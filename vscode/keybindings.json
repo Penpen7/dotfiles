@@ -1,0 +1,9 @@
+// 既定値を上書きするには、このファイル内にキー バインドを挿入します
+[
+    {
+        "command": "vscode-neovim.compositeEscape1",
+        "key": "j",
+        "when": "neovim.mode == insert && editorTextFocus",
+        "args": "j"
+    },
+]
