@@ -15,7 +15,7 @@ jobs:
   test-mac:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@2
+      - uses: actions/checkout@v2
       - name: show
         run: xcrun insruments -s
 
