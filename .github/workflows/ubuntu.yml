@@ -20,7 +20,7 @@ jobs:
         run: ./setup_shell.sh
         shell: zsh {0}
       - name: setup.sh
-        run: ./setup.sh
+        run: CI=1 ./setup.sh
         shell: zsh {0}
       - name: setup_vim.sh
         run: ./setup_vim.sh

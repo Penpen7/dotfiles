@@ -59,7 +59,7 @@ if ENV["CI"] != "1"
   cask "visual-studio-code"
 end
 
-if OS.mac?
+if OS.mac? && ENV["CI"] != "1"
   mas "AmorphousDiskMark", id: 1168254295
   mas "GeoGebra Classic 6", id: 1182481622
   mas "LINE", id: 539883307
