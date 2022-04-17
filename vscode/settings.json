@@ -1,29 +1,30 @@
 {
-    "editor.lineNumbers": "on",
-    "vim.hlsearch": true,
-    "vim.useSystemClipboard": true,
-    "vim.sneak": true,
-    "vim.smartRelativeLine": true,
-    "window.zoomLevel": 2,
-    "vim.easymotion": true,
-    "vim.useCtrlKeys": true,
-    "vim.leader": "\\",
-    "vim.insertModeKeyBindings": [
-        {
-            "before": [
-                "j",
-                "j"
-            ],
-            "after": [
-                "<Esc>"
-            ]
-        }
-    ],
-    "editor.formatOnSave": true,
-    "vscode-neovim.neovimInitVimPaths.darwin": "/Users/naoki/.config/nvim/init.vim",
-    "vscode-neovim.neovimExecutablePaths.darwin": "/opt/homebrew/bin/nvim",
-    "editor.fontFamily": "HackGen35Nerd",
-    "workbench.colorTheme": "Gruvbox Dark Medium",
-    "workbench.startupEditor": "none",
-    "html.format.endWithNewline": true,
+  "editor.lineNumbers": "relative",
+  "vim.hlsearch": true,
+  "vim.useSystemClipboard": true,
+  "vim.sneak": true,
+  "vim.smartRelativeLine": true,
+  "window.zoomLevel": 2,
+  "vim.easymotion": true,
+  "vim.useCtrlKeys": true,
+  "vim.leader": "\\",
+  "vim.insertModeKeyBindings": [
+    {
+      "before": [
+        "j",
+        "j"
+      ],
+      "after": [
+        "<Esc>"
+      ]
+    }
+  ],
+  "editor.formatOnSave": true,
+  "vscode-neovim.neovimInitVimPaths.darwin": "/Users/naoki/.config/nvim/init.vim",
+  "vscode-neovim.neovimExecutablePaths.darwin": "/opt/homebrew/bin/nvim",
+  "editor.fontFamily": "HackGen35Nerd",
+  "workbench.colorTheme": "Gruvbox Dark Medium",
+  "workbench.startupEditor": "none",
+  "html.format.endWithNewline": true,
+  "editor.scrollBeyondLastLine": false,
 }
