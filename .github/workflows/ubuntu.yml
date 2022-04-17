@@ -16,8 +16,15 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-      - name: show
-        run: xcrun insruments -s
+      - name: setup shell
+        run: ./setup_shell.sh
+        shell: zsh {0}
+      - name: setup.sh
+        run: ./setup.sh
+        shell: zsh {0}
+      - name: setup_vim.sh
+        run: ./setup_vim.sh
+        shell: zsh {0}
 
   push:
     runs-on: ubuntu-latest
