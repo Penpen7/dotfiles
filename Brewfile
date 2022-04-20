@@ -9,15 +9,15 @@ brew "gcc"
 brew "python@3.9"
 brew "exa"
 brew "git"
-brew "golangci-lint"
 brew "nodebrew"
 brew "neovim"
 brew "zsh"
 brew "fzf"
 brew "deno"
 
-if !OS.mac? || ENV["CI"] != "1"
+if (!(OS.mac?)) || ENV["CI"] != "1"
   brew "go"
+  brew "golangci-lint"
 end
 
 if ENV["CI"] != "1"
