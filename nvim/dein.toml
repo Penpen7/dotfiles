@@ -265,5 +265,10 @@ repo = 'machakann/vim-highlightedyank'
 
 [[plugins]]
 repo = 'mbbill/undotree'
+hook_add = '''
+nmap <Leader>u [undotree-p]
+nnoremap [undotree-p] :UndotreeToggle<CR>
+'''
+
 [[plugins]]
 repo = 'SirVer/ultisnips'
