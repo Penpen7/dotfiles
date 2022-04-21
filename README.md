@@ -1,5 +1,6 @@
 # dotfiles
 [![ubuntu](https://github.com/Penpen7/dotfiles/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/Penpen7/dotfiles/actions/workflows/ubuntu.yml)
+[![mac](https://github.com/Penpen7/dotfiles/actions/workflows/mac.yml/badge.svg)](https://github.com/Penpen7/dotfiles/actions/workflows/mac.yml)
 ## Description
 This is my setting files
 
