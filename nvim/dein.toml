@@ -254,7 +254,7 @@ colorscheme gruvbox
 [[plugins]]
 repo = 'alvan/vim-closetag'
 hook_add = '''
-let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.erb,*.php,*.vue,*.tsx'
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.erb,*.php,*.vue,*.tsx,*.js,*.jsx'
 '''
 
 [[plugins]]
