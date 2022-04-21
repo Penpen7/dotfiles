@@ -1,0 +1,29 @@
+[user]
+email = Raosys@live.jp
+name = Penpen7
+
+[color]
+ui = true
+
+[push]
+default = current
+
+[init]
+defaultBranch = main
+
+[core]
+editor = nvim
+quotepath = false
+commentChar = ";"
+
+[merge]
+tool = vimdiff
+
+[grep]
+lineNumber = true
+
+[mergetool]
+keepBackup = false
+    
+[mergetool "vimdiff"]
+cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
