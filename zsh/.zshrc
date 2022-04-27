@@ -4,6 +4,7 @@ if [ ~/.zshrc -nt ~/.zshrc.zwc ]; then
 fi
 [ -f $DOTFILE/zsh/dircolor.zsh ] && source $DOTFILE/zsh/dircolor.zsh
 [ -f $DOTFILE/prezto/init.zsh ] && source $DOTFILE/prezto/init.zsh
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [ -f $DOTFILE/zsh/alias.zsh ] && source $DOTFILE/zsh/alias.zsh
 [ -f $DOTFILE/zsh/option.zsh ] && source $DOTFILE/zsh/option.zsh
 [ -f $DOTFILE/zsh/shortcut.zsh ] && source $DOTFILE/zsh/shortcut.zsh
