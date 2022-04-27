@@ -272,3 +272,6 @@ nnoremap [undotree-p] :UndotreeToggle<CR>
 
 [[plugins]]
 repo = 'SirVer/ultisnips'
+
+[[plugins]]
+repo = 'rickhowe/diffchar.vim'
