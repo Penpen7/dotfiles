@@ -136,3 +136,8 @@ augroup END
 
 au FileType go setlocal sw=4 ts=4 sts=4
 source $VIMRUNTIME/macros/matchit.vim
+
+if has('persistent_undo')         "check if your vim version supports
+  set undodir=$HOME/.config/nvim/undo     "directory where the undo files will be stored
+  set undofile                    "turn on the feature
+endif
