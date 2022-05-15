@@ -4,7 +4,8 @@
   ],
   "diagnostic-languageserver.formatFiletypes": {
     "sh": "shfmt",
-    "zsh": "shfmt"
+    "zsh": "shfmt",
+    "python": "black"
   },
   "languageserver": {
     "golangci-lint-languageserver": {
@@ -58,6 +59,13 @@
         "-bn",
         "-ci",
         "-sr"
+      ]
+    },
+    "black": {
+      "command": "black",
+      "args": [
+        "-q",
+        "-"
       ]
     }
   },

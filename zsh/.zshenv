@@ -43,6 +43,7 @@ export PATH="$HOME/.nodebrew/current/bin":$PATH
 export PATH="$HOME/.cargo/bin:"$PATH
 export PATH=${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH
 export PATH=${HOMEBREW_PREFIX}/opt/llvm/bin:$PATH
+export PATH=$HOME/Library/Python/3.8/bin:$PATH
 
 export LDFLAGS="${LDFLAGS} -L/usr/local/lib"
 export CPPFLAGS="${CPPFLAGS} -I/usr/local/include"
