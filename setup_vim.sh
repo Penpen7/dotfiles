@@ -42,3 +42,5 @@ expect {
   timeout abort
 }
 "
+
+timeout 2m nvim --headless +CocInstall || exit 0
