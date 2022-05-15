@@ -69,6 +69,34 @@
       ]
     }
   },
+  "diagnostic-languageserver.linters": {
+    "mypy": {
+      "sourceName": "mypy",
+      "command": "mypy",
+      "args": [
+        "--no-color-output",
+        "--no-error-summary",
+        "--show-column-numbers",
+        "--follow-imports=silent",
+        "%file"
+      ],
+      "formatPattern": [
+        "^.*:(\\d+?):(\\d+?): ([a-z]+?): (.*)$",
+        {
+          "line": 1,
+          "column": 2,
+          "security": 3,
+          "message": 4
+        }
+      ],
+      "securities": {
+        "error": "error"
+      }
+    }
+  },
+  "diagnostic-languageserver.filetypes": {
+    "python": "mypy"
+  },
   "clangd.path": "/Users/naoki/.config/coc/extensions/coc-clangd-data/install/12.0.0/clangd_12.0.0/bin/clangd",
   "suggest.completionItemKindLabels": {
     "method": "  メソッド",
