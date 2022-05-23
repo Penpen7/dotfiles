@@ -275,3 +275,18 @@ repo = 'SirVer/ultisnips'
 
 [[plugins]]
 repo = 'rickhowe/diffchar.vim'
+
+[[plugins]]
+repo = 'glacambre/firenvim'
+hook_add = '''
+
+function! Set_Font(font) abort
+  execute 'set guifont=HackGen35Nerd-Regular:h20'
+endfunction
+if exists('g:started_by_firenvim')
+  call SetFont("")
+endif
+'''
+hook_post_update = '''
+ call firenvim#install(0)
+'''
