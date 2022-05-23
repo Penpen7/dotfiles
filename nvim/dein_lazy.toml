@@ -4,10 +4,12 @@ hook_add = '''
 if !exists("g:quickrun_config")
   let g:quickrun_config={}
 endif
+nnoremap <silent> <Leader>r :QuickRun<CR>
+
 augroup rust_quickrun
-autocmd BufNewFile,BufRead *.crs setf rust
-autocmd BufNewFile,BufRead *.rs  let g:quickrun_config.rust = {'exec' : 'cargo run'}
-autocmd BufNewFile,BufRead *.crs let g:quickrun_config.rust = {'exec' : 'cargo script %s -- %a'}
+  autocmd BufNewFile,BufRead *.crs setf rust
+  autocmd BufNewFile,BufRead *.rs  let g:quickrun_config.rust = {'exec' : 'cargo run'}
+  autocmd BufNewFile,BufRead *.crs let g:quickrun_config.rust = {'exec' : 'cargo script %s -- %a'}
 augroup END
 '''
 
