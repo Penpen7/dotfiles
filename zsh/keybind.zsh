@@ -1,6 +1,7 @@
 #!/bin/zsh
 
 bindkey -v
+bindkey "jj" vi-cmd-mode
 
 zle -N peco-cdr
 bindkey '^o' peco-cdr
