@@ -177,26 +177,6 @@ repo = 'godlygeek/tabular'
 
 
 [[plugins]]
-repo = 'easymotion/vim-easymotion'
-hook_add = '''
-let g:easymotion#is_active = 0
-function! EasyMotionCoc() abort
-  if EasyMotion#is_active()
-    let g:easymotion#is_active = 1
-    CocDisable
-    GitGutterDisable
-  else
-    if g:easymotion#is_active == 1
-      let g:easymotion#is_active = 0
-      CocEnable
-      GitGutterEnable
-    endif
-  endif
-endfunction
-autocmd TextChanged,CursorMoved * call EasyMotionCoc()
-'''
-
-[[plugins]]
 repo = 'lambdalisue/fern.vim'
 hook_add = '''
 let g:fern#renderer = 'nerdfont'
@@ -290,3 +270,14 @@ repo = 'rickhowe/diffchar.vim'
 # hook_post_update = '''
 #  call firenvim#install(0)
 # '''
+
+[[plugins]]
+repo = 'phaazon/hop.nvim'
+hook_add = '''
+lua << EOF
+  require'hop'.setup()
+EOF
+nnoremap <silent> <Leader><Leader>w :HopWord<CR>
+nnoremap <silent> <Leader><Leader>l :HopLine<CR>
+nnoremap <silent> <Leader><Leader>f :HopChar1<CR>
+'''
