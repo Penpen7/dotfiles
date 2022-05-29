@@ -79,10 +79,13 @@ nnoremap <C-u> <C-u>zz
 nnoremap <C-d> <C-d>zz
 nnoremap <C-p> :bp<CR>
 nnoremap <C-n> :bn<CR>
+nnoremap x "_x
+nnoremap s "_s
 command! -nargs=* T split | wincmd j | resize 20 | terminal <args>
 autocmd TermOpen * startinsert
 tnoremap <Esc> <C-\><C-n>
 inoremap <silent> jj <ESC>
+inoremap <C-t> <Esc><Left>"zx"zpa
 
 set laststatus=2
 set tabstop=2
