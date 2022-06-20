@@ -77,7 +77,7 @@ rev = 'master'
 build = 'yarn install --frozen-lockfile'
 depends = 'SirVer/ultisnips'
 hook_add = '''
-  let g:coc_global_extensions = ['coc-word', 'coc-diagnostic', 'coc-tsserver', 'coc-rls', 'coc-json', 'coc-jedi', 'coc-go', 'coc-clangd', 'coc-json', 'coc-css', 'coc-cssmodules', 'coc-toml', 'coc-yaml', 'coc-sql', 'coc-snippets']
+  let g:coc_global_extensions = ['coc-word', 'coc-diagnostic', 'coc-tsserver', 'coc-rls', 'coc-json', 'coc-jedi', 'coc-go', 'coc-clangd', 'coc-json', 'coc-css', 'coc-cssmodules', 'coc-toml', 'coc-yaml', 'coc-sql', 'coc-snippets', 'coc-tabnine']
   autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
 
   inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
@@ -277,7 +277,10 @@ hook_add = '''
 lua << EOF
   require'hop'.setup()
 EOF
-nnoremap <silent> <Leader><Leader>w :HopWord<CR>
-nnoremap <silent> <Leader><Leader>l :HopLine<CR>
-nnoremap <silent> <Leader><Leader>f :HopChar1<CR>
+
+nmap <Leader><Leader> [hop]
+xmap <Leader><Leader> [hop]
+nnoremap <silent> [hop]w :HopWord<CR>
+nnoremap <silent> [hop]l :HopLine<CR>
+nnoremap <silent> [hop]f :HopChar1<CR>
 '''
