@@ -284,3 +284,9 @@ nnoremap <silent> [hop]w :HopWord<CR>
 nnoremap <silent> [hop]l :HopLine<CR>
 nnoremap <silent> [hop]f :HopChar1<CR>
 '''
+
+[[plugins]]
+repo = 'liuchengxu/vista.vim'
+hook_add = '''
+nmap <silent> <Leader>v :<C-u>Vista coc<CR>
+'''
