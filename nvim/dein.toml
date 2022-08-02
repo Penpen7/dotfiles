@@ -290,3 +290,15 @@ repo = 'liuchengxu/vista.vim'
 hook_add = '''
 nmap <silent> <Leader>v :<C-u>Vista coc<CR>
 '''
+
+[[plugins]]
+repo = 'vim-test/vim-test'
+hook_add = '''
+nmap <Leader>t [vim-test]
+xmap <Leader>t [vim-test]
+nnoremap <silent> [vim-test]n :TestNearest<CR>
+nnoremap <silent> [vim-test]f :TestFile<CR>
+nnoremap <silent> [vim-test]s :TestSuite<CR>
+nnoremap <silent> [vim-test]l :TestLast<CR>
+nnoremap <silent> [vim-test]v :TestVisit<CR>
+'''
