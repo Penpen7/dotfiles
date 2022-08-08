@@ -1,6 +1,9 @@
 #!/bin/zsh
 PERCOL=fzf
-if [[ ! -n $TMUX && $- == *l* ]]; then
+if [[ ! $TERM_PROGRAM == iTerm.app ]]; then 
+  return
+fi
+if [[ ! -n $TMUX && $- == *l*  ]]; then
   # get the IDs
   ID="`tmux list-sessions`"
   if [[ -z "$ID" ]]; then
