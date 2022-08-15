@@ -6,12 +6,6 @@ on:
       - master
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build
-        run: docker build -t test . --build-arg CI="1"
   push:
     runs-on: ubuntu-latest
     steps:
