@@ -4,16 +4,6 @@
 <dict>
 	<key>AllowClipboardAccess</key>
 	<true/>
-	<key>AppleAntiAliasingThreshold</key>
-	<integer>1</integer>
-	<key>ApplePressAndHoldEnabled</key>
-	<false/>
-	<key>AppleScrollAnimationEnabled</key>
-	<integer>0</integer>
-	<key>AppleSmoothFixedFontsSizeThreshold</key>
-	<integer>1</integer>
-	<key>AppleWindowTabbingMode</key>
-	<string>manual</string>
 	<key>CopySelection</key>
 	<true/>
 	<key>Custom Color Presets</key>
@@ -651,13 +641,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.17255082726478577</real>
+				<real>0.22352941176470589</real>
 				<key>Color Space</key>
-				<string>Calibrated</string>
+				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.17254787683486938</real>
+				<real>0.22352941176470589</real>
 				<key>Red Component</key>
-				<real>0.17255303263664246</real>
+				<real>0.22745098039215686</real>
 			</dict>
 			<key>Cursor Guide Color</key>
 			<dict>
@@ -1413,13 +1403,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.17255082726478577</real>
+				<real>0.69803921568627447</real>
 				<key>Color Space</key>
-				<string>Calibrated</string>
+				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.17254787683486938</real>
+				<real>0.85882352941176465</real>
 				<key>Red Component</key>
-				<real>0.17255303263664246</real>
+				<real>0.92549019607843142</real>
 			</dict>
 			<key>Cursor Guide Color</key>
 			<dict>
@@ -1439,13 +1429,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.64313727617263794</real>
+				<real>0.22352941176470589</real>
 				<key>Color Space</key>
-				<string>Calibrated</string>
+				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.83137255907058716</real>
+				<real>0.22352941176470589</real>
 				<key>Red Component</key>
-				<real>0.90980392694473267</real>
+				<real>0.22745098039215686</real>
 			</dict>
 			<key>Custom Command</key>
 			<string>No</string>
@@ -1962,6 +1952,10 @@
 	<key>UseTmuxStatusBar</key>
 	<true/>
 	<key>VisualIndicatorForEsc</key>
+	<false/>
+	<key>kCPKSelectionViewPreferredModeKey</key>
+	<integer>0</integer>
+	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
 	<false/>
 </dict>
 </plist>
