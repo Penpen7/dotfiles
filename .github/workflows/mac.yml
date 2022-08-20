@@ -12,9 +12,6 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-      - name: setup shell
-        run: ./setup_shell.sh
-        shell: zsh {0}
       - name: setup.sh
         run: CI=1 ./setup.sh
         shell: zsh {0}
