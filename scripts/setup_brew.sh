@@ -31,5 +31,10 @@ if !(type "brew" > /dev/null 2>&1); then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
+REPOSITORY_PATH=$(
+  cd $(dirname $0)
+  git rev-parse --show-toplevel
+)
+
 # brew bundle
-brew bundle install
+brew bundle install --file ${REPOSITORY_PATH}/config/brew/Brewfile
