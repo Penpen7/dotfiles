@@ -15,6 +15,3 @@ jobs:
       - name: setup.sh
         run: CI=1 ./setup.sh
         shell: zsh {0}
-      - name: setup_vim.sh
-        run: ./setup_vim.sh
-        shell: zsh {0}
