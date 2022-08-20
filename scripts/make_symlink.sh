@@ -1,12 +1,9 @@
 #!/bin/bash -xeu
 
 REPOSITORY_PATH=$(
-  cd ..
   cd $(dirname $0)
-  pwd
+  git rev-parse --show-toplevel
 )
-
-rm -f ~/.zshrc ~/.tmux.conf ~/.zshenv ~/.tigrc ~/.preztorc ~/.hyper.js ~/.gitconfig ~/.p10k.zsh ~/.zprezto
 
 ln -sf $REPOSITORY_PATH/config/zsh/.zshrc $HOME
 ln -sf $REPOSITORY_PATH/config/tmux/.tmux.conf $HOME
@@ -23,4 +20,3 @@ ln -sf $REPOSITORY_PATH/config/nvim/init.vim $NVIM_CONFIG
 ln -sf $REPOSITORY_PATH/config/nvim/dein.toml $NVIM_CONFIG
 ln -sf $REPOSITORY_PATH/config/nvim/dein_lazy.toml $NVIM_CONFIG
 ln -sf $REPOSITORY_PATH/config/nvim/coc-settings.json $NVIM_CONFIG
-
