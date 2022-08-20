@@ -7,5 +7,5 @@ REPOSITORY_PATH=$(
 )
 scripts=(make_symlink.sh setup_brew.sh setup_node.sh setup_vim.sh)
 for i in ${!scripts[@]}; do
-  $REPOSITORY_PATH/$i
+  $REPOSITORY_PATH/scripts/$i
 done
