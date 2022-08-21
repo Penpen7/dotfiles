@@ -4,6 +4,7 @@ REPOSITORY_PATH=$(
   cd $(dirname $0)
   pwd
 )
+export PATH="$PATH:$HOME/.nodebrew/current/bin"
 
 if (type "npm" > /dev/null 2>&1); then
   npm install -g neovim
