@@ -27,4 +27,6 @@
   "workbench.startupEditor": "none",
   "html.format.endWithNewline": true,
   "editor.scrollBeyondLastLine": false,
+  "liveshare.guestApprovalRequired": true,
+  "liveshare.anonymousGuestApproval": "reject",
 }
