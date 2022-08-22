@@ -67,3 +67,31 @@ require('nvim-treesitter.configs').setup {
 }
 EOF
 '''
+
+[[plugins]]
+repo = 'windwp/nvim-ts-autotag'
+on_source = 'nvim-treesitter'
+hook_source = '''
+lua << EOF
+  require'nvim-treesitter.configs'.setup {
+    autotag = {
+      enable = true,
+    }
+  }
+EOF
+'''
+
+[[plugins]]
+repo = 'p00f/nvim-ts-rainbow'
+on_source = 'nvim-treesitter'
+hook_source = '''
+lua << EOF
+require("nvim-treesitter.configs").setup {
+  rainbow = {
+    enable = true,
+    extended_mode = true,
+    max_file_lines = nil,
+  }
+}
+EOF
+'''

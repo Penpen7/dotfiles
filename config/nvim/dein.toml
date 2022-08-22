@@ -162,17 +162,6 @@ repo = "vim-denops/denops.vim"
 
 
 [[plugins]]
-repo = 'luochen1990/rainbow'
-hook_add = '''
-let g:rainbow_active = 1
-let g:rainbow_conf = {
-	\	'separately': {
-	\		'nerdtree': 0,
-	\	}
-	\}
-'''
-
-[[plugins]]
 repo = 'godlygeek/tabular'
 
 
@@ -231,11 +220,7 @@ autocmd SourcePost * highlight Normal     ctermbg=NONE guibg=NONE
 colorscheme gruvbox
 '''
 
-[[plugins]]
-repo = 'alvan/vim-closetag'
-hook_add = '''
-let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.erb,*.php,*.vue,*.tsx,*.js,*.jsx'
-'''
+
 
 [[plugins]]
 repo = 'dhruvasagar/vim-table-mode'
