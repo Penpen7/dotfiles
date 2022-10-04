@@ -29,10 +29,6 @@ repo = 'itchyny/calendar.vim'
 repo = 'mattn/emmet-vim'
 
 [[plugins]]
-repo = 'cohama/lexima.vim'
-on_event = 'InsertEnter'
-
-[[plugins]]
 repo = 'mattn/sonictemplate-vim'
 hook_add = '''
 let g:sonictemplate_vim_template_dir = ['$HOME/template']

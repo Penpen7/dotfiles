@@ -130,5 +130,6 @@
     "<C-n>": "normal:j",
     "<C-p>": "normal:k"
   },
-  "diagnostic.virtualText": true
+  "diagnostic.virtualText": true,
+  "coc.preferences.formatOnType": true
 }
