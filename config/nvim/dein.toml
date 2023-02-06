@@ -176,6 +176,10 @@ nnoremap <C-e><C-e> :Fern . <CR>
 '''
 
 [[plugins]]
+repo = 'lambdalisue/fern-git-status.vim'
+depends = "lambdalisue/fern.vim"
+
+[[plugins]]
 repo = 'lambdalisue/nerdfont.vim'
 
 [[plugins]]
