@@ -2,6 +2,16 @@ setopt auto_cd
 setopt auto_pushd
 setopt correct
 setopt pushd_ignore_dups
+# 履歴保存管理
+HISTFILE=~/.zsh-history
+HISTSIZE=100000
+SAVEHIST=1000000
+
+# 他のzshと履歴を共有
+setopt inc_append_history
+setopt share_history
+## 補完で小文字でも大文字にマッチさせる
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*:default' menu select=1
 _compinit() {
   local re_initialize=0
