@@ -3,7 +3,7 @@ setopt auto_pushd
 setopt correct
 setopt pushd_ignore_dups
 # 履歴保存管理
-HISTFILE=~/.zsh-history
+HISTFILE=~/.zsh_history
 HISTSIZE=100000
 SAVEHIST=1000000
 

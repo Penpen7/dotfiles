@@ -8,7 +8,7 @@ This is my setting files
 - git
 - curl
 - HackGenNerd
-- solarized dark
+- iTerm2
 
 # Getting Started
 - Install Dependencies
@@ -17,11 +17,9 @@ This is my setting files
 cd ~
 git clone https://github.com/Penpen7/dotfiles
 ```
-- Change the directory and run setup.sh
+- Change the directory and run make_symlink.sh
 ```
-cd dotfiles
-git submodule update --init --recursive
+cd dotfiles/scripts
 ./setup.sh
 ```
-- Run or rerun zsh
-- Enjoy!
+- Run zsh
