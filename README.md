@@ -17,9 +17,9 @@ This is my setting files
 cd ~
 git clone https://github.com/Penpen7/dotfiles
 ```
-- Change the directory and run setup.sh
+- Change the directory and run make_symlink.sh
 ```
-cd dotfiles
+cd dotfiles/scripts
 ./setup.sh
 ```
 - Run zsh
