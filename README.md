@@ -8,7 +8,7 @@ This is my setting files
 - git
 - curl
 - HackGenNerd
-- solarized dark
+- iTerm2
 
 # Getting Started
 - Install Dependencies
@@ -20,8 +20,6 @@ git clone https://github.com/Penpen7/dotfiles
 - Change the directory and run setup.sh
 ```
 cd dotfiles
-git submodule update --init --recursive
 ./setup.sh
 ```
-- Run or rerun zsh
-- Enjoy!
+- Run zsh
