@@ -7,6 +7,8 @@ bind status  `      @bash -c "echo -n '%(file)' | pbcopy"
 bind tree    `      @bash -c "echo -n '%(file)' | pbcopy"
 bind blob    `      @bash -c "echo -n '%(file)' | pbcopy"
 
+bind generic P !git push origin
+bind generic U      ?git pull %(remote)
 bind generic +      !git commit --amend --allow-empty
 bind status  -      status-update
 bind stage   -      status-update
