@@ -6,10 +6,12 @@ setopt pushd_ignore_dups
 HISTFILE=~/.zsh_history
 HISTSIZE=100000
 SAVEHIST=1000000
+HISTCONTROL=erasedups
 
 # 他のzshと履歴を共有
 setopt inc_append_history
 setopt share_history
+setopt hist_ignore_all_dups
 ## 補完で小文字でも大文字にマッチさせる
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*:default' menu select=1

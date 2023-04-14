@@ -37,6 +37,11 @@ bind main    B      ?git checkout -b "%(prompt Enter branch name: )" %(branch)
 bind refs    B      ?git checkout -b "%(prompt Enter branch name: )" %(branch)
 bind main    <Esc>b ?git checkout -b "%(prompt Enter branch name: )" %(commit)
 
+bind main    =      ?git checkout %(branch)
+bind refs    =      ?git checkout %(branch)
+bind main    <Esc>= ?git checkout %(commit)
+
+
 # M で merge
 bind main    M      ?git merge %(branch)
 bind diff    M      ?git merge %(branch)
