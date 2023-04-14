@@ -170,6 +170,7 @@ repo = 'godlygeek/tabular'
 [[plugins]]
 repo = 'lambdalisue/fern.vim'
 hook_add = '''
+let g:fern#default_hidden=1
 let g:fern#renderer = 'nerdfont'
 nnoremap <C-e> :Fern . -reveal=% -drawer -toggle -width=40<CR>
 nnoremap <C-e><C-e> :Fern . <CR>
