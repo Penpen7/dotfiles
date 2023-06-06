@@ -296,3 +296,6 @@ nnoremap <silent> [vim-test]s :TestSuite<CR>
 nnoremap <silent> [vim-test]l :TestLast<CR>
 nnoremap <silent> [vim-test]v :TestVisit<CR>
 '''
+
+[[plugins]]
+repo = 'github/copilot.vim'
