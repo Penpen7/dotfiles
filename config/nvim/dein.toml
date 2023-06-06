@@ -145,9 +145,13 @@ if has('mac')
 endif
 '''
 
-
 [[plugins]]
-repo = "airblade/vim-gitgutter"
+repo = "lewis6991/gitsigns.nvim"
+hook_add = '''
+lua << EOF
+  require'gitsigns'.setup()
+EOF
+'''
 
 [[plugins]]
 repo = "iberianpig/tig-explorer.vim"
