@@ -49,7 +49,7 @@ let g:vim_markdown_new_list_item_indent = 0
 
 [[plugins]]
 repo = 'nvim-treesitter/nvim-treesitter'
-merged = 0
+merged = false
 on_event = 'BufRead'
 hook_post_update = 'TSUpdate'
 hook_source = '''
