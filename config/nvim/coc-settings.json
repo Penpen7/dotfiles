@@ -132,5 +132,6 @@
   },
   "diagnostic.virtualText": true,
   "coc.preferences.formatOnType": true,
-  "rust-analyzer.checkOnSave.command": "clippy"
+  "rust-analyzer.checkOnSave.command": "clippy",
+  "snippets.ultisnips.pythonPrompt": false
 }
