@@ -1,5 +1,7 @@
 vim.g.loaded_matchit = true
--- filetype plugin indent on
+vim.cmd([[
+  filetype plugin indent on
+]])
 vim.cmd([[
   autocmd FileType typescript setlocal omnifunc=lsp#complete
 ]])
