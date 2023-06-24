@@ -115,15 +115,13 @@ let g:fern#renderer = 'nerdfont'
 	{
 		"vim-test/vim-test",
 		config = function()
-			vim.cmd([[
-  nmap <Leader>t [vim-test]
-  xmap <Leader>t [vim-test]
-  nnoremap <silent> [vim-test]n :TestNearest<CR>
-  nnoremap <silent> [vim-test]f :TestFile<CR>
-  nnoremap <silent> [vim-test]s :TestSuite<CR>
-  nnoremap <silent> [vim-test]l :TestLast<CR>
-  nnoremap <silent> [vim-test]v :TestVisit<CR>
-    ]])
+			vim.api.nvim_set_keymap("n", "<Leader>t", "[vim-test]", {})
+			vim.api.nvim_set_keymap("x", "<Leader>t", "[vim-test]", {})
+			vim.api.nvim_set_keymap("n", "[vim-test]n", ":TestNearest<CR>", { silent = true })
+			vim.api.nvim_set_keymap("n", "[vim-test]f", ":TestFile<CR>", { silent = true })
+			vim.api.nvim_set_keymap("n", "[vim-test]s", ":TestSuite<CR>", { silent = true })
+			vim.api.nvim_set_keymap("n", "[vim-test]l", ":TestLast<CR>", { silent = true })
+			vim.api.nvim_set_keymap("n", "[vim-test]v", ":TestVisit<CR>", { silent = true })
 		end,
 	},
 	{
@@ -165,25 +163,48 @@ let g:fern#renderer = 'nerdfont'
 		branch = "release/rpc",
 		dependencies = { "fzf" },
 		config = function()
-			vim.cmd([[
-        nmap <Leader>f [fzf-p]
-        xmap <Leader>f [fzf-p]
-        nnoremap <silent> [fzf-p]p     :<C-u>FzfPreviewFromResourcesRpc project_mru git<CR>
-        nnoremap <silent> [fzf-p]gs    :<C-u>FzfPreviewGitStatusRpc<CR>
-        nnoremap <silent> [fzf-p]ga    :<C-u>FzfPreviewGitActionsRpc<CR>
-        nnoremap <silent> [fzf-p]b     :<C-u>FzfPreviewBuffersRpc<CR>
-        nnoremap <silent> [fzf-p]B     :<C-u>FzfPreviewAllBuffersRpc<CR>
-        nnoremap <silent> [fzf-p]o     :<C-u>FzfPreviewFromResourcesRpc buffer project_mru<CR>
-        nnoremap <silent> [fzf-p]<C-o> :<C-u>FzfPreviewJumpsRpc<CR>
-        nnoremap <silent> [fzf-p]g;    :<C-u>FzfPreviewChangesRpc<CR>
-        nnoremap <silent> [fzf-p]/     :<C-u>FzfPreviewLinesRpc -- add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
-        nnoremap <silent> [fzf-p]*     :<C-u>FzfPreviewLinesRpc --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
-        nnoremap          [fzf-p]gr    :<C-u>FzfPreviewProjectGrepRpc<Space>
-        xnoremap          [fzf-p]gr    "sy:FzfPreviewProjectGrepRpc<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
-        nnoremap <silent> [fzf-p]t     :<C-u>FzfPreviewBufferTagsRpc<CR>
-        nnoremap <silent> [fzf-p]q     :<C-u>FzfPreviewQuickFixRpc<CR>
-        nnoremap <silent> [fzf-p]l     :<C-u>FzfPreviewLocationListRpc<CR>
-      ]])
+			vim.api.nvim_set_keymap("n", "<Leader>f", "[fzf-p]", { silent = true, noremap = true })
+			vim.api.nvim_set_keymap("x", "<Leader>f", "[fzf-p]", { silent = true, noremap = true })
+			vim.api.nvim_set_keymap(
+				"n",
+				"[fzf-p]p",
+				":<C-u>FzfPreviewFromResourcesRpc project_mru git<CR>",
+				{ silent = true }
+			)
+			vim.api.nvim_set_keymap("n", "[fzf-p]gs", ":<C-u>FzfPreviewGitStatusRpc<CR>", { silent = true })
+			vim.api.nvim_set_keymap("n", "[fzf-p]ga", ":<C-u>FzfPreviewGitActionsRpc<CR>", { silent = true })
+			vim.api.nvim_set_keymap("n", "[fzf-p]b", ":<C-u>FzfPreviewBuffersRpc<CR>", { silent = true })
+			vim.api.nvim_set_keymap("n", "[fzf-p]B", ":<C-u>FzfPreviewAllBuffersRpc<CR>", { silent = true })
+			vim.api.nvim_set_keymap(
+				"n",
+				"[fzf-p]o",
+				":<C-u>FzfPreviewFromResourcesRpc buffer project_mru<CR>",
+				{ silent = true }
+			)
+			vim.api.nvim_set_keymap("n", "[fzf-p]<C-o>", ":<C-u>FzfPreviewJumpsRpc<CR>", { silent = true })
+			vim.api.nvim_set_keymap("n", "[fzf-p]g;", ":<C-u>FzfPreviewChangesRpc<CR>", { silent = true })
+			vim.api.nvim_set_keymap(
+				"n",
+				"[fzf-p]/",
+				':<C-u>FzfPreviewLinesRpc -- add-fzf-arg=--no-sort --add-fzf-arg=--query="\'"<CR>',
+				{ silent = true }
+			)
+			vim.api.nvim_set_keymap(
+				"n",
+				"[fzf-p]*",
+				':<C-u>FzfPreviewLinesRpc --add-fzf-arg=--no-sort --add-fzf-arg=--query="\'".expand("<cword>")."\'"<CR>',
+				{ silent = true }
+			)
+			vim.api.nvim_set_keymap("n", "[fzf-p]gr", ":<C-u>FzfPreviewProjectGrepRpc<Space>", { silent = true })
+			vim.api.nvim_set_keymap(
+				"x",
+				"[fzf-p]gr",
+				"\"sy:FzfPreviewProjectGrepRpc<Space>-F<Space>\".substitute(substitute(@s, '\\n', '', 'g'), '/', '\\\\/', 'g')<CR>",
+				{ noremap = true }
+			)
+			vim.api.nvim_set_keymap("n", "[fzf-p]t", ":<C-u>FzfPreviewBufferTagsRpc<CR>", { silent = true })
+			vim.api.nvim_set_keymap("n", "[fzf-p]q", ":<C-u>FzfPreviewQuickFixRpc<CR>", { silent = true })
+			vim.api.nvim_set_keymap("n", "[fzf-p]l", ":<C-u>FzfPreviewLocationListRpc<CR>", { silent = true })
 		end,
 	},
 	{
