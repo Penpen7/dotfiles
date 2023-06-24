@@ -131,4 +131,55 @@ end},
       vim.api.nvim_set_keymap("n", "<Leader>v", "<cmd>Vista coc<CR>", { noremap = true, silent = true })
     end,
   },
+  {'ryanoasis/vim-devicons', config = function() vim.cmd('let g:WebDevIconsUnicodeDecorateFolderNodes = 1') end},
+  {'junegunn/fzf', build = './install --all', merged = 0},
+  {
+    'yuki-yano/fzf-preview.vim',
+    branch = 'release/rpc',
+    dependencies = {'fzf'},
+    config = function()
+      vim.cmd([[
+        nmap <Leader>f [fzf-p]
+        xmap <Leader>f [fzf-p]
+        nnoremap <silent> [fzf-p]p     :<C-u>FzfPreviewFromResourcesRpc project_mru git<CR>
+        nnoremap <silent> [fzf-p]gs    :<C-u>FzfPreviewGitStatusRpc<CR>
+        nnoremap <silent> [fzf-p]ga    :<C-u>FzfPreviewGitActionsRpc<CR>
+        nnoremap <silent> [fzf-p]b     :<C-u>FzfPreviewBuffersRpc<CR>
+        nnoremap <silent> [fzf-p]B     :<C-u>FzfPreviewAllBuffersRpc<CR>
+        nnoremap <silent> [fzf-p]o     :<C-u>FzfPreviewFromResourcesRpc buffer project_mru<CR>
+        nnoremap <silent> [fzf-p]<C-o> :<C-u>FzfPreviewJumpsRpc<CR>
+        nnoremap <silent> [fzf-p]g;    :<C-u>FzfPreviewChangesRpc<CR>
+        nnoremap <silent> [fzf-p]/     :<C-u>FzfPreviewLinesRpc -- add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
+        nnoremap <silent> [fzf-p]*     :<C-u>FzfPreviewLinesRpc --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+        nnoremap          [fzf-p]gr    :<C-u>FzfPreviewProjectGrepRpc<Space>
+        xnoremap          [fzf-p]gr    "sy:FzfPreviewProjectGrepRpc<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
+        nnoremap <silent> [fzf-p]t     :<C-u>FzfPreviewBufferTagsRpc<CR>
+        nnoremap <silent> [fzf-p]q     :<C-u>FzfPreviewQuickFixRpc<CR>
+        nnoremap <silent> [fzf-p]l     :<C-u>FzfPreviewLocationListRpc<CR>
+      ]])
+    end,
+  },
+  {
+    'vim-airline/vim-airline',
+    config = function()
+      vim.cmd([[
+        let g:airline#extensions#tabline#enabled = 1
+        let g:airline#extensions#tabline#buffer_idx_mode = 1
+        let g:airline_theme = 'gruvbox'
+        let g:airline_powerline_fonts = 1
+        let g:airline#extensions#tabline#enabled = 1
+        let g:airline_mode_map = {
+          \ 'n'  : 'のーまる',
+          \ 'i'  : 'いんさーと',
+          \ 'R'  : 'りぷれーす',
+          \ 'c'  : 'こまんど',
+          \ 'v'  : 'ゔぃじゅある',
+          \ 'V'  : 'ゔぃ-らいん',
+          \ '' : 'ゔぃ-ぶろっく',
+          \ }
+      ]])
+    end,
+    dependencies = {'vim-airline-themes'},
+  },
+  'vim-airline/vim-airline-themes',
 })
