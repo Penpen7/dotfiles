@@ -182,4 +182,92 @@ end},
     dependencies = {'vim-airline-themes'},
   },
   'vim-airline/vim-airline-themes',
+  'itchyny/calendar.vim',
+  'mattn/emmet-vim',
+  {
+    'nvim-treesitter/nvim-treesitter',
+    version = false,
+    event = { "CursorHold", "CursorHoldI" },
+    build = ':TSUpdate',
+    config = function()
+    require('nvim-treesitter.configs').setup {
+      ensure_installed = {"c"},
+      ignore_install = { "phpdoc", "swift" },
+      highlight = {
+        enable = true,
+      },
+    }
+    end
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    event = "InsertEnter",
+    config = function()
+      require("nvim-ts-autotag").setup({
+        autotag = {enable = true,}
+      })
+    end,
+  },
+  {
+    "p00f/nvim-ts-rainbow",
+    dependencies = {"nvim-treesitter/nvim-treesitter"},
+    config = function()
+      require("nvim-treesitter.configs").setup {
+        rainbow = {
+          enable = true,
+          extended_mode = true,
+          max_file_lines = 1000, 
+        },
+      }
+    end,
+  },
+    {'thinca/vim-quickrun',
+        config = function()
+            if not vim.g.quickrun_config then
+                vim.g.quickrun_config = {}
+            end
+            vim.api.nvim_set_keymap('n', '<Leader>r', ':QuickRun<CR>', {silent = true})
+            vim.cmd([[
+            augroup rust_quickrun
+              autocmd BufNewFile,BufRead *.crs setf rust
+              autocmd BufNewFile,BufRead *.py  let g:quickrun_config.python = {'command' : 'python3'}
+              autocmd BufNewFile,BufRead *.rs  let g:quickrun_config.rust = {'exec' : 'cargo run'}
+              autocmd BufNewFile,BufRead *.crs let g:quickrun_config.rust = {'exec' : 'cargo script %s -- %a'}
+            augroup END
+            ]])
+        end
+    },
+    {'iamcco/markdown-preview.nvim',
+        ft = {'markdown', 'pandoc.markdown', 'rmd', 'plantuml'},
+        build = 'sh -c "cd app && yarn install"',
+        config = function()
+            vim.g.mkdp_filetypes = {'markdown', 'plantuml'}
+        end
+    },
+    {'mattn/sonictemplate-vim',
+        config = function()
+            vim.g.sonictemplate_vim_template_dir = {'$HOME/template'}
+            vim.api.nvim_set_keymap('n', '<Space>y', ':e $HOME/template/cpp<CR>', {})
+        end
+    },
+    {'plasticboy/vim-markdown',
+        config = function()
+            vim.g.vim_markdown_math = 1
+            vim.g.vim_markdown_folding_disabled = 1
+            vim.g.vim_markdown_new_list_item_indent = 0
+        end
+    },
+    {
+      'Penpen7/IMEswitcher.nvim',
+      build = 'make',
+      config = function() 
+        vim.cmd[[
+      if has('mac')
+        autocmd InsertLeave * :call IMEswitcher#InsertLeave()
+        autocmd InsertEnter * :call IMEswitcher#InsertEnter()
+        endif
+      ]]
+      end
+    },
+    "dstein64/vim-startuptime"
 })
