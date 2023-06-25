@@ -41,23 +41,6 @@ require("lazy").setup({
 	"machakann/vim-highlightedyank",
 	"godlygeek/tabular",
 	"rbgrouleff/bclose.vim",
-	"neovim/nvim-lspconfig",
-	{
-		"williamboman/mason.nvim",
-		build = ":MasonUpdate", -- :MasonUpdate updates registry contents
-		config = function()
-			require("mason").setup()
-		end,
-	},
-	{
-		"williamboman/mason-lspconfig.nvim",
-		config = function()
-			require("mason-lspconfig").setup()
-		end,
-	},
-	"neovim/nvim-lspconfig",
-	"hrsh7th/cmp-nvim-lsp",
-	"hrsh7th/nvim-cmp",
 	{
 		"mbbill/undotree",
 		config = function()
@@ -208,29 +191,6 @@ let g:fern#renderer = 'nerdfont'
 			vim.api.nvim_set_keymap("n", "[fzf-p]l", ":<C-u>FzfPreviewLocationListRpc<CR>", { silent = true })
 		end,
 	},
-	{
-		"vim-airline/vim-airline",
-		config = function()
-			vim.cmd([[
-        let g:airline#extensions#tabline#enabled = 1
-        let g:airline#extensions#tabline#buffer_idx_mode = 1
-        let g:airline_theme = 'gruvbox'
-        let g:airline_powerline_fonts = 1
-        let g:airline#extensions#tabline#enabled = 1
-        let g:airline_mode_map = {
-          \ 'n'  : 'のーまる',
-          \ 'i'  : 'いんさーと',
-          \ 'R'  : 'りぷれーす',
-          \ 'c'  : 'こまんど',
-          \ 'v'  : 'ゔぃじゅある',
-          \ 'V'  : 'ゔぃ-らいん',
-          \ '' : 'ゔぃ-ぶろっく',
-          \ }
-      ]])
-		end,
-		dependencies = { "vim-airline-themes" },
-	},
-	"vim-airline/vim-airline-themes",
 	"itchyny/calendar.vim",
 	"mattn/emmet-vim",
 	{
@@ -277,14 +237,14 @@ let g:fern#renderer = 'nerdfont'
 				vim.g.quickrun_config = {}
 			end
 			vim.api.nvim_set_keymap("n", "<Leader>r", ":QuickRun<CR>", { silent = true })
-			vim.cmd([[
-            augroup rust_quickrun
-              autocmd BufNewFile,BufRead *.crs setf rust
-              autocmd BufNewFile,BufRead *.py  let g:quickrun_config.python = {'command' : 'python3'}
-              autocmd BufNewFile,BufRead *.rs  let g:quickrun_config.rust = {'exec' : 'cargo run'}
-              autocmd BufNewFile,BufRead *.crs let g:quickrun_config.rust = {'exec' : 'cargo script %s -- %a'}
-            augroup END
-            ]])
+			-- vim.cmd([[
+      --       augroup rust_quickrun
+      --         autocmd BufNewFile,BufRead *.crs setf rust
+      --         autocmd BufNewFile,BufRead *.py  let g:quickrun_config.python = {'command' : 'python3'}
+      --         autocmd BufNewFile,BufRead *.rs  let g:quickrun_config.rust = {'exec' : 'cargo run'}
+      --         autocmd BufNewFile,BufRead *.crs let g:quickrun_config.rust = {'exec' : 'cargo script %s -- %a'}
+      --       augroup END
+      --       ]])
 		end,
 	},
 	{
@@ -323,4 +283,104 @@ let g:fern#renderer = 'nerdfont'
 		end,
 	},
 	"dstein64/vim-startuptime",
+	{
+		"nvim-lualine/lualine.nvim",
+		config = function()
+			require("lualine").setup({
+				options = {
+					theme = "gruvbox",
+					section_separators = { "", "" },
+					component_separators = { "", "" },
+					icons_enabled = true,
+				},
+			})
+		end,
+	},
+	"nvim-tree/nvim-web-devicons",
+	{
+		"kdheepak/tabline.nvim",
+		config = function()
+			require("tabline").setup({
+				-- Defaults configuration options
+				enable = true,
+				options = {
+					-- If lualine is installed tabline will use separators configured in lualine by default.
+					-- These options can be used to override those settings.
+					section_separators = { "", "" },
+					component_separators = { "", "" },
+					max_bufferline_percent = 66, -- set to nil by default, and it uses vim.o.columns * 2/3
+					show_tabs_always = false, -- this shows tabs only when there are more than one tab or if the first tab is named
+					show_devicons = true, -- this shows devicons in buffer section
+					show_bufnr = false, -- this appends [bufnr] to buffer section,
+					show_filename_only = false, -- shows base filename only instead of relative path in filename
+					modified_icon = "+ ", -- change the default modified icon
+					modified_italic = false, -- set to true by default; this determines whether the filename turns italic if modified
+					show_tabs_only = false, -- this shows only tabs instead of tabs + buffers
+				},
+			})
+			vim.cmd([[
+      set guioptions-=e " Use showtabline in gui vim
+      set sessionoptions+=tabpages,globals " store tabpages and globals in session
+    ]])
+		end,
+		requires = { { "hoob3rt/lualine.nvim", opt = true }, { "kyazdani42/nvim-web-devicons", opt = true } },
+	},
+	"neovim/nvim-lspconfig",
+	{
+		"williamboman/mason.nvim",
+		config = function()
+			require("mason").setup()
+		end,
+	},
+	{
+		"williamboman/mason-lspconfig.nvim",
+		config = function()
+			require("mason-lspconfig").setup_handlers({
+				function(server)
+					local opt = {
+						-- -- Function executed when the LSP server startup
+						-- on_attach = function(client, bufnr)
+						--   local opts = { noremap=true, silent=true }
+						--   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+						--   vim.cmd 'autocmd BufWritePre * lua vim.lsp.buf.formatting_sync(nil, 1000)'
+						-- end,
+						capabilities = require("cmp_nvim_lsp").default_capabilities(
+							vim.lsp.protocol.make_client_capabilities()
+						),
+					}
+					require("lspconfig")[server].setup(opt)
+				end,
+			})
+		end,
+	},
+	{
+		"hrsh7th/nvim-cmp",
+		config = function()
+			local cmp = require("cmp")
+			cmp.setup({
+				snippet = {
+					expand = function(args)
+						vim.fn["vsnip#anonymous"](args.body)
+					end,
+				},
+				sources = {
+					{ name = "nvim_lsp" },
+					-- { name = "buffer" },
+					-- { name = "path" },
+				},
+				mapping = cmp.mapping.preset.insert({
+					["<C-p>"] = cmp.mapping.select_prev_item(),
+					["<C-n>"] = cmp.mapping.select_next_item(),
+					["<C-l>"] = cmp.mapping.complete(),
+					["<C-e>"] = cmp.mapping.abort(),
+					["<CR>"] = cmp.mapping.confirm({ select = true }),
+				}),
+				experimental = {
+					ghost_text = true,
+				},
+			})
+		end,
+	},
+	"hrsh7th/cmp-nvim-lsp",
+	"hrsh7th/vim-vsnip",
 })
