@@ -238,13 +238,13 @@ let g:fern#renderer = 'nerdfont'
 			end
 			vim.api.nvim_set_keymap("n", "<Leader>r", ":QuickRun<CR>", { silent = true })
 			-- vim.cmd([[
-      --       augroup rust_quickrun
-      --         autocmd BufNewFile,BufRead *.crs setf rust
-      --         autocmd BufNewFile,BufRead *.py  let g:quickrun_config.python = {'command' : 'python3'}
-      --         autocmd BufNewFile,BufRead *.rs  let g:quickrun_config.rust = {'exec' : 'cargo run'}
-      --         autocmd BufNewFile,BufRead *.crs let g:quickrun_config.rust = {'exec' : 'cargo script %s -- %a'}
-      --       augroup END
-      --       ]])
+			--       augroup rust_quickrun
+			--         autocmd BufNewFile,BufRead *.crs setf rust
+			--         autocmd BufNewFile,BufRead *.py  let g:quickrun_config.python = {'command' : 'python3'}
+			--         autocmd BufNewFile,BufRead *.rs  let g:quickrun_config.rust = {'exec' : 'cargo run'}
+			--         autocmd BufNewFile,BufRead *.crs let g:quickrun_config.rust = {'exec' : 'cargo script %s -- %a'}
+			--       augroup END
+			--       ]])
 		end,
 	},
 	{
@@ -285,7 +285,7 @@ let g:fern#renderer = 'nerdfont'
 	"dstein64/vim-startuptime",
 	{
 		"nvim-lualine/lualine.nvim",
-    dependencies = { 'nvim-tree/nvim-web-devicons', 'linrongbin16/lsp-progress.nvim' },
+		dependencies = { "nvim-tree/nvim-web-devicons", "linrongbin16/lsp-progress.nvim" },
 		config = function()
 			require("lualine").setup({
 				options = {
@@ -297,14 +297,14 @@ let g:fern#renderer = 'nerdfont'
 			})
 		end,
 	},
-{
-    'linrongbin16/lsp-progress.nvim',
-    event = { 'VimEnter' },
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function()
-        require('lsp-progress').setup()
-    end
-},
+	{
+		"linrongbin16/lsp-progress.nvim",
+		event = { "VimEnter" },
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("lsp-progress").setup()
+		end,
+	},
 	"nvim-tree/nvim-web-devicons",
 	{
 		"kdheepak/tabline.nvim",
@@ -347,12 +347,25 @@ let g:fern#renderer = 'nerdfont'
 			require("mason-lspconfig").setup_handlers({
 				function(server)
 					local opt = {
-						-- -- Function executed when the LSP server startup
-						-- on_attach = function(client, bufnr)
-						--   local opts = { noremap=true, silent=true }
-						--   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-						--   vim.cmd 'autocmd BufWritePre * lua vim.lsp.buf.formatting_sync(nil, 1000)'
-						-- end,
+						on_attach = function(client, bufnr)
+							local opts = { noremap = true, silent = true }
+							vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+							vim.api.nvim_buf_set_keymap(
+								bufnr,
+								"n",
+								"<space>r",
+								"<cmd>lua vim.lsp.buf.rename()<CR>",
+								opts
+							)
+							vim.api.nvim_buf_set_keymap(
+								bufnr,
+								"n",
+								"<space>h",
+								"<cmd>lua vim.lsp.buf.hover()<CR>",
+								opts
+							)
+							vim.cmd("autocmd BufWritePre * lua vim.lsp.buf.formatting_sync(nil, 1000)")
+						end,
 						capabilities = require("cmp_nvim_lsp").default_capabilities(
 							vim.lsp.protocol.make_client_capabilities()
 						),
@@ -366,6 +379,7 @@ let g:fern#renderer = 'nerdfont'
 		"hrsh7th/nvim-cmp",
 		config = function()
 			local cmp = require("cmp")
+			local lspkind = require("lspkind")
 			cmp.setup({
 				snippet = {
 					expand = function(args)
@@ -374,8 +388,9 @@ let g:fern#renderer = 'nerdfont'
 				},
 				sources = {
 					{ name = "nvim_lsp" },
-					-- { name = "buffer" },
-					-- { name = "path" },
+					{ name = "buffer" },
+					{ name = "path" },
+					{ name = "vsnip" },
 				},
 				mapping = cmp.mapping.preset.insert({
 					["<C-p>"] = cmp.mapping.select_prev_item(),
@@ -387,9 +402,36 @@ let g:fern#renderer = 'nerdfont'
 				experimental = {
 					ghost_text = true,
 				},
+				-- Lspkind(アイコン)を設定
+				formatting = {
+					format = lspkind.cmp_format({
+						mode = "symbol", -- show only symbol annotations
+						maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+						ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+						-- The function below will be called before any actual modifications from lspkind
+						-- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+					}),
+				},
+			})
+			cmp.setup.cmdline("/", {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = {
+					{ name = "buffer" }, --ソース類を設定
+				},
+			})
+			cmp.setup.cmdline(":", {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = {
+					{ name = "path" }, --ソース類を設定
+				},
 			})
 		end,
 	},
 	"hrsh7th/cmp-nvim-lsp",
 	"hrsh7th/vim-vsnip",
+	"hrsh7th/cmp-buffer", --bufferを補完ソースに
+	"hrsh7th/cmp-path", --pathを補完ソースに
+	"hrsh7th/vim-vsnip", --スニペットエンジン
+	"hrsh7th/cmp-vsnip", --スニペットを補完ソースに
+	"onsails/lspkind.nvim", --補完欄にアイコンを表示
 })
