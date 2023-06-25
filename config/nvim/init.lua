@@ -19,13 +19,14 @@ require("lazy").setup({
 		"morhetz/gruvbox",
 		config = function()
 			vim.cmd([[
-let g:airline_powerline_fonts = 1
-let g:gruvbox_contrast_dark = 'medium'
-let g:gruvbox_transparent_bg = 1
-autocmd SourcePost * highlight Normal     ctermbg=NONE guibg=NONE
+        let g:airline_powerline_fonts = 1
+        let g:gruvbox_contrast_dark = 'medium'
+        let g:gruvbox_transparent_bg = 1
+        autocmd SourcePost * highlight Normal     ctermbg=NONE guibg=NONE
         \ |    highlight LineNr     ctermbg=NONE guibg=NONE
         \ |    highlight SignColumn ctermbg=NONE guibg=NONE
-    colorscheme gruvbox]])
+        colorscheme gruvbox
+      ]])
 		end,
 	},
 	"tpope/vim-endwise",
@@ -93,11 +94,11 @@ autocmd SourcePost * highlight Normal     ctermbg=NONE guibg=NONE
 		"lambdalisue/glyph-palette.vim",
 		config = function()
 			vim.cmd([[
-augroup my-glyph-palette
-  autocmd! *
-  autocmd FileType fern call glyph_palette#apply()
-  autocmd FileType nerdtree,startify call glyph_palette#apply()
-augroup END
+        augroup my-glyph-palette
+          autocmd! *
+          autocmd FileType fern call glyph_palette#apply()
+          autocmd FileType nerdtree,startify call glyph_palette#apply()
+        augroup END
     ]])
 		end,
 	},
@@ -163,8 +164,8 @@ let g:fern#renderer = 'nerdfont'
 		branch = "release/rpc",
 		dependencies = { "fzf" },
 		config = function()
-			vim.api.nvim_set_keymap("n", "<Leader>f", "[fzf-p]", { silent = true, noremap = true })
-			vim.api.nvim_set_keymap("x", "<Leader>f", "[fzf-p]", { silent = true, noremap = true })
+			vim.api.nvim_set_keymap("n", "<Leader>f", "[fzf-p]", {})
+			vim.api.nvim_set_keymap("x", "<Leader>f", "[fzf-p]", {})
 			vim.api.nvim_set_keymap(
 				"n",
 				"[fzf-p]p",
