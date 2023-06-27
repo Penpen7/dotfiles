@@ -358,7 +358,8 @@ lazy.setup({
           local opt = {
             on_attach = function(client, bufnr)
               local opts = { noremap = true, silent = true }
-              vim.api.nvim_buf_set_keymap(bufnr, "n", "fmt", "<cmd>lua vim.lsp.buf.format()<CR>", opts)
+              vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+              vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>fmt", "<cmd>lua vim.lsp.buf.format()<CR>", opts)
               vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
               vim.api.nvim_buf_set_keymap(
                 bufnr,
