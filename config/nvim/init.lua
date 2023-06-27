@@ -18,15 +18,21 @@ require("lazy").setup({
   {
     "morhetz/gruvbox",
     config = function()
-      vim.cmd([[
-        let g:airline_powerline_fonts = 1
-        let g:gruvbox_contrast_dark = 'medium'
-        let g:gruvbox_transparent_bg = 1
-        autocmd SourcePost * highlight Normal     ctermbg=NONE guibg=NONE
-        \ |    highlight LineNr     ctermbg=NONE guibg=NONE
-        \ |    highlight SignColumn ctermbg=NONE guibg=NONE
-        colorscheme gruvbox
-      ]])
+      vim.g.airline_powerline_fonts = 1
+      vim.g.gruvbox_contrast_dark = "medium"
+      vim.g.gruvbox_transparent_bg = 1
+      vim.api.nvim_create_augroup("gruvbox", {
+        clear = true
+      })
+      vim.api.nvim_create_autocmd("SourcePost", {
+        group = "gruvbox",
+        callback = function()
+          vim.cmd("highlight Normal     ctermbg=NONE guibg=NONE")
+          vim.cmd("highlight LineNr     ctermbg=NONE guibg=NONE")
+          vim.cmd("highlight SignColumn ctermbg=NONE guibg=NONE")
+        end,
+      })
+      vim.cmd("colorscheme gruvbox")
     end,
   },
   "tpope/vim-endwise",
@@ -88,10 +94,8 @@ require("lazy").setup({
   {
     "lambdalisue/fern.vim",
     config = function()
-      vim.cmd([[
-let g:fern#default_hidden=1
-let g:fern#renderer = 'nerdfont'
-    ]])
+      vim.g["fern#renderer"] = "nerdfont"
+      vim.g["fern#default_hidden"] = 1
       vim.api.nvim_set_keymap("n", "<C-e>", ":Fern . -reveal=% -drawer -toggle -width=40<CR>", { noremap = true })
       vim.api.nvim_set_keymap("n", "<C-e><C-e", ":Fern .<CR>", { noremap = true })
     end,
@@ -138,7 +142,7 @@ let g:fern#renderer = 'nerdfont'
   {
     "ryanoasis/vim-devicons",
     config = function()
-      vim.cmd("let g:WebDevIconsUnicodeDecorateFolderNodes = 1")
+      vim.g.WebDevIconsUnicodeDecorateFolderNodes = 1
     end,
   },
   { "junegunn/fzf", build = "./install --all", merged = 0 },
@@ -327,10 +331,12 @@ let g:fern#renderer = 'nerdfont'
           show_tabs_only = false,      -- this shows only tabs instead of tabs + buffers
         },
       })
-      vim.cmd([[
-      set guioptions-=e " Use showtabline in gui vim
-      set sessionoptions+=tabpages,globals " store tabpages and globals in session
-    ]])
+      if vim.fn.has("gui_running") == 1 then
+        if pcall(has_guioptions) then
+          vim.opt.guioptions:remove("e")
+        end
+      end
+      vim.opt.sessionoptions:append("tabpages,globals")
     end,
     requires = { { "hoob3rt/lualine.nvim", opt = true }, { "kyazdani42/nvim-web-devicons", opt = true } },
   },
