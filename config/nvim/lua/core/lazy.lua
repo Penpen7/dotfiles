@@ -137,16 +137,29 @@ lazy.setup({
     end,
   },
   {
-    "liuchengxu/vista.vim",
-    config = function()
-      vim.api.nvim_set_keymap("n", "<Leader>v", "<cmd>Vista coc<CR>", { noremap = true, silent = true })
-    end,
-  },
-  {
     "ryanoasis/vim-devicons",
     config = function()
       vim.g.WebDevIconsUnicodeDecorateFolderNodes = 1
     end,
+  },
+  {
+    'stevearc/aerial.nvim',
+    opts = {},
+    -- Optional dependencies
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons"
+    },
+    config = function()
+      require("aerial").setup({
+        on_attach = function(bufnr)
+          vim.keymap.set('n', '{', '<cmd>AerialPrev<CR>', { buffer = bufnr })
+          vim.keymap.set('n', '}', '<cmd>AerialNext<CR>', { buffer = bufnr })
+        end
+      }
+      )
+      vim.keymap.set('n', '<leader>a', '<cmd>AerialToggle!<CR>')
+    end
   },
   { "junegunn/fzf", build = "./install --all", merged = 0 },
   {
