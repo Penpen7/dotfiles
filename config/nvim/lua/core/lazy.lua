@@ -17,7 +17,6 @@ if not status_ok then
 end
 
 lazy.setup({
-  "folke/which-key.nvim",
   {
     "morhetz/gruvbox",
     config = function()
@@ -43,8 +42,6 @@ lazy.setup({
   "tpope/vim-fugitive",
   "tomtom/tcomment_vim",
   "github/copilot.vim",
-  "SirVer/ultisnips",
-  "honza/vim-snippets",
   "rickhowe/diffchar.vim",
   "dhruvasagar/vim-table-mode",
   "machakann/vim-highlightedyank",
