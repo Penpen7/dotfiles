@@ -41,7 +41,12 @@ lazy.setup({
   "tpope/vim-surround",
   "tpope/vim-fugitive",
   "tomtom/tcomment_vim",
-  "github/copilot.vim",
+  {
+    "github/copilot.vim",
+    config = function()
+      vim.g.copilot_filetypes = { markdown = true, gitcommit = true, yaml = true }
+    end
+  },
   "rickhowe/diffchar.vim",
   "dhruvasagar/vim-table-mode",
   "machakann/vim-highlightedyank",
