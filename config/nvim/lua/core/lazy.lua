@@ -165,53 +165,18 @@ lazy.setup({
   },
   { "junegunn/fzf", build = "./install --all", merged = 0 },
   {
-    "yuki-yano/fzf-preview.vim",
-    branch = "release/rpc",
-    dependencies = { "fzf" },
+    "nvim-telescope/telescope.nvim",
+    tag = "0.1.1",
+    dependencies = "nvim-lua/plenary.nvim",
     config = function()
-      vim.api.nvim_set_keymap("n", "<Leader>f", "[fzf-p]", {})
-      vim.api.nvim_set_keymap("x", "<Leader>f", "[fzf-p]", {})
-      vim.api.nvim_set_keymap(
-        "n",
-        "[fzf-p]p",
-        ":<C-u>FzfPreviewFromResourcesRpc project_mru git<CR>",
-        { silent = true }
-      )
-      vim.api.nvim_set_keymap("n", "[fzf-p]gs", ":<C-u>FzfPreviewGitStatusRpc<CR>", { silent = true })
-      vim.api.nvim_set_keymap("n", "[fzf-p]ga", ":<C-u>FzfPreviewGitActionsRpc<CR>", { silent = true })
-      vim.api.nvim_set_keymap("n", "[fzf-p]b", ":<C-u>FzfPreviewBuffersRpc<CR>", { silent = true })
-      vim.api.nvim_set_keymap("n", "[fzf-p]B", ":<C-u>FzfPreviewAllBuffersRpc<CR>", { silent = true })
-      vim.api.nvim_set_keymap(
-        "n",
-        "[fzf-p]o",
-        ":<C-u>FzfPreviewFromResourcesRpc buffer project_mru<CR>",
-        { silent = true }
-      )
-      vim.api.nvim_set_keymap("n", "[fzf-p]<C-o>", ":<C-u>FzfPreviewJumpsRpc<CR>", { silent = true })
-      vim.api.nvim_set_keymap("n", "[fzf-p]g;", ":<C-u>FzfPreviewChangesRpc<CR>", { silent = true })
-      vim.api.nvim_set_keymap(
-        "n",
-        "[fzf-p]/",
-        ':<C-u>FzfPreviewLinesRpc -- add-fzf-arg=--no-sort --add-fzf-arg=--query="\'"<CR>',
-        { silent = true }
-      )
-      vim.api.nvim_set_keymap(
-        "n",
-        "[fzf-p]*",
-        ':<C-u>FzfPreviewLinesRpc --add-fzf-arg=--no-sort --add-fzf-arg=--query="\'".expand("<cword>")."\'"<CR>',
-        { silent = true }
-      )
-      vim.api.nvim_set_keymap("n", "[fzf-p]gr", ":<C-u>FzfPreviewProjectGrepRpc<Space>", { silent = true })
-      vim.api.nvim_set_keymap(
-        "x",
-        "[fzf-p]gr",
-        "\"sy:FzfPreviewProjectGrepRpc<Space>-F<Space>\".substitute(substitute(@s, '\\n', '', 'g'), '/', '\\\\/', 'g')<CR>",
-        { noremap = true }
-      )
-      vim.api.nvim_set_keymap("n", "[fzf-p]t", ":<C-u>FzfPreviewBufferTagsRpc<CR>", { silent = true })
-      vim.api.nvim_set_keymap("n", "[fzf-p]q", ":<C-u>FzfPreviewQuickFixRpc<CR>", { silent = true })
-      vim.api.nvim_set_keymap("n", "[fzf-p]l", ":<C-u>FzfPreviewLocationListRpc<CR>", { silent = true })
-    end,
+      local builtin = require('telescope.builtin')
+      vim.keymap.set('n', '<leader>fp', builtin.find_files, {})
+      vim.keymap.set('n', '<leader>fgr', builtin.live_grep, {})
+      vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+      vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+      vim.keymap.set('n', '<leader>fgc', builtin.git_commits, {})
+      vim.keymap.set('n', '<leader>fgs', builtin.git_status, {})
+    end
   },
   "itchyny/calendar.vim",
   "mattn/emmet-vim",
