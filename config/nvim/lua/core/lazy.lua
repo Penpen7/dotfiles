@@ -187,7 +187,7 @@ lazy.setup({
     build = ":TSUpdate",
     config = function()
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "c" },
+        ensure_installed = { "*" },
         ignore_install = { "phpdoc", "swift" },
         highlight = {
           enable = true,
