@@ -403,7 +403,7 @@ lazy.setup({
           }),
         },
       })
-      cmp.setup.cmdline("/", {
+      cmp.setup.cmdline("?", {
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
           { name = "buffer" }, --ソース類を設定
@@ -411,9 +411,7 @@ lazy.setup({
       })
       cmp.setup.cmdline(":", {
         mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = "path" }, --ソース類を設定
-        },
+        sources = cmp.config.sources({ { name = "buffer" } }, { { name = "cmdline" } }),
       })
     end,
   },
@@ -423,5 +421,6 @@ lazy.setup({
   "hrsh7th/cmp-path",     --pathを補完ソースに
   "hrsh7th/vim-vsnip",    --スニペットエンジン
   "hrsh7th/cmp-vsnip",    --スニペットを補完ソースに
+  "hrsh7th/cmp-cmdline",  --コマンドラインを補完ソースに
   "onsails/lspkind.nvim", --補完欄にアイコンを表示
 })
