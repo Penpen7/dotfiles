@@ -333,7 +333,29 @@ lazy.setup({
   {
     "williamboman/mason-lspconfig.nvim",
     config = function()
-      require("mason-lspconfig").setup_handlers({
+      local mason = require("mason-lspconfig")
+      mason.setup({
+        ensure_installed = {
+          -- "hadolint",
+          "docker_compose_language_service",
+          "dockerls",
+          "bashls",
+          "eslint",
+          -- "goimports",
+          -- "golangci-lint",
+          "gopls",
+          "lua_ls",
+          -- "prettier",
+          "rust_analyzer",
+          -- "rustfmt",
+          -- "shellcheck",
+          -- "shfmt",
+          -- "stylua",
+          "terraformls",
+          "tsserver",
+        },
+      })
+      mason.setup_handlers({
         function(server)
           local opt = {
             on_attach = function(client, bufnr)
