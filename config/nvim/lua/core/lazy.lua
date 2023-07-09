@@ -61,7 +61,8 @@ lazy.setup({
   },
   {
     "phaazon/hop.nvim",
-    config = function()
+    keys = { "<leader><leader>" },
+    setup = function()
       require("hop").setup()
       vim.api.nvim_set_keymap("n", "<Leader><Leader>", "[hop]", {})
       vim.api.nvim_set_keymap("x", "<Leader><Leader>", "[hop]", {})
@@ -72,16 +73,17 @@ lazy.setup({
   },
   { "folke/neoconf.nvim",     cmd = "Neoconf" },
   "folke/neodev.nvim",
-  "diepm/vim-rest-console",
+  { "diepm/vim-rest-console", ft = "rest" },
   { "hashivim/vim-terraform", ft = "tf" },
-  "aklt/plantuml-syntax",
+  { "aklt/plantuml-syntax",   ft = "plantuml" },
   {
     "lewis6991/gitsigns.nvim",
+    event = { "CursorHold", "FocusLost" },
     config = function()
       require("gitsigns").setup()
     end,
   },
-  "lambdalisue/nerdfont.vim",
+  { "lambdalisue/nerdfont.vim",               event = { "CursorHold", "FocusLost" } },
   { "lambdalisue/fern-renderer-nerdfont.vim", dependencies = "lambdalisue/fern.vim" },
   { "lambdalisue/fern-git-status.vim",        dependencies = "lambdalisue/fern.vim" },
   {
@@ -107,6 +109,7 @@ lazy.setup({
   },
   {
     "vim-test/vim-test",
+    keys = { "<Leader>t" },
     config = function()
       vim.api.nvim_set_keymap("n", "<Leader>t", "[vim-test]", {})
       vim.api.nvim_set_keymap("x", "<Leader>t", "[vim-test]", {})
@@ -163,11 +166,12 @@ lazy.setup({
       vim.keymap.set('n', '<leader>a', '<cmd>AerialToggle!<CR>')
     end
   },
-  { "junegunn/fzf", build = "./install --all", merged = 0 },
+  { "junegunn/fzf",    build = "./install --all", merged = 0 },
   {
     "nvim-telescope/telescope.nvim",
     tag = "0.1.1",
     dependencies = "nvim-lua/plenary.nvim",
+    keys = { "<leader>f" },
     config = function()
       local builtin = require('telescope.builtin')
       vim.keymap.set('n', '<leader>fp', builtin.find_files, {})
@@ -179,7 +183,7 @@ lazy.setup({
     end
   },
   "itchyny/calendar.vim",
-  "mattn/emmet-vim",
+  { "mattn/emmet-vim", ft = "html" },
   {
     "nvim-treesitter/nvim-treesitter",
     version = false,
@@ -251,6 +255,7 @@ lazy.setup({
   },
   {
     "plasticboy/vim-markdown",
+    ft = { "markdown" },
     config = function()
       vim.g.vim_markdown_math = 1
       vim.g.vim_markdown_folding_disabled = 1
@@ -260,13 +265,15 @@ lazy.setup({
   {
     "Penpen7/IMEswitcher.nvim",
     build = "make",
+    events = { "InsertEnter", "InsertLeave" },
     config = function()
-      vim.cmd([[
-      if has('mac')
-        autocmd InsertLeave * :call IMEswitcher#InsertLeave()
-        autocmd InsertEnter * :call IMEswitcher#InsertEnter()
-        endif
-      ]])
+      if vim.fn.has("mac") == 1 then
+        vim.api.nvim_create_augroup("IMEswitcher", { clear = true })
+        vim.api.nvim_create_autocmd("InsertLeave",
+          { group = "IMEswitcher", pattern = "*", command = "call IMEswitcher#InsertLeave()" })
+        vim.api.nvim_create_autocmd("InsertEnter",
+          { group = "IMEswitcher", pattern = "*", command = "call IMEswitcher#InsertEnter()" })
+      end
     end,
   },
   "dstein64/vim-startuptime",
