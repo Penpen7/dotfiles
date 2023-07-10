@@ -302,6 +302,7 @@ lazy.setup({
   "nvim-tree/nvim-web-devicons",
   {
     "kdheepak/tabline.nvim",
+    event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
     config = function()
       require("tabline").setup({
         -- Defaults configuration options
