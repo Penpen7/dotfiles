@@ -49,7 +49,7 @@ lazy.setup({
     end
   },
   "rickhowe/diffchar.vim",
-  "dhruvasagar/vim-table-mode",
+  { "dhruvasagar/vim-table-mode", event = { "InsertEnter" } },
   "machakann/vim-highlightedyank",
   "godlygeek/tabular",
   "rbgrouleff/bclose.vim",
