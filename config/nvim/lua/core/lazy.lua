@@ -446,15 +446,13 @@ lazy.setup({
         sources = cmp.config.sources({ { name = "buffer" } }, { { name = "cmdline" } }),
       })
     end,
-    requires = {
-      "hrsh7th/vim-vsnip",
-      "hrsh7th/cmp-buffer",  --bufferを補完ソースに
-      "hrsh7th/cmp-path",    --pathを補完ソースに
-      "hrsh7th/vim-vsnip",   --スニペットエンジン
-      "hrsh7th/cmp-vsnip",   --スニペットを補完ソースに
-      "hrsh7th/cmp-cmdline", --コマンドラインを補完ソースに
-    },
   },
+  "hrsh7th/vim-vsnip",
+  "hrsh7th/cmp-path",     --pathを補完ソースに
+  "hrsh7th/vim-vsnip",    --スニペットエンジン
+  "hrsh7th/cmp-vsnip",    --スニペットを補完ソースに
+  "hrsh7th/cmp-cmdline",  --コマンドラインを補完ソースに
+  "hrsh7th/cmp-buffer",   --bufferを補完ソースに
   "hrsh7th/cmp-nvim-lsp",
   "onsails/lspkind.nvim", --補完欄にアイコンを表示
 })
