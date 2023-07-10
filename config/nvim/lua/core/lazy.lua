@@ -224,35 +224,11 @@ lazy.setup({
     end,
   },
   {
-    "thinca/vim-quickrun",
-    config = function()
-      if not vim.g.quickrun_config then
-        vim.g.quickrun_config = {}
-      end
-      vim.api.nvim_set_keymap("n", "<Leader>r", ":QuickRun<CR>", { silent = true })
-      -- vim.cmd([[
-      --       augroup rust_quickrun
-      --         autocmd BufNewFile,BufRead *.crs setf rust
-      --         autocmd BufNewFile,BufRead *.py  let g:quickrun_config.python = {'command' : 'python3'}
-      --         autocmd BufNewFile,BufRead *.rs  let g:quickrun_config.rust = {'exec' : 'cargo run'}
-      --         autocmd BufNewFile,BufRead *.crs let g:quickrun_config.rust = {'exec' : 'cargo script %s -- %a'}
-      --       augroup END
-      --       ]])
-    end,
-  },
-  {
     "iamcco/markdown-preview.nvim",
     ft = { "markdown", "pandoc.markdown", "rmd", "plantuml" },
     build = 'sh -c "cd app && yarn install"',
     config = function()
       vim.g.mkdp_filetypes = { "markdown", "plantuml" }
-    end,
-  },
-  {
-    "mattn/sonictemplate-vim",
-    config = function()
-      vim.g.sonictemplate_vim_template_dir = { "$HOME/template" }
-      vim.api.nvim_set_keymap("n", "<Space>y", ":e $HOME/template/cpp<CR>", {})
     end,
   },
   {
