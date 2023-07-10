@@ -43,6 +43,7 @@ lazy.setup({
   "tomtom/tcomment_vim",
   {
     "github/copilot.vim",
+    event = { "InsertEnter", "CursorHold", "CursorHoldI" },
     config = function()
       vim.g.copilot_filetypes = { markdown = true, gitcommit = true, yaml = true }
     end
@@ -210,6 +211,7 @@ lazy.setup({
   },
   {
     "p00f/nvim-ts-rainbow",
+    event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     config = function()
       require("nvim-treesitter.configs").setup({
