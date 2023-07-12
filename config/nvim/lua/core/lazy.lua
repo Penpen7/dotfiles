@@ -43,12 +43,13 @@ lazy.setup({
   "tomtom/tcomment_vim",
   {
     "github/copilot.vim",
+    event = { "InsertEnter", "CursorHold", "CursorHoldI" },
     config = function()
       vim.g.copilot_filetypes = { markdown = true, gitcommit = true, yaml = true }
     end
   },
   "rickhowe/diffchar.vim",
-  "dhruvasagar/vim-table-mode",
+  { "dhruvasagar/vim-table-mode", event = { "InsertEnter" } },
   "machakann/vim-highlightedyank",
   "godlygeek/tabular",
   "rbgrouleff/bclose.vim",
@@ -61,7 +62,8 @@ lazy.setup({
   },
   {
     "phaazon/hop.nvim",
-    config = function()
+    keys = { "<leader><leader>" },
+    setup = function()
       require("hop").setup()
       vim.api.nvim_set_keymap("n", "<Leader><Leader>", "[hop]", {})
       vim.api.nvim_set_keymap("x", "<Leader><Leader>", "[hop]", {})
@@ -72,16 +74,17 @@ lazy.setup({
   },
   { "folke/neoconf.nvim",     cmd = "Neoconf" },
   "folke/neodev.nvim",
-  "diepm/vim-rest-console",
+  { "diepm/vim-rest-console", ft = "rest" },
   { "hashivim/vim-terraform", ft = "tf" },
-  "aklt/plantuml-syntax",
+  { "aklt/plantuml-syntax",   ft = "plantuml" },
   {
     "lewis6991/gitsigns.nvim",
+    event = { "CursorHold", "FocusLost" },
     config = function()
       require("gitsigns").setup()
     end,
   },
-  "lambdalisue/nerdfont.vim",
+  { "lambdalisue/nerdfont.vim",               event = { "CursorHold", "FocusLost" } },
   { "lambdalisue/fern-renderer-nerdfont.vim", dependencies = "lambdalisue/fern.vim" },
   { "lambdalisue/fern-git-status.vim",        dependencies = "lambdalisue/fern.vim" },
   {
@@ -107,6 +110,7 @@ lazy.setup({
   },
   {
     "vim-test/vim-test",
+    keys = { "<Leader>t" },
     config = function()
       vim.api.nvim_set_keymap("n", "<Leader>t", "[vim-test]", {})
       vim.api.nvim_set_keymap("x", "<Leader>t", "[vim-test]", {})
@@ -163,11 +167,12 @@ lazy.setup({
       vim.keymap.set('n', '<leader>a', '<cmd>AerialToggle!<CR>')
     end
   },
-  { "junegunn/fzf", build = "./install --all", merged = 0 },
+  { "junegunn/fzf",    build = "./install --all", merged = 0 },
   {
     "nvim-telescope/telescope.nvim",
     tag = "0.1.1",
     dependencies = "nvim-lua/plenary.nvim",
+    keys = { "<leader>f" },
     config = function()
       local builtin = require('telescope.builtin')
       vim.keymap.set('n', '<leader>fp', builtin.find_files, {})
@@ -179,7 +184,7 @@ lazy.setup({
     end
   },
   "itchyny/calendar.vim",
-  "mattn/emmet-vim",
+  { "mattn/emmet-vim", ft = "html" },
   {
     "nvim-treesitter/nvim-treesitter",
     version = false,
@@ -206,6 +211,7 @@ lazy.setup({
   },
   {
     "p00f/nvim-ts-rainbow",
+    event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     config = function()
       require("nvim-treesitter.configs").setup({
@@ -218,23 +224,6 @@ lazy.setup({
     end,
   },
   {
-    "thinca/vim-quickrun",
-    config = function()
-      if not vim.g.quickrun_config then
-        vim.g.quickrun_config = {}
-      end
-      vim.api.nvim_set_keymap("n", "<Leader>r", ":QuickRun<CR>", { silent = true })
-      -- vim.cmd([[
-      --       augroup rust_quickrun
-      --         autocmd BufNewFile,BufRead *.crs setf rust
-      --         autocmd BufNewFile,BufRead *.py  let g:quickrun_config.python = {'command' : 'python3'}
-      --         autocmd BufNewFile,BufRead *.rs  let g:quickrun_config.rust = {'exec' : 'cargo run'}
-      --         autocmd BufNewFile,BufRead *.crs let g:quickrun_config.rust = {'exec' : 'cargo script %s -- %a'}
-      --       augroup END
-      --       ]])
-    end,
-  },
-  {
     "iamcco/markdown-preview.nvim",
     ft = { "markdown", "pandoc.markdown", "rmd", "plantuml" },
     build = 'sh -c "cd app && yarn install"',
@@ -243,14 +232,8 @@ lazy.setup({
     end,
   },
   {
-    "mattn/sonictemplate-vim",
-    config = function()
-      vim.g.sonictemplate_vim_template_dir = { "$HOME/template" }
-      vim.api.nvim_set_keymap("n", "<Space>y", ":e $HOME/template/cpp<CR>", {})
-    end,
-  },
-  {
     "plasticboy/vim-markdown",
+    ft = { "markdown" },
     config = function()
       vim.g.vim_markdown_math = 1
       vim.g.vim_markdown_folding_disabled = 1
@@ -260,13 +243,15 @@ lazy.setup({
   {
     "Penpen7/IMEswitcher.nvim",
     build = "make",
+    events = { "InsertEnter", "InsertLeave" },
     config = function()
-      vim.cmd([[
-      if has('mac')
-        autocmd InsertLeave * :call IMEswitcher#InsertLeave()
-        autocmd InsertEnter * :call IMEswitcher#InsertEnter()
-        endif
-      ]])
+      if vim.fn.has("mac") == 1 then
+        vim.api.nvim_create_augroup("IMEswitcher", { clear = true })
+        vim.api.nvim_create_autocmd("InsertLeave",
+          { group = "IMEswitcher", pattern = "*", command = "call IMEswitcher#InsertLeave()" })
+        vim.api.nvim_create_autocmd("InsertEnter",
+          { group = "IMEswitcher", pattern = "*", command = "call IMEswitcher#InsertEnter()" })
+      end
     end,
   },
   "dstein64/vim-startuptime",
@@ -295,6 +280,7 @@ lazy.setup({
   "nvim-tree/nvim-web-devicons",
   {
     "kdheepak/tabline.nvim",
+    event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
     config = function()
       require("tabline").setup({
         -- Defaults configuration options
@@ -326,12 +312,14 @@ lazy.setup({
   "neovim/nvim-lspconfig",
   {
     "williamboman/mason.nvim",
+    build = ":MasonUpdate",
     config = function()
       require("mason").setup()
     end,
   },
   {
     "williamboman/mason-lspconfig.nvim",
+    event = "BufReadPre",
     config = function()
       local mason = require("mason-lspconfig")
       mason.setup({
@@ -425,7 +413,7 @@ lazy.setup({
           }),
         },
       })
-      cmp.setup.cmdline("?", {
+      cmp.setup.cmdline("/", {
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
           { name = "buffer" }, --ソース類を設定
@@ -437,12 +425,12 @@ lazy.setup({
       })
     end,
   },
-  "hrsh7th/cmp-nvim-lsp",
   "hrsh7th/vim-vsnip",
-  "hrsh7th/cmp-buffer",   --bufferを補完ソースに
   "hrsh7th/cmp-path",     --pathを補完ソースに
   "hrsh7th/vim-vsnip",    --スニペットエンジン
   "hrsh7th/cmp-vsnip",    --スニペットを補完ソースに
   "hrsh7th/cmp-cmdline",  --コマンドラインを補完ソースに
+  "hrsh7th/cmp-buffer",   --bufferを補完ソースに
+  "hrsh7th/cmp-nvim-lsp",
   "onsails/lspkind.nvim", --補完欄にアイコンを表示
 })
