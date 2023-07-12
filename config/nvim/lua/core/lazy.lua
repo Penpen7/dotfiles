@@ -72,7 +72,7 @@ lazy.setup({
       vim.api.nvim_set_keymap("n", "[hop]f", ":HopChar1<CR>", { silent = true, noremap = true })
     end,
   },
-  { "folke/neoconf.nvim",     cmd = "Neoconf" },
+  { "folke/neoconf.nvim",         cmd = "Neoconf" },
   "folke/neodev.nvim",
   { "diepm/vim-rest-console", ft = "rest" },
   { "hashivim/vim-terraform", ft = "tf" },
@@ -222,6 +222,11 @@ lazy.setup({
         },
       })
     end,
+  },
+  {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    opts = {} -- this is equalent to setup({}) function
   },
   {
     "iamcco/markdown-preview.nvim",
