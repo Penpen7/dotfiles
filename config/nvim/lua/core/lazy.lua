@@ -323,6 +323,13 @@ lazy.setup({
     end,
   },
   {
+    'simrat39/rust-tools.nvim',
+    config = function()
+      require('rust-tools').setup()
+      require("rust-tools").inlay_hints.enable()
+    end
+  },
+  {
     "williamboman/mason-lspconfig.nvim",
     event = "BufReadPre",
     config = function()
