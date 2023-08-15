@@ -19,6 +19,7 @@ vim.api.nvim_set_keymap("n", "s", '"_s', {})
 vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", {})
 vim.api.nvim_set_keymap("i", "jj", "<ESC>", { silent = true })
 vim.api.nvim_set_keymap("i", "<C-t>", '<Esc><Left>"zx"zpa', { silent = true })
+vim.api.nvim_set_keymap("v", "p", '"_dP', {})
 
 vim.cmd([[
   filetype plugin indent on
