@@ -43,7 +43,7 @@ lazy.setup({
   "tomtom/tcomment_vim",
   {
     "github/copilot.vim",
-    event = { "InsertEnter", "CursorHold", "CursorHoldI" },
+    event = "VimEnter",
     config = function()
       vim.g.copilot_filetypes = { markdown = true, gitcommit = true, yaml = true }
     end
