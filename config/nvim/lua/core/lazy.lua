@@ -84,7 +84,7 @@ lazy.setup({
       require("gitsigns").setup()
     end,
   },
-  { "lambdalisue/nerdfont.vim",               event = { "CursorHold", "FocusLost" } },
+  { "lambdalisue/nerdfont.vim", },
   { "lambdalisue/fern-renderer-nerdfont.vim", dependencies = "lambdalisue/fern.vim" },
   { "lambdalisue/fern-git-status.vim",        dependencies = "lambdalisue/fern.vim" },
   {
