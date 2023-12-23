@@ -327,203 +327,70 @@ lazy.setup({
     end,
     requires = { { "hoob3rt/lualine.nvim", opt = true }, { "kyazdani42/nvim-web-devicons", opt = true } },
   },
-  "neovim/nvim-lspconfig",
   {
-    "williamboman/mason.nvim",
-    build = ":MasonUpdate",
+    'neoclide/coc.nvim',
+    branch = 'master',
+    build = 'yarn install --frozen-lockfile',
     config = function()
-      require("mason").setup()
-    end,
-  },
-  {
-    'simrat39/rust-tools.nvim',
-    config = function()
-      require('rust-tools').setup()
-      require("rust-tools").inlay_hints.enable()
+      -- Coc.nvimの設定
+      vim.cmd([[
+  let g:coc_global_extensions = ['coc-word', 'coc-diagnostic', 'coc-tsserver', 'coc-rust-analyzer', 'coc-json', 'coc-jedi', 'coc-go', 'coc-clangd', 'coc-json', 'coc-css', 'coc-cssmodules', 'coc-toml', 'coc-yaml', 'coc-sql', 'coc-snippets', 'coc-tabnine', 'coc-pairs']
+  autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+
+  inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+  inoremap <silent><expr> <TAB>
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ coc#refresh()
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+  endfunction
+  "スペースhでHover
+  nmap <silent> <space>h :call CocAction('doHover')<CR>
+  nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> gr <Plug>(coc-references)
+  nmap <silent> <space>fmt <Plug>(coc-format)
+  nmap <silent> <space>r <Plug>(coc-rename)
+
+  " Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+
+  " Mappings for CoCList
+  " Show all diagnostics.
+  nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+  " Manage extensions.
+  nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+  " Show commands.
+  nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+  " Find symbol of current document.
+  nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+  " Search workspace symbols.
+  nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+  " Do default action for next item.
+  nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+  " Do default action for previous item.
+  nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+  " Resume latest coc list.
+  nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
+  inoremap <silent><expr> <c-space> coc#refresh()
+
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+            ]])
     end
-  },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    event = "BufReadPre",
-    config = function()
-      local mason = require("mason-lspconfig")
-      mason.setup({
-        ensure_installed = {
-          -- "hadolint",
-          "docker_compose_language_service",
-          "dockerls",
-          "bashls",
-          "eslint",
-          -- "goimports",
-          -- "golangci-lint",
-          "gopls",
-          "lua_ls",
-          -- "prettier",
-          "rust_analyzer",
-          -- "rustfmt",
-          -- "shellcheck",
-          -- "shfmt",
-          -- "stylua",
-          "terraformls",
-          "tsserver",
-        },
-      })
-      mason.setup_handlers({
-        function(server)
-          local opt = {
-            on_attach = function(client, bufnr)
-              local opts = { noremap = true, silent = true }
-              -- typescriptreactであれば,フォーマットを無効にする
-              if client.name == "tsserver" then
-                local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
-                if filetype == "typescriptreact" then
-                  client.resolved_capabilities.document_formatting = false
-                end
-              end
-              vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
-              vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>fmt", "<cmd>lua vim.lsp.buf.format()<CR>", opts)
-              vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-              vim.api.nvim_buf_set_keymap(
-                bufnr,
-                "n",
-                "<space>r",
-                "<cmd>lua vim.lsp.buf.rename()<CR>",
-                opts
-              )
-              vim.api.nvim_buf_set_keymap(
-                bufnr,
-                "n",
-                "<space>h",
-                "<cmd>lua vim.lsp.buf.hover()<CR>",
-                opts
-              )
-            end,
-            capabilities = require("cmp_nvim_lsp").default_capabilities(
-              vim.lsp.protocol.make_client_capabilities()
-            ),
-          }
-          require("lspconfig")[server].setup(opt)
-        end,
-      })
-    end,
-  },
-  {
-    "jose-elias-alvarez/null-ls.nvim",
-    config = function()
-      local null_ls = require("null-ls")
-
-      local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
-      local event = "BufWritePre" -- or "BufWritePost"
-      local async = event == "BufWritePost"
-
-      null_ls.setup({
-        on_attach = function(client, bufnr)
-          if client.supports_method("textDocument/formatting") then
-            vim.keymap.set("n", "<Leader>fmt", function()
-              vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
-            end, { buffer = bufnr, desc = "[lsp] format" })
-
-            -- format on save
-            vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
-            vim.api.nvim_create_autocmd(event, {
-              buffer = bufnr,
-              group = group,
-              callback = function()
-                vim.lsp.buf.format({ bufnr = bufnr, async = async })
-              end,
-              desc = "[lsp] format on save",
-            })
-          end
-
-          if client.supports_method("textDocument/rangeFormatting") then
-            vim.keymap.set("x", "<Leader>fmt", function()
-              vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
-            end, { buffer = bufnr, desc = "[lsp] format" })
-          end
-        end,
-      })
-    end
-  },
-  {
-    "MunifTanjim/prettier.nvim",
-    config = function()
-      local prettier = require("prettier")
-
-      prettier.setup({
-        bin = 'prettier', -- or `'prettierd'` (v0.23.3+)
-        filetypes = {
-          "css",
-          "graphql",
-          "html",
-          "javascript",
-          "javascriptreact",
-          "json",
-          "less",
-          "markdown",
-          "scss",
-          "typescript",
-          "typescriptreact",
-          "yaml",
-        },
-      })
-    end
-  },
-  {
-    "hrsh7th/nvim-cmp",
-    config = function()
-      local cmp = require("cmp")
-      local lspkind = require("lspkind")
-      cmp.setup({
-        snippet = {
-          expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body)
-          end,
-        },
-        sources = {
-          { name = "nvim_lsp" },
-          { name = "buffer" },
-          { name = "path" },
-          { name = "vsnip" },
-        },
-        mapping = cmp.mapping.preset.insert({
-          ["<C-p>"] = cmp.mapping.select_prev_item(),
-          ["<C-n>"] = cmp.mapping.select_next_item(),
-          ["<C-l>"] = cmp.mapping.complete(),
-          ["<C-e>"] = cmp.mapping.abort(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
-        }),
-        experimental = {
-          ghost_text = true,
-        },
-        -- Lspkind(アイコン)を設定
-        formatting = {
-          format = lspkind.cmp_format({
-            mode = "symbol",       -- show only symbol annotations
-            maxwidth = 50,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-            ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-            -- The function below will be called before any actual modifications from lspkind
-            -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-          }),
-        },
-      })
-      cmp.setup.cmdline("/", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = "buffer" }, --ソース類を設定
-        },
-      })
-      cmp.setup.cmdline(":", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({ { name = "buffer" } }, { { name = "cmdline" } }),
-      })
-    end,
-  },
-  "hrsh7th/vim-vsnip",
-  "hrsh7th/cmp-path",     --pathを補完ソースに
-  "hrsh7th/vim-vsnip",    --スニペットエンジン
-  "hrsh7th/cmp-vsnip",    --スニペットを補完ソースに
-  "hrsh7th/cmp-cmdline",  --コマンドラインを補完ソースに
-  "hrsh7th/cmp-buffer",   --bufferを補完ソースに
-  "hrsh7th/cmp-nvim-lsp",
-  "onsails/lspkind.nvim", --補完欄にアイコンを表示
+  }
 })
