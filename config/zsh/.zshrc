@@ -60,3 +60,8 @@ if (which zprof > /dev/null 2>&1); then
   zprof
 fi
 
+# dotfilesでgitの差分があればメッセージを出力する
+if [ -n "$(git -C ~/dotfiles status --porcelain)" ]; then
+  echo "[INFO] dotfilesに差分があります。早めにレポジトリに反映してください。"
+fi
+
