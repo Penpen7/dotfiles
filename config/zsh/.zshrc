@@ -37,6 +37,7 @@ shells=(
   $DOTFILE/zsh/shortcut.zsh
   $DOTFILE/zsh/completions.zsh
   $DOTFILE/fzf/zsh.zsh
+  $DOTFILE/fzf/ghq.zsh
   $DOTFILE/fzf/docker.zsh
   $DOTFILE/tmux/split.zsh
   $DOTFILE/tmux/tmux.zsh
