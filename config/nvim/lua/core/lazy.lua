@@ -538,14 +538,8 @@ lazy.setup({
         desc = "Turn on coc-nav for other files"
       })
 
-      -- auto import for golang
-      vim.api.nvim_create_augroup("Organize Import", { clear = true })
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = "CocNavToggle",
-        pattern = "*.go",
-        command = "call CocActionAsync('runCommand', 'editor.action.organizeImport')",
-        desc = "Organize Import"
-      })
+      -- goのファイルの時は、保存時に自動でimportを整理する
+      vim.cmd("autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')")
     end
   }
 })
