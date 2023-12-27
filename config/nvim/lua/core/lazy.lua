@@ -537,6 +537,15 @@ lazy.setup({
         command = "call CocActionAsync('toggleExtension', 'coc-nav')",
         desc = "Turn on coc-nav for other files"
       })
+
+      -- auto import for golang
+      vim.api.nvim_create_augroup("Organize Import", { clear = true })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = "CocNavToggle",
+        pattern = "*.go",
+        command = "call CocActionAsync('runCommand', 'editor.action.organizeImport')",
+        desc = "Organize Import"
+      })
     end
   }
 })
