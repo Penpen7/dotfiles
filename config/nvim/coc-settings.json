@@ -133,5 +133,8 @@
   "diagnostic.virtualText": true,
   "coc.preferences.formatOnType": true,
   "rust-analyzer.checkOnSave.command": "clippy",
-  "snippets.ultisnips.pythonPrompt": false
+  "snippets.ultisnips.pythonPrompt": false,
+  "Lua.diagnostics.globals": [
+    "vim"
+  ],
 }
