@@ -183,7 +183,7 @@ lazy.setup({
   { "junegunn/fzf",    build = "./install --all", merged = 0 },
   {
     "nvim-telescope/telescope.nvim",
-    tag = "0.1.1",
+    tag = "0.1.4",
     dependencies = "nvim-lua/plenary.nvim",
     keys = { "<leader>f" },
     config = function()
@@ -205,7 +205,6 @@ lazy.setup({
     build = ":TSUpdate",
     config = function()
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "*" },
         ignore_install = { "phpdoc", "swift" },
         highlight = {
           enable = true,
@@ -223,19 +222,20 @@ lazy.setup({
     end,
   },
   {
-    "p00f/nvim-ts-rainbow",
+    "HiPhish/nvim-ts-rainbow2",
     event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     config = function()
       require("nvim-treesitter.configs").setup({
         rainbow = {
           enable = true,
-          extended_mode = true,
-          max_file_lines = 1000,
+          query = 'rainbow-parens',
+          strategy = require('ts-rainbow').strategy.global
         },
       })
     end,
   },
+
   {
     'windwp/nvim-autopairs',
     event = "InsertEnter",
@@ -539,7 +539,11 @@ lazy.setup({
       })
 
       -- goのファイルの時は、保存時に自動でimportを整理する
-      vim.cmd("autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')")
-    end
+      vim.api.nvim_create_augroup("CocGoImports", { clear = true })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = "CocGoImports",
+        pattern = "*.go",
+        command = "call CocActionAsync('runCommand', 'editor.action.organizeImport')",
+      })
   }
 })
