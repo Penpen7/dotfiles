@@ -329,8 +329,7 @@ lazy.setup({
   },
   {
     'neoclide/coc.nvim',
-    branch = 'master',
-    build = 'yarn install --frozen-lockfile',
+    branch = 'release',
     config = function()
       vim.g.coc_global_extensions = {
         'coc-word', 'coc-diagnostic', 'coc-tsserver', 'coc-rust-analyzer', 'coc-json', 'coc-jedi', 'coc-go',
