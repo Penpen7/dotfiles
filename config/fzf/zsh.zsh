@@ -20,7 +20,7 @@ function fzf-select-history() {
 
 function peco-cdr () {
       local selected_dir=$(cdr -l | awk '{ print $2 }' | \
-      fzf --reverse --ansi --preview 'f() { zsh -c "exa -1 --icons $1" }; f {}')
+      fzf --reverse --ansi --preview 'f() { zsh -c "eza -1 --icons $1" }; f {}')
     if [ -n "$selected_dir" ]; then
         BUFFER="cd ${selected_dir}"
         zle accept-line
