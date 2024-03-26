@@ -2,8 +2,8 @@
 
 if (type "nodebrew" > /dev/null 2>&1); then
   nodebrew setup
-  nodebrew install v16.5.0
-  nodebrew use v16.5.0
+  nodebrew install v16.18.0
+  nodebrew use v16.18.0
   export PATH="$PATH:$HOME/.nodebrew/current/bin"
 fi
 

@@ -3,7 +3,7 @@
 # ^でcd ..するようにする
 function chpwd() {
   pwd
-  exa -F --icons
+  eza -F --icons
 }
 __call_precmds() {
   type precmd > /dev/null 2>&1 && precmd

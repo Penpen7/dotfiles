@@ -1,4 +1,4 @@
- local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",
@@ -235,11 +235,40 @@ lazy.setup({
       })
     end,
   },
-
   {
     'windwp/nvim-autopairs',
     event = "InsertEnter",
-    opts = {} -- this is equalent to setup({}) function
+    opts = {}, -- this is equalent to setup({}) function
+    config = function()
+      -- Enterを押した際にcoc.nvimでの候補が表示されているときには候補を確定させる
+      -- coc.nvimでも必要な設定なので、削除する場合にはcoc.nvimに移動させること
+      local remap = vim.api.nvim_set_keymap
+      local npairs = require('nvim-autopairs')
+      npairs.setup({ map_cr = false })
+
+      -- skip it, if you use another global object
+      _G.MUtils = {}
+
+      -- old version
+      -- MUtils.completion_confirm=function()
+      -- if vim.fn["coc#pum#visible"]() ~= 0 then
+      -- return vim.fn["coc#_select_confirm"]()
+      -- else
+      -- return npairs.autopairs_cr()
+      -- end
+      -- end
+
+      -- new version for custom pum
+      MUtils.completion_confirm = function()
+        if vim.fn["coc#pum#visible"]() ~= 0 then
+          return vim.fn["coc#pum#confirm"]()
+        else
+          return npairs.autopairs_cr()
+        end
+      end
+
+      remap('i', '<CR>', 'v:lua.MUtils.completion_confirm()', { expr = true, noremap = true })
+    end,
   },
   {
     "iamcco/markdown-preview.nvim",
@@ -329,8 +358,7 @@ lazy.setup({
   },
   {
     'neoclide/coc.nvim',
-    branch = 'master',
-    build = 'yarn install --frozen-lockfile',
+    branch = 'release',
     config = function()
       vim.g.coc_global_extensions = {
         'coc-word', 'coc-diagnostic', 'coc-tsserver', 'coc-rust-analyzer', 'coc-json', 'coc-jedi', 'coc-go',
@@ -367,10 +395,6 @@ lazy.setup({
       keyset("i", "<TAB>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()',
         opts)
       keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
-
-      -- Make <CR> to accept selected completion item or notify coc.nvim to format
-      -- <C-g>u breaks current undo, please make your own choice
-      keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
 
       -- Use <c-j> to trigger snippets
       keyset("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)")
