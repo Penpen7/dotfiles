@@ -18,6 +18,5 @@ NVIM_CONFIG=$HOME/.config/nvim
 mkdir -p $NVIM_CONFIG
 ln -sf $REPOSITORY_PATH/config/nvim/init.lua $NVIM_CONFIG
 ln -sf $REPOSITORY_PATH/config/nvim/lua $NVIM_CONFIG
-ln -sf $REPOSITORY_PATH/config/nvim/dein.toml $NVIM_CONFIG
-ln -sf $REPOSITORY_PATH/config/nvim/dein_lazy.toml $NVIM_CONFIG
 ln -sf $REPOSITORY_PATH/config/nvim/coc-settings.json $NVIM_CONFIG
+ln -sf ~/dotfiles/config/powerline/tmux/venv/lib/python3.12/site-packages/powerline/config_files ~/.config/powerline
