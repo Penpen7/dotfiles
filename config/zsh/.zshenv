@@ -59,4 +59,6 @@ export EDITOR=nvim
 export GIT_EDITOR=nvim
 . "$HOME/.cargo/env"
 export HOMEBREW_NO_ANALYTICS=1
+
 export HOMEBREW_NO_GOOGLE_ANALYTICS=1
+export POWERLINE_CONFIG_COMMAND=$HOME/dotfiles/config/powerline/venv/bin/powerline-config
