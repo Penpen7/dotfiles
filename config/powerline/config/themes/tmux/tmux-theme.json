@@ -3,10 +3,15 @@
     "right": [
       {
         "function": "powerlinemem.mem_usage.mem_usage",
-        "before": "MEM: ",
+        "before": "Memory: ",
         "args": {
           "short": true
         },
+        "priority": 50
+      },
+      {
+        "function": "powerline.segments.common.sys.system_load",
+        "before": "Load Average: ",
         "priority": 50
       },
       {
