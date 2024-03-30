@@ -65,3 +65,9 @@ if [ -n "$(git -C ~/dotfiles status --porcelain)" ]; then
   echo "[INFO] dotfilesに差分があります。早めにレポジトリに反映してください。"
 fi
 
+function precmd() {
+  if [ ! -z $TMUX ]; then
+    tmux refresh-client -S
+  fi
+}
+
