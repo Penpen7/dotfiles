@@ -65,8 +65,20 @@ if [ -n "$(git -C ~/dotfiles status --porcelain)" ]; then
   echo "[INFO] dotfilesに差分があります。早めにレポジトリに反映してください。"
 fi
 
+# Downloads内でのファイル数とサイズを表示
+function download_info() {
+  # Downloadsが存在しない場合は何もしない
+  if [ ! -d ~/Downloads ]; then
+    return
+  fi
+  echo "Downloads内のファイル数: $(find ~/Downloads -type f | wc -l)"
+  echo "Downloads内のファイルサイズ: $(du -sh ~/Downloads | awk '{print $1}')"
+}
+
+download_info
+
 function precmd() {
-  if [ ! -z $TMUX ]; then
+  if [ -n "$TMUX" ]; then
     tmux refresh-client -S
   fi
 }
