@@ -11,7 +11,7 @@ vim.o.autoindent = true
 vim.o.ruler = true
 vim.o.shiftwidth = 2
 vim.o.expandtab = true
-vim.o.mouse = true
+vim.o.mouse = "n"
 vim.o.ttimeoutlen = 50
 vim.o.ruler = true
 vim.o.backspace = "indent,eol,start"
@@ -26,7 +26,7 @@ vim.o.listchars = "tab:>-"
 vim.o.list = true
 vim.o.fileencodings = "utf-8,sjis,cp932"
 vim.o.fileformats = "unix,dos,mac"
-vim.o.nofixendofline = true
+vim.o.fixendofline = true
 vim.o.clipboard = vim.o.clipboard .. "unnamedplus"
 vim.cmd([[
   set scroll=3
