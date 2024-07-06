@@ -222,19 +222,11 @@ lazy.setup({
     end,
   },
   {
-    "HiPhish/nvim-ts-rainbow2",
+    "HiPhish/rainbow-delimiters.nvim",
     event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        rainbow = {
-          enable = true,
-          query = 'rainbow-parens',
-          strategy = require('ts-rainbow').strategy.global
-        },
-      })
-    end,
   },
+  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
   {
     'windwp/nvim-autopairs',
     event = "InsertEnter",
