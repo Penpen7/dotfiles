@@ -18,24 +18,11 @@ end
 
 lazy.setup({
   {
-    "morhetz/gruvbox",
+    "shaunsingh/nord.nvim",
     config = function()
-      vim.g.airline_powerline_fonts = 1
-      vim.g.gruvbox_contrast_dark = "medium"
-      vim.g.gruvbox_transparent_bg = 1
-      vim.api.nvim_create_augroup("gruvbox", {
-        clear = true
-      })
-      vim.api.nvim_create_autocmd("SourcePost", {
-        group = "gruvbox",
-        callback = function()
-          vim.cmd("highlight Normal     ctermbg=NONE guibg=NONE")
-          vim.cmd("highlight LineNr     ctermbg=NONE guibg=NONE")
-          vim.cmd("highlight SignColumn ctermbg=NONE guibg=NONE")
-        end,
-      })
-      vim.cmd("colorscheme gruvbox")
-    end,
+      vim.g.nord_disable_background = true
+      vim.cmd [[colorscheme nord]]
+    end
   },
   "tpope/vim-endwise",
   "tpope/vim-surround",
@@ -303,7 +290,7 @@ lazy.setup({
     config = function()
       require("lualine").setup({
         options = {
-          theme = "gruvbox",
+          theme = "nord",
           section_separators = { "", "" },
           component_separators = { "", "" },
           icons_enabled = true,
