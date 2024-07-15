@@ -29,3 +29,19 @@ keepBackup = false
 cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [commit]
 	verbose = true
+
+[alias]
+d = diff
+su = status
+b = branch
+co = checkout
+s = switch
+a = add
+aa = add -A
+cm = commit -m
+ps = "!git push origin $(git rev-parse --abbrev-ref @)"
+cp = cherry-pick
+ll = log --graph --date=relative --name-status --abbrev-commit
+sl = log --graph --oneline --date=relative --abbrev-commit
+df = difftool -y
+mt = mergetool -y
