@@ -9,10 +9,10 @@ vim.api.nvim_set_keymap("n", "j", "gj", {})
 vim.api.nvim_set_keymap("n", "k", "gk", {})
 vim.api.nvim_set_keymap("n", "n", "nzz", {})
 vim.api.nvim_set_keymap("n", "N", "Nzz", {})
-vim.api.nvim_set_keymap("n", "<C-f>", "<C-f>zz", {})
-vim.api.nvim_set_keymap("n", "<C-b>", "<C-b>zz", {})
-vim.api.nvim_set_keymap("n", "<C-u>", "<C-u>zz", {})
-vim.api.nvim_set_keymap("n", "<C-d>", "<C-d>zz", {})
+vim.api.nvim_set_keymap("n", "<C-f>", "<C-f>zz", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-b>", "<C-b>zz", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<C-p>", ":bp<CR>", {})
 vim.api.nvim_set_keymap("n", "<C-n>", ":bn<CR>", {})
 vim.api.nvim_set_keymap("n", "s", '"_s', {})
@@ -28,12 +28,13 @@ vim.cmd([[
   autocmd FileType typescript setlocal omnifunc=lsp#complete
 ]])
 function IndentWithI()
-	if #getline(".") == 0 then
-		return "cc"
-	else
-		return "i"
-	end
+  if #getline(".") == 0 then
+    return "cc"
+  else
+    return "i"
+  end
 end
+
 vim.cmd([[
   command! -nargs=* T split | wincmd j | resize 20 | terminal <args>
 ]])

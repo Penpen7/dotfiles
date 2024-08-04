@@ -102,7 +102,7 @@ return ({
   {
     "phaazon/hop.nvim",
     keys = { "<leader><leader>" },
-    setup = function()
+    config = function()
       require("hop").setup()
       vim.api.nvim_set_keymap("n", "<Leader><Leader>", "[hop]", {})
       vim.api.nvim_set_keymap("x", "<Leader><Leader>", "[hop]", {})
