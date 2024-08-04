@@ -12,6 +12,7 @@ ln -sf $REPOSITORY_PATH/config/tig/.tigrc $HOME
 ln -sf $REPOSITORY_PATH/config/hyper/.hyper.js $HOME/.hyper.js
 ln -sf $REPOSITORY_PATH/config/git/gitconfig $HOME/.gitconfig
 ln -sf $REPOSITORY_PATH/config/powerlevel/.p10k.zsh $HOME
+ln -sf $REPOSITORY_PATH/config/intellij/.ideavimrc $HOME
 NVIM_CONFIG=$HOME/.config/nvim
 mkdir -p $NVIM_CONFIG
 ln -sf $REPOSITORY_PATH/config/nvim/init.lua $NVIM_CONFIG
