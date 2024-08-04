@@ -8,7 +8,8 @@ return {
         'coc-clangd',
         'coc-json', 'coc-css', 'coc-cssmodules', 'coc-toml', 'coc-yaml', 'coc-sql', 'coc-snippets', 'coc-tabnine',
         'coc-pairs',
-        'coc-lua'
+        'coc-lua',
+        'coc-typos',
       }
       -- Some servers have issues with backup files, see #649
       vim.opt.backup = false
