@@ -92,9 +92,20 @@ return ({
       vim.o.timeoutlen = 300
     end,
     opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
+      triggers = {
+        -- { '<leader>', '[', ']', 'g', 'v', 'c', 'd', 'y', '"', 'z', '<C-w>', '=', '@' }
+        { "<leader>", mode = "nixsotc" },
+        { "g",        mode = "nixsotc" },
+        { "v",        mode = "nixsotc" },
+        { "c",        mode = "nixsotc" },
+        { "d",        mode = "nixsotc" },
+        { "y",        mode = "nixsotc" },
+        { '"',        mode = "nixsotc" },
+        { "z",        mode = "nixsotc" },
+        { "<C-w>",    mode = "nixsotc" },
+        { "=",        mode = "nixsotc" },
+        { "@",        mode = "nixsotc" },
+      }
     }
   },
   "machakann/vim-highlightedyank",
