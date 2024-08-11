@@ -7,6 +7,7 @@ return (
       dependencies = {
         "nvim-lua/plenary.nvim",
         'fannheyward/telescope-coc.nvim',
+        'Penpen7/telescope-co-author.nvim'
       },
       keys = { "<leader>f" },
       config = function()
@@ -27,16 +28,19 @@ return (
               prefer_locations = true,    -- always use Telescope locations to preview definitions/declarations/implementations etc
               push_cursor_on_edit = true, -- save the cursor position to jump back in the future
               timeout = 3000,             -- timeout for coc commands
-            }
+            },
+            co_author = {}
           },
         })
         telescope.load_extension('coc')
+        telescope.load_extension('co_author')
 
         -- GoTo code navigation
         vim.keymap.set("n", "gd", ":Telescope coc definitions<CR>", { silent = true })
         vim.keymap.set("n", "gy", ":Telescope coc type_definitions<CR>", { silent = true })
         vim.keymap.set("n", "gi", ":Telescope coc implementations<CR>", { silent = true })
         vim.keymap.set("n", "gr", ":Telescope coc references<CR>", { silent = true })
+        vim.keymap.set("n", "<leader>fc", ":Telescope co_author<CR>", { silent = true })
       end
     },
   }
