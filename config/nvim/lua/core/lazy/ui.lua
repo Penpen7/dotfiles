@@ -87,26 +87,7 @@ return ({
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
-    init = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 300
-    end,
-    opts = {
-      triggers = {
-        -- { '<leader>', '[', ']', 'g', 'v', 'c', 'd', 'y', '"', 'z', '<C-w>', '=', '@' }
-        { "<leader>", mode = "nixsotc" },
-        { "g",        mode = "nixsotc" },
-        { "v",        mode = "nixsotc" },
-        { "c",        mode = "nixsotc" },
-        { "d",        mode = "nixsotc" },
-        { "y",        mode = "nixsotc" },
-        { '"',        mode = "nixsotc" },
-        { "z",        mode = "nixsotc" },
-        { "<C-w>",    mode = "nixsotc" },
-        { "=",        mode = "nixsotc" },
-        { "@",        mode = "nixsotc" },
-      }
-    }
+    tag = "v3.9.0",
   },
   "machakann/vim-highlightedyank",
   "rbgrouleff/bclose.vim",
