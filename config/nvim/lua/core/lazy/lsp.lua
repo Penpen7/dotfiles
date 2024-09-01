@@ -4,12 +4,24 @@ return {
     branch = 'release',
     config = function()
       vim.g.coc_global_extensions = {
-        'coc-word', 'coc-diagnostic', 'coc-tsserver', 'coc-rust-analyzer', 'coc-json', 'coc-jedi', 'coc-go',
         'coc-clangd',
-        'coc-json', 'coc-css', 'coc-cssmodules', 'coc-toml', 'coc-yaml', 'coc-sql', 'coc-snippets', 'coc-tabnine',
-        'coc-pairs',
+        'coc-css',
+        'coc-cssmodules',
+        'coc-diagnostic',
+        'coc-go',
+        'coc-jedi',
+        'coc-json',
+        'coc-json',
         'coc-lua',
+        'coc-pairs',
+        'coc-rust-analyzer',
+        'coc-snippets',
+        'coc-sql',
+        'coc-toml',
+        'coc-tsserver',
         'coc-typos',
+        'coc-word',
+        'coc-yaml',
       }
       -- Some servers have issues with backup files, see #649
       vim.opt.backup = false
