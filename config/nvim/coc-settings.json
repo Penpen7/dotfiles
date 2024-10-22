@@ -1,7 +1,5 @@
 {
-  "coc.preferences.formatOnSaveFiletypes": [
-    "*"
-  ],
+  "coc.preferences.formatOnSaveFiletypes": ["*"],
   "diagnostic-languageserver.formatFiletypes": {
     "sh": "shfmt",
     "zsh": "shfmt",
@@ -10,9 +8,7 @@
   "languageserver": {
     "golangci-lint-languageserver": {
       "command": "golangci-lint-langserver",
-      "filetypes": [
-        "go"
-      ],
+      "filetypes": ["go"],
       "initializationOptions": {
         "command": [
           "golangci-lint",
@@ -26,47 +22,26 @@
     },
     "terraform": {
       "command": "terraform-ls",
-      "args": [
-        "serve"
-      ],
-      "filetypes": [
-        "terraform",
-        "tf"
-      ],
+      "args": ["serve"],
+      "filetypes": ["terraform", "tf"],
       "initializationOptions": {},
       "settings": {}
     },
     "shell": {
       "command": "bash-language-server",
-      "args": [
-        "start"
-      ],
-      "filetypes": [
-        "sh",
-        "zsh"
-      ],
-      "ignoredRootPaths": [
-        "~"
-      ]
+      "args": ["start"],
+      "filetypes": ["sh", "zsh"],
+      "ignoredRootPaths": ["~"]
     }
   },
   "diagnostic-languageserver.formatters": {
     "shfmt": {
       "command": "shfmt",
-      "args": [
-        "-i",
-        "2",
-        "-bn",
-        "-ci",
-        "-sr"
-      ]
+      "args": ["-i", "2", "-bn", "-ci", "-sr"]
     },
     "black": {
       "command": "black",
-      "args": [
-        "-q",
-        "-"
-      ]
+      "args": ["-q", "-"]
     }
   },
   "diagnostic-languageserver.linters": {
@@ -132,9 +107,11 @@
   },
   "diagnostic.virtualText": true,
   "coc.preferences.formatOnType": true,
-  "rust-analyzer.checkOnSave.command": "clippy",
+  "diagnostic.virtualTextAlign": "below",
   "snippets.ultisnips.pythonPrompt": false,
-  "Lua.diagnostics.globals": [
-    "vim"
-  ],
+  "Lua.diagnostics.globals": ["vim"],
+  "diagnostic.infoSign": "",
+  "diagnostic.hintSign": "",
+  "diagnostic.warningSign": "",
+  "diagnostic.errorSign": ""
 }
