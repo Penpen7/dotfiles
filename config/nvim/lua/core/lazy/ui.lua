@@ -87,7 +87,6 @@ return ({
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
-    tag = "v3.9.0",
   },
   "machakann/vim-highlightedyank",
   "rbgrouleff/bclose.vim",
