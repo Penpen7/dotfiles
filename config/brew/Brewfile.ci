@@ -1,6 +1,6 @@
 brew "coreutils"
 brew "gcc"
-brew "python@3.9"
+brew "python@3.13"
 brew "eza"
 brew "nodebrew"
 brew "neovim"
