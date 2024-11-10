@@ -1,4 +1,4 @@
-#!/bin/bash -xeu
+#!/bin/zsh -xeu
 
 # .zshrc
 REPOSITORY_PATH=$(
@@ -6,7 +6,7 @@ REPOSITORY_PATH=$(
   pwd
 )
 
-./make_symlink.sh
+${REPOSITORY_PATH}/scripts/make_symlink.sh
 source "$HOME/.zshenv"
 
 scripts=(setup_brew.sh setup_node.sh setup_vim.sh)
