@@ -37,4 +37,9 @@ REPOSITORY_PATH=$(
 )
 
 # brew bundle
-brew bundle install --file ${REPOSITORY_PATH}/config/brew/Brewfile
+# if environment variable CI equals 1, use Brewfile.ci
+if [[ "${CI}" == "1" ]]; then
+  brew bundle install --file ${REPOSITORY_PATH}/config/brew/Brewfile.ci
+else
+  brew bundle install --file ${REPOSITORY_PATH}/config/brew/Brewfile
+fi
