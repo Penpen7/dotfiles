@@ -12,7 +12,7 @@ fi
 
 # install pynvim
 if (type "pip3" > /dev/null 2>&1); then
-  pip3 install pynvim
+  pip3 install pynvim --break-system-packages
 fi
 
 brew install expect
