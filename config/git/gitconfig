@@ -48,6 +48,6 @@ ll = log --graph --date=relative --name-status --abbrev-commit
 sl = log --graph --oneline --date=relative --abbrev-commit
 df = difftool -y
 mt = mergetool -y
-pr = "!git switch `gh pr list | fzf | cut -f 3`"
+pr = "!git fetch && git switch `gh pr list | fzf | cut -f 3`"
 f = fetch
-p = pull
+p = "!git pull origin `git branch --show-current`"
