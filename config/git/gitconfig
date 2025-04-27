@@ -16,6 +16,10 @@ defaultBranch = main
 editor = nvim
 quotepath = false
 commentChar = ";"
+pager = delta -- --theme='Monokai Extended'
+
+[interactive]
+diffFilter = delta --color-only
 
 [merge]
 tool = vimdiff
