@@ -43,7 +43,16 @@ return {
     "zbirenbaum/copilot.lua",
     event = { "InsertEnter" },
     config = function()
-      require("copilot").setup()
+      require("copilot").setup({
+        suggestion = {
+          enable = true,
+          auto_trigger = true,
+          keymap = {
+            accept = "<Tab>",
+          }
+        }
+      }
+      )
     end,
   },
   {
