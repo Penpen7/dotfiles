@@ -2,22 +2,21 @@
   "segments": {
     "right": [
       {
+        "function": "powerline.segments.common.sys.cpu_load_percent",
+        "before": "\uf4bc ",
+        "priority": 50
+      },
+      {
         "function": "powerlinemem.mem_usage.mem_usage",
-        "before": "Memory: ",
+        "before": "\udb80\udf5b ",
         "args": {
           "short": true
         },
         "priority": 50
       },
       {
-        "function": "powerline.segments.common.sys.system_load",
-        "before": "Load Average: ",
-        "priority": 50
-      },
-      {
-        "function": "powerline.segments.common.sys.cpu_load_percent",
-        "before": "CPU: ",
-        "priority": 50
+        "function": "powerline.segments.common.bat.battery",
+        "priority": 100
       },
       {
         "function": "powerline.segments.common.net.network_load",
@@ -30,8 +29,12 @@
         "priority": 100
       },
       {
-        "function": "powerline.segments.common.bat.battery",
-        "priority": 100
+        "function": "powerline_wttr.weather",
+        "priority": 100,
+        "args": {
+          "city": "Osaka",
+          "format": "%l:+%c+%f+%h+%p+%P"
+        }
       },
       {
         "function": "powerline.segments.common.time.date",
@@ -39,14 +42,6 @@
           "format": "%Y/%m/%d(%a) %H:%M:%S"
         },
         "priority": 100
-      },
-      {
-        "function": "powerline.segments.common.time.date",
-        "args": {
-          "format": "%H:%M",
-          "istime": true
-        },
-        "priority": 10
       }
     ]
   }

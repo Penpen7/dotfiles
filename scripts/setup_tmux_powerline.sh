@@ -12,5 +12,5 @@ source $REPOSITORY_PATH/config/powerline/venv/bin/activate
 which pip3
 pip3 install powerline-status
 pip3 install powerline-mem-segment
+pip3 install powerline-wttr
 deactivate
-
