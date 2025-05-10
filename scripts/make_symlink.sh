@@ -24,5 +24,6 @@ ln -sf $REPOSITORY_PATH/config/powerline/config ~/.config/powerline
 if [ -d $HOME/.config/tmux-powerline ]; then
   date=$(date +%Y%m%d)
   echo "Backing up existing tmux-powerline config to ~/.config/tmux-powerline.bak${date}"
+  mv $HOME/.config/tmux-powerline $HOME/.config/tmux-powerline.bak${date}
 fi
-ln -sf $REPOSITORY_PATH/config/tmux-powerline ~/.config/tmux-powerline
+ln -sf $REPOSITORY_PATH/config/tmux-powerline ~/.config

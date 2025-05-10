@@ -143,7 +143,7 @@ fi
 # shellcheck disable=SC1143,SC2128
 if [ -z "$TMUX_POWERLINE_LEFT_STATUS_SEGMENTS" ]; then
   TMUX_POWERLINE_LEFT_STATUS_SEGMENTS=(
-    "tmux_session_info $blue $thm_bg"
+    #"tmux_session_info $blue $thm_bg"
     # "hostname $eggplant $thm_bg"
     #"ifstat 30 255"
     #"ifstat_sys 30 255"
@@ -166,16 +166,16 @@ if [ -z "$TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS" ]; then
     #"macos_notification_count 29 255"
     #"mailcount 9 255"
     "now_playing $spotify_green $spotify_black"
-    "cpu 240 136"
+    # "cpu 240 136"
     #"load 237 167"
-    "battery $blue $thm_bg"
-    "weather 37 255"
-    #"tmux_mem_cpu_load 234 136"
+    "tmux_mem_cpu_load $blue $thm_bg"
+    "battery $blue $thm_bg ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}"
     #"rainbarf 0 ${TMUX_POWERLINE_DEFAULT_FOREGROUND_COLOR}"
     #"xkb_layout 125 117"
     "date $teal $thm_bg"
-    "date_day $teal $thm_bg"
+    "date_day $teal $thm_bg ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}"
     "time $teal $thm_bg ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}"
-    "utc_time 235 136"
+    "utc_time $teal $thm_bg ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}"
+    "weather 37 255"
   )
 fi
