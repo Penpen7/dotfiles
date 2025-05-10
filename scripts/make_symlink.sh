@@ -20,3 +20,9 @@ ln -sf $REPOSITORY_PATH/config/nvim/lua $NVIM_CONFIG
 ln -sf $REPOSITORY_PATH/config/nvim/coc-settings.json $NVIM_CONFIG
 mv $HOME/.config/powerline $HOME/.config/powerline.bak
 ln -sf $REPOSITORY_PATH/config/powerline/config ~/.config/powerline
+
+if [ -d $HOME/.config/tmux-powerline ]; then
+  date=$(date +%Y%m%d)
+  echo "Backing up existing tmux-powerline config to ~/.config/tmux-powerline.bak${date}"
+fi
+ln -sf $REPOSITORY_PATH/config/tmux-powerline ~/.config/tmux-powerline
