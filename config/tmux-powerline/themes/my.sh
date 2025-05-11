@@ -143,11 +143,11 @@ fi
 # shellcheck disable=SC1143,SC2128
 if [ -z "$TMUX_POWERLINE_LEFT_STATUS_SEGMENTS" ]; then
   TMUX_POWERLINE_LEFT_STATUS_SEGMENTS=(
-    #"tmux_session_info $blue $thm_bg"
-    # "hostname $eggplant $thm_bg"
+    "tmux_session_info $blue $thm_bg"
+    #"hostname $eggplant $thm_bg"
     #"ifstat 30 255"
     #"ifstat_sys 30 255"
-    # "lan_ip $sky_blue $thm_bg ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN}"
+    #"lan_ip $sky_blue $thm_bg ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN}"
     # "wan_ip $sky_blue $thm_bg"
     "pwd $mauve $surface0"
     "vcs_branch $thm_gray"
@@ -172,10 +172,10 @@ if [ -z "$TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS" ]; then
     "battery $blue $thm_bg ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}"
     #"rainbarf 0 ${TMUX_POWERLINE_DEFAULT_FOREGROUND_COLOR}"
     #"xkb_layout 125 117"
+    "weather 37 255"
     "date $teal $thm_bg"
-    "date_day $teal $thm_bg ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}"
+    "date_day_eng $teal $thm_bg ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}"
     "time $teal $thm_bg ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}"
     "utc_time $teal $thm_bg ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}"
-    "weather 37 255"
   )
 fi
