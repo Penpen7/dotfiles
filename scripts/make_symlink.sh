@@ -20,6 +20,7 @@ ln -sf $REPOSITORY_PATH/config/nvim/lua $NVIM_CONFIG
 ln -sf $REPOSITORY_PATH/config/nvim/coc-settings.json $NVIM_CONFIG
 mv $HOME/.config/powerline $HOME/.config/powerline.bak
 ln -sf $REPOSITORY_PATH/config/powerline/config ~/.config/powerline
+ln -sf $REPOSITORY_PATH/config/claude/settings.json $HOME/.claude/settings.json
 
 if [ -d $HOME/.config/tmux-powerline ]; then
   date=$(date +%Y%m%d)

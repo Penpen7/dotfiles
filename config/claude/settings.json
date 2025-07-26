@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git:status:*)",
+      "Bash(git:log:*)",
+      "Bash(git:branch:*)",
+      "Bash(git:checkout:*)",
+      "Bash(git:diff:*)",
+      "Bash(git:merge:*)",
+      "Bash(git:switch:*)",
+      "Bash(git:commit:*)",
+      "Bash(git:add:*)",
+      "Bash(git:fetch:*)",
+      "Bash(git:pull:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(pwd:*)",
+      "Bash(cd:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(rg:*)",
+      "Bash(jq:*)",
+      "Bash(echo:*)",
+      "Bash(gh:pr:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:stackoverflow.com)",
+      "WebFetch(domain:developer.mozilla.org)"
+    ],
+    "deny": [
+      "Bash(git add --all)",
+      "Bash(git add -A)",
+      "Bash(git add .)"
+    ]
+  }
+}
