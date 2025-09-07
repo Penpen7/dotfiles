@@ -28,7 +28,8 @@
       "WebFetch(domain:github.com)",
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:stackoverflow.com)",
-      "WebFetch(domain:developer.mozilla.org)"
+      "WebFetch(domain:developer.mozilla.org)",
+      "mcp__serena"
     ],
     "deny": [
       "Bash(git add --all)",
