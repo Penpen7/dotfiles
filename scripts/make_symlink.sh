@@ -28,3 +28,7 @@ if [ -d $HOME/.config/tmux-powerline ]; then
   mv $HOME/.config/tmux-powerline $HOME/.config/tmux-powerline.bak${date}
 fi
 ln -sf $REPOSITORY_PATH/config/tmux-powerline ~/.config
+
+ZELLIJ_CONFIG=$HOME/.config/zellij
+mkdir -p $ZELLIJ_CONFIG
+ln -sf $REPOSITORY_PATH/config/zellij/config.kdl $ZELLIJ_CONFIG

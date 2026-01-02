@@ -1,0 +1,27 @@
+keybinds clear-defaults=true {
+    bind "Ctrl+a" { SwitchToMode "Tmux"; }
+}
+
+ui {
+    pane_frames {
+        rounded_corners true
+        hide_session_name false
+    }
+}
+
+default_shell "zsh"
+
+copy_command "pbcopy"
+copy_clipboard "system"
+
+simplified_ui true
+
+default_mode "normal"
+
+mouse_mode true
+
+pane_frames true
+
+auto_layout true
+
+styled_underlines true
