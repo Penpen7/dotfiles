@@ -71,6 +71,36 @@ return {
     },
   },
   {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    opts = {},
+  },
+  {
+    "coder/claudecode.nvim",
+    dependencies = { "folke/snacks.nvim" },
+    config = function()
+      require("claudecode").setup({
+        terminal = {
+          split_side = "right",
+          split_width_percentage = 0.30,
+          provider = "auto",
+          auto_close = true
+        },
+        diff_opts = {
+          auto_close_on_accept = true,
+          vertical_split = true
+        }
+      })
+    end,
+    keys = {
+      { "<leader>a", nil, desc = "AI/Claude Code" },
+      { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+      { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+      { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+    },
+  },
+  {
     "yetone/avante.nvim",
     event = "VeryLazy",
     lazy = false,
