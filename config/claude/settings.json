@@ -39,5 +39,27 @@
   },
   "env": {
     "DISABLE_AUTOUPDATER": "1"
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "terminal-notifier -title 'Claude Code sent notification' -message \"${CLAUDE_PROJECT_DIR}\" -sound default"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "terminal-notifier -title 'Claude Code stopped' -message \"${CLAUDE_PROJECT_DIR}\" -sound default"
+          }
+        ]
+      }
+    ]
   }
 }
