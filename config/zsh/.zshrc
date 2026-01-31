@@ -39,9 +39,8 @@ shells=(
   $DOTFILE/fzf/zsh.zsh
   $DOTFILE/fzf/ghq.zsh
   $DOTFILE/fzf/docker.zsh
-  $DOTFILE/zellij/zellij.zsh
-  $DOTFILE/zellij/split.zsh
   $DOTFILE/tmux/split.zsh
+  $DOTFILE/tmux/tmux.zsh
   $DOTFILE/zsh/keybind.zsh
   $DOTFILE/zsh/proxy.zsh
 )
