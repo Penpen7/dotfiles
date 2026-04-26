@@ -25,8 +25,9 @@
     }: {
         darwinConfigurations = {
             "uehara-mac" = nix-darwin.lib.darwinSystem {
+                specialArgs = { inherit self; };
                 modules = [
-                   ./config/nix-darwin/configuration.nix 
+                   ./config/nix-darwin/configuration.nix
                 ];
             };
         };

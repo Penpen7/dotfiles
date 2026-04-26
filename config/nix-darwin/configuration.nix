@@ -1,7 +1,11 @@
 {
+  self
+}:
+{
   system = {
     stateVersion = "5.0";
     primaryUser = "naoki"; # darwin-rebuild を実行するユーザー
+    configurationRevision = self.rev or self.dirtyRev or null;
 
     defaults = {
       dock = {
