@@ -1,6 +1,4 @@
-{
-  self
-}:
+{ self, ... }:
 {
   system = {
     stateVersion = "5.0";
