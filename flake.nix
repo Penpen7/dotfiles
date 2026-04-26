@@ -24,16 +24,9 @@
         nix-darwin,
     }: {
         darwinConfigurations = {
-            "my-macbook" = nix-darwin.lib.darwinSystem {
-                system = "aarch64-darwin";
-
+            "uehara-mac" = nix-darwin.lib.darwinSystem {
                 modules = [
-                    {
-                        system = {
-                            stateVersion = 5;
-                        };
-                    }
-                    home-manager.darwinModules.home-manager
+                   ./config/nix-darwin/configuration.nix 
                 ];
             };
         };
