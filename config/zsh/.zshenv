@@ -43,6 +43,13 @@ export PATH="$HOME/.nodebrew/current/bin":$PATH
 export PATH="$HOME/.cargo/bin:"$PATH
 export PATH=${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH
 export PATH=${HOMEBREW_PREFIX}/opt/llvm/bin:$PATH
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.bun/bin:$PATH"
+
+# Nix
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+fi
 
 export LDFLAGS="${LDFLAGS} -L/usr/local/lib"
 export CPPFLAGS="${CPPFLAGS} -I/usr/local/include"
