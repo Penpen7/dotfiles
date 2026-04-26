@@ -1,6 +1,7 @@
 {
   system = {
     stateVersion = "5.0";
+    primaryUser = "naoki"; # darwin-rebuild を実行するユーザー
 
     defaults = {
       dock = {
