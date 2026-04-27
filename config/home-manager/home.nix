@@ -61,6 +61,16 @@
     ".p10k.zsh".source = ../powerlevel/.p10k.zsh;
 
     ".ideavimrc".source = ../intellij/.ideavimrc;
+
+  };
+
+  xdg.configFile = {
+      "nvim/init.lua".source = ../nvim/init.lua;
+      "nvim/lua".source = ../nvim/lua;
+      "nvim/coc-settings.json".source = ../nvim/coc-settings.json;
+      "powerline/config".source = ../powerline/config;
+      "claude/settings.json".source = ../claude/settings.json;
+      "tmux-powerline".source = ../tmux-powerline;
   };
 
   # Home Manager can also manage your environment variables through
@@ -85,4 +95,5 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
 }
