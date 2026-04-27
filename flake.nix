@@ -3,7 +3,7 @@
 
     inputs = {
         nixpkgs = {
-            url = "github:nixos/nixpkgs?ref=nixos-unstable";
+            url = "github:nixos/nixpkgs?ref=nixpkgs-unstable";
         };
 
         home-manager = {
@@ -22,7 +22,16 @@
         nixpkgs,
         home-manager,
         nix-darwin,
-    }: {
+    }:
+    let
+      system = "aarch64-darwin";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in
+      {
+        homeConfigurations."naoki" = home-manager.lib.homeManagerConfiguration {
+            inherit pkgs;
+            modules = [./config/home-manager/home.nix];
+        };
         darwinConfigurations = {
             "uehara-mac" = nix-darwin.lib.darwinSystem {
                 specialArgs = { inherit self; };
