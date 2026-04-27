@@ -50,6 +50,17 @@
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
+    ".zshrc".source = ../zsh/.zshrc;
+    ".zshenv".source = ../zsh/.zshenv;
+
+    ".gitconfig".source = ../git/gitconfig;
+    ".tigrc".source = ../tig/.tigrc;
+
+    ".tmux.conf".source = ../tmux/.tmux.conf;
+    ".hyper.js".source = ../hyper/.hyper.js;
+    ".p10k.zsh".source = ../powerlevel/.p10k.zsh;
+
+    ".ideavimrc".source = ../intellij/.ideavimrc;
   };
 
   # Home Manager can also manage your environment variables through
