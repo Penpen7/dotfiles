@@ -34,10 +34,15 @@
     jo
     imagemagick
     go
+    golangci-lint
     go-task
     neovim
     nkf
     uv
+    gh
+    ghq
+    ffmpeg
+    fzf
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
