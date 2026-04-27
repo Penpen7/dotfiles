@@ -31,25 +31,7 @@ export LC_ALL=ja_JP.UTF-8
 export GOPATH="$HOME/go"
 export GOBIN="${GOPATH}/bin"
 
-export PATH="/bin":$PATH
-export PATH="/usr/bin":$PATH
-export PATH="/usr/sbin":$PATH
-export PATH="/usr/local/bin":$PATH
-export PATH="/usr/local/sbin":$PATH
-export PATH="${HOMEBREW_PREFIX}/bin":$PATH
-export PATH="${HOMEBREW_PREFIX}/sbin":$PATH
-export PATH="$GOPATH/bin":$PATH
-export PATH="$HOME/.nodebrew/current/bin":$PATH
-export PATH="$HOME/.cargo/bin:"$PATH
-export PATH=${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH
-export PATH=${HOMEBREW_PREFIX}/opt/llvm/bin:$PATH
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.bun/bin:$PATH"
 
-# Nix
-if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
-  source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
-fi
 
 export LDFLAGS="${LDFLAGS} -L/usr/local/lib"
 export CPPFLAGS="${CPPFLAGS} -I/usr/local/include"
@@ -63,7 +45,6 @@ export PKG_CONFIG_PATH="${PKG_CONFIG_PATH} /usr/local/pkgconfig"
 export FZF_DEFAULT_OPS="--extended"
 export EDITOR=nvim
 export GIT_EDITOR=nvim
-. "$HOME/.cargo/env"
 export HOMEBREW_NO_ANALYTICS=1
 
 export HOMEBREW_NO_GOOGLE_ANALYTICS=1

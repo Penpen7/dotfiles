@@ -1,3 +1,24 @@
+# PATH
+typeset -U path
+export PATH="/usr/local/bin":$PATH
+export PATH="/usr/local/sbin":$PATH
+export PATH="${HOMEBREW_PREFIX}/bin":$PATH
+export PATH="${HOMEBREW_PREFIX}/sbin":$PATH
+export PATH="$GOPATH/bin":$PATH
+export PATH="$HOME/.nodebrew/current/bin":$PATH
+export PATH="$HOME/.cargo/bin:"$PATH
+export PATH=${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH
+export PATH=${HOMEBREW_PREFIX}/opt/llvm/bin:$PATH
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.bun/bin:$PATH"
+. "$HOME/.cargo/env"
+
+# Nix (最後に追加することで優先される)
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+fi
+. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
     print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
@@ -83,4 +104,3 @@ function precmd() {
   fi
 }
 
-. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
