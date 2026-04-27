@@ -29,6 +29,15 @@
     cloudflared
     coreutils
     deno
+
+    jq
+    jo
+    imagemagick
+    go
+    go-task
+    neovim
+    nkf
+    uv
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
