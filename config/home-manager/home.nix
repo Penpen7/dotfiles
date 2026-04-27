@@ -43,6 +43,15 @@
     ghq
     ffmpeg
     fzf
+    # terraform
+    # terraform-ls
+    supabase-cli
+    wget
+    tmux
+    gnuplot
+    ripgrep
+    tree
+    tig
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
