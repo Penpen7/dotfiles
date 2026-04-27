@@ -20,6 +20,15 @@
   home.packages = with pkgs; [
     nixfmt
     git
+    actionlint
+    ansible
+    asciinema
+    atlas
+    awscli2
+    bat
+    cloudflared
+    coreutils
+    deno
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
