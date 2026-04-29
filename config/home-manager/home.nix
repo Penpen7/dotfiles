@@ -120,7 +120,7 @@
     mp3val       # MP3 ファイルの検証・修復
     tree-sitter  # インクリメンタル構文解析ライブラリ (CLI 付属)
     z3           # Microsoft 製オープンソース定理証明器
-    subversion   # Apache SVN バージョン管理システム
+    # subversion   # Apache SVN バージョン管理システム
 
     # タスク・自動化
     go-task      # Makefile 代替のタスクランナー (task コマンド)
@@ -194,5 +194,6 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+  programs.zsh.enable = true;
 
 }
