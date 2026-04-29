@@ -15,59 +15,125 @@
   # release notes.
   home.stateVersion = "25.11"; # Please read the comment before changing.
 
+  nixpkgs.config.allowUnfree = true; # terraform など unfree パッケージを許可
+
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    nixfmt
-    git
-    actionlint
-    ansible
-    asciinema
-    atlas
-    awscli2
-    bat
-    cloudflared
-    coreutils
-    deno
+    # Nix
+    nixfmt       # Nix コードのフォーマッタ
 
-    jq
-    jo
-    imagemagick
-    go
-    golangci-lint
-    go-task
-    neovim
-    nkf
-    uv
-    gh
-    ghq
-    ffmpeg
-    fzf
-    # terraform
-    # terraform-ls
-    supabase-cli
-    wget
-    tmux
-    gnuplot
-    ripgrep
-    tree
-    tig
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
+    # シェル・ターミナル
+    zsh          # Zシェル
+    zellij       # セッション管理対応のターミナルマルチプレクサ
+    yazi         # Rust 製の高速ターミナルファイルマネージャ
+    tmux         # ターミナルマルチプレクサ
 
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+    # エディタ
+    neovim       # モダンな Vim 派生テキストエディタ
+    emacs        # 高度に拡張可能なテキストエディタ
+    helix        # モダンなターミナルテキストエディタ (Vim 系)
 
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
+    # Git 関連
+    git          # バージョン管理システム
+    git-secrets  # シークレット情報の git コミットを防止
+    delta        # git diff のシンタックスハイライト表示 (git-delta)
+    tig          # git ログのターミナル UI ブラウザ
+    gh           # GitHub CLI
+    ghq          # リポジトリの一元管理ツール
+    hub          # GitHub を CLI から操作する拡張コマンド
+
+    # ビルド・コンパイル
+    cmake        # クロスプラットフォームのビルドシステム生成ツール
+    gcc          # GNU Cコンパイラコレクション
+    zig          # Zig 言語のコンパイラ・ビルドツール
+    protobuf     # Protocol Buffers コードジェネレータ (protoc)
+
+    # 言語・インタープリタ
+    go           # Go 言語コンパイラ・ツールチェーン
+    deno         # セキュアな JavaScript / TypeScript ランタイム
+    uv           # 高速な Python パッケージマネージャ
+
+    # インフラ
+    terraform    # インフラのコードによる定義・プロビジョニング (unfree)
+    terraform-ls # Terraform 用 Language Server
+    terraformer  # 既存インフラから Terraform コードを逆生成
+    awscli2      # AWS CLI v2
+    cloudflared  # Cloudflare Tunnel クライアント
+    supabase-cli # Supabase CLI
+
+    # ネットワーク・セキュリティ
+    gnupg        # GPG 暗号化・署名ツール
+    nmap         # ネットワークスキャン・ポート探索
+    sshuttle     # SSH 経由の透過的プロキシ (VPN 代替)
+    rclone       # クラウドストレージとのファイル同期
+    arp-scan     # ARP を使ったネットワークスキャン
+
+    # データ処理・変換
+    dsq          # CSV / JSON 等のファイルに SQL クエリを実行
+    sqlite       # 軽量組み込み SQL データベース (sqlite3 CLI)
+    jq           # JSON の加工・フィルタリング
+    jo           # JSON オブジェクトをコマンドラインから生成
+    pandoc       # ドキュメント形式の相互変換 (Markdown, PDF, Word 等)
+    ghostscript  # PostScript / PDF の変換・レンダリング
+    qpdf         # PDF の変換・分割・結合・検査
+    tesseract    # OCR エンジン（画像からテキスト抽出）
+    typst        # マークアップベースの組版・PDF 生成
+    imagemagick  # 画像の変換・編集・加工
+    ffmpeg       # 動画・音声のエンコード・変換
+
+    # フォーマット・Lint
+    shellcheck   # シェルスクリプトの静的解析・Lint
+    shfmt        # シェルスクリプトのフォーマッタ
+    yamlfmt      # YAML ファイルのフォーマッタ
+    actionlint   # GitHub Actions ワークフローの Lint
+    golangci-lint # Go の統合 Lint ツール
+
+    # システム情報・監視
+    fastfetch    # システム情報をターミナルに高速表示
+    pv           # パイプのデータ転送量・速度を可視化
+    procps       # watch コマンドを含むプロセス管理ツール群
+    watchman     # ファイル変更を監視してアクションをトリガー
+
+    # ファイル・テキスト操作
+    ripgrep      # 高速な grep 代替ツール (rg)
+    bat          # シンタックスハイライト付き cat 代替
+    eza          # モダンな ls 代替 (カラー表示・アイコン対応)
+    fzf          # コマンドラインのファジーファインダー
+    tree         # ディレクトリ構造をツリー表示
+    coreutils    # GNU コアユーティリティ群
+    wget         # HTTP / FTP ファイルダウンロード
+    nkf          # 日本語文字コード変換ツール
+    gnuplot      # グラフ描画ツール
+    graphviz     # DOT 言語からグラフを描画・出力
+    grex         # サンプル文字列から正規表現を自動生成
+
+    # 圧縮・展開
+    lz4          # 高速な圧縮・展開ツール
+    xz           # xz / LZMA 形式の圧縮・展開
+    zstd         # Zstandard 高速圧縮・展開
+    p7zip        # 7-Zip 形式を含む多形式の圧縮・展開 (sevenzip)
+
+    # ターミナル表示・ユーティリティ
+    mdcat        # Markdown をターミナルにレンダリング表示
+    viu          # ターミナルで画像を表示
+    mp3val       # MP3 ファイルの検証・修復
+    tree-sitter  # インクリメンタル構文解析ライブラリ (CLI 付属)
+    z3           # Microsoft 製オープンソース定理証明器
+    subversion   # Apache SVN バージョン管理システム
+
+    # タスク・自動化
+    go-task      # Makefile 代替のタスクランナー (task コマンド)
+    ansible      # サーバー構成管理・自動化ツール
+    asciinema    # ターミナル操作の録画・共有ツール
+
+    # macOS 連携
+    mas               # Mac App Store を CLI から操作 (macOS 専用)
+    terminal-notifier # macOS の通知センターに CLI から通知送信 (macOS 専用)
+
+    # atlas: DBスキーマ管理ツール (バイナリ配布のため別途インストール推奨)
+    # nodebrew: nixpkgs 未対応。Node.js 管理には fnm / volta を検討
+    # ytop: upstream がアーカイブ済みで nixpkgs 削除済み
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
