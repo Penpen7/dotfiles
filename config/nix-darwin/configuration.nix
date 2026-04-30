@@ -25,7 +25,7 @@ in
       };
 
       NSGlobalDomain = {
-        KeyRepeat = 2;         # キーリピート速度（小さいほど速い、デフォルト6）
+        KeyRepeat = 1;         # キーリピート速度（小さいほど速い、デフォルト6）
         InitialKeyRepeat = 15; # キーリピート開始までの遅延（小さいほど速い、デフォルト25）
         "com.apple.swipescrolldirection" = false; # ナチュラルスクロールを無効化
         "com.apple.trackpad.forceClick" = false;  # Force Clickを無効化
@@ -33,7 +33,25 @@ in
       };
 
       finder = {
-        ShowStatusBar = false; # ステータスバーを非表示
+        ShowPathbar = true;    # パスバーを表示
+        ShowStatusBar = true;  # ステータスバーを表示
+      };
+
+      trackpad = {
+        Clicking = true;              # タップでクリック
+        TrackpadThreeFingerDrag = true; # 三本指でドラッグ
+      };
+
+      CustomUserPreferences = {
+        "com.apple.finder" = {
+          ShowTabView = true; # タブバーを表示
+        };
+        "com.microsoft.VSCode" = {
+          ApplePressAndHoldEnabled = false; # VSCodeでキーリピートを有効化
+        };
+        "com.microsoft.VSCodeInsiders" = {
+          ApplePressAndHoldEnabled = false;
+        };
       };
     };
   };
