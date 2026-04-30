@@ -57,6 +57,7 @@
     lua          # Lua 言語インタープリタ
     nodejs_24    # Node.js JavaScript ランタイム (バージョン 24)
     llvm
+    bash-language-server
 
     # インフラ
     terraform    # インフラのコードによる定義・プロビジョニング (unfree)
