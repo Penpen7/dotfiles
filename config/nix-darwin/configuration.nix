@@ -49,16 +49,13 @@ in
       "adobe-acrobat-reader"  # Adobe Acrobat PDF リーダー
       "claude"                # Claude AI デスクトップアプリ
       "docker-desktop"        # Docker Desktop for Mac
-      "hyper"                 # Electron ベースのターミナルエミュレータ
       "kap"                   # 画面録画ツール
       "logi-options+"         # Logicool デバイス管理アプリ
       "mactex"                # macOS 向け TeX Live ディストリビューション
       "microsoft-auto-update" # Microsoft アプリの自動更新ツール
       "microsoft-teams"       # Microsoft Teams ビデオ会議・チャット
-      "skim"                  # macOS 向け PDF ビューア
       "tableplus"             # データベース GUI クライアント
       "virtualbox"            # x86 仮想化ソフトウェア
-      "vnc-viewer"            # RealVNC リモートデスクトップクライアント
     ];
   };
 

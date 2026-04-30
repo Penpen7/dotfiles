@@ -148,7 +148,9 @@
     kitty             # GPU アクセラレーション対応のターミナルエミュレータ
     slack             # チームコミュニケーションツール (unfree)
     vagrant           # 仮想開発環境の構築・管理ツール
-    warp-terminal     # AI 統合ターミナルエミュレータ ← cask: warp
+    skimpdf           # PDF ビューア・注釈ツール (unfree)
+    realvnc-vnc-viewer # RealVNC リモートデスクトップクライアント (unfree)
+    #warp-terminal     # AI 統合ターミナルエミュレータ ← cask: warp
     wireshark         # ネットワークプロトコルアナライザ (Qt GUI) ← cask: wireshark
     zoom-us           # ビデオ会議ツール (unfree)
 
