@@ -95,6 +95,7 @@
     golangci-lint            # Go の統合 Lint ツール
     golangci-lint-langserver # golangci-lint の Language Server
     gotools                  # goimports 等の Go 公式補助ツール群
+    gopls                    # Go 公式 Language Server
 
     # システム情報・監視
     fastfetch    # システム情報をターミナルに高速表示
