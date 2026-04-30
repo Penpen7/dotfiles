@@ -156,8 +156,7 @@
 
     # 開発補助 (nixpkgs へ移行)
     github-copilot-cli # GitHub Copilot CLI ← cask: copilot-cli
-
-    # atlas: DBスキーマ管理ツール (バイナリ配布のため別途インストール推奨)
+    atlas # DBスキーマ管理ツール (バイナリ配布のため別途インストール推奨)
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
