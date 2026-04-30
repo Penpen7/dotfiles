@@ -33,6 +33,7 @@
     neovim       # モダンな Vim 派生テキストエディタ
     emacs        # 高度に拡張可能なテキストエディタ
     helix        # モダンなターミナルテキストエディタ (Vim 系)
+    vscode       # Microsoft 製のコードエディタ (unfree)
 
     # Git 関連
     git          # バージョン管理システム
