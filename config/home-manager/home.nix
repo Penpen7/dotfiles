@@ -53,6 +53,9 @@
     go           # Go 言語コンパイラ・ツールチェーン
     deno         # セキュアな JavaScript / TypeScript ランタイム
     uv           # 高速な Python パッケージマネージャ
+    lua          # Lua 言語インタープリタ
+    nodejs_24    # Node.js JavaScript ランタイム (バージョン 24)
+    llvm
 
     # インフラ
     terraform    # インフラのコードによる定義・プロビジョニング (unfree)
@@ -112,7 +115,7 @@
     lz4          # 高速な圧縮・展開ツール
     xz           # xz / LZMA 形式の圧縮・展開
     zstd         # Zstandard 高速圧縮・展開
-    p7zip        # 7-Zip 形式を含む多形式の圧縮・展開 (sevenzip)
+    _7zz        # 7-Zip 形式を含む多形式の圧縮・展開 (sevenzip)
 
     # ターミナル表示・ユーティリティ
     mdcat        # Markdown をターミナルにレンダリング表示
@@ -120,6 +123,7 @@
     mp3val       # MP3 ファイルの検証・修復
     tree-sitter  # インクリメンタル構文解析ライブラリ (CLI 付属)
     z3           # Microsoft 製オープンソース定理証明器
+    bottom
     # subversion   # Apache SVN バージョン管理システム
 
     # タスク・自動化
@@ -131,9 +135,27 @@
     mas               # Mac App Store を CLI から操作 (macOS 専用)
     terminal-notifier # macOS の通知センターに CLI から通知送信 (macOS 専用)
 
+    # GUI アプリ (nixpkgs)
+    alacritty         # GPU アクセラレーション対応のターミナルエミュレータ
+    audacity          # オーディオ編集・録音ツール
+    brave             # プライバシー重視のウェブブラウザ (unfree)
+    chromedriver      # Chrome ブラウザの WebDriver (Selenium 等)
+    cool-retro-term   # レトロ風ターミナルエミュレータ
+    flutter           # クロスプラットフォーム UI フレームワーク (unfree)
+    google-chrome     # Google Chrome ウェブブラウザ (unfree)
+    iterm2            # macOS 専用の高機能ターミナルエミュレータ (unfree) ← cask: iterm2
+    keycastr          # キー入力を画面に表示するツール ← cask: keycastr
+    kitty             # GPU アクセラレーション対応のターミナルエミュレータ
+    slack             # チームコミュニケーションツール (unfree)
+    vagrant           # 仮想開発環境の構築・管理ツール
+    warp-terminal     # AI 統合ターミナルエミュレータ ← cask: warp
+    wireshark         # ネットワークプロトコルアナライザ (Qt GUI) ← cask: wireshark
+    zoom-us           # ビデオ会議ツール (unfree)
+
+    # 開発補助 (nixpkgs へ移行)
+    github-copilot-cli # GitHub Copilot CLI ← cask: copilot-cli
+
     # atlas: DBスキーマ管理ツール (バイナリ配布のため別途インストール推奨)
-    # nodebrew: nixpkgs 未対応。Node.js 管理には fnm / volta を検討
-    # ytop: upstream がアーカイブ済みで nixpkgs 削除済み
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
