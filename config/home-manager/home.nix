@@ -94,8 +94,8 @@
     actionlint   # GitHub Actions ワークフローの Lint
     golangci-lint            # Go の統合 Lint ツール
     golangci-lint-langserver # golangci-lint の Language Server
-    goimports                # Go の import 文を自動整理するフォーマッタ
-    gopls                    # Go 公式 Language Server
+    gotools                  # goimports 等の Go 公式補助ツール群
+    (lib.hiPrio gopls)       # Go 公式 Language Server (gotools と modernize が競合するため優先度を上げる)
 
     # システム情報・監視
     fastfetch    # システム情報をターミナルに高速表示
