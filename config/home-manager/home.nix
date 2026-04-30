@@ -92,7 +92,9 @@
     shfmt        # シェルスクリプトのフォーマッタ
     yamlfmt      # YAML ファイルのフォーマッタ
     actionlint   # GitHub Actions ワークフローの Lint
-    golangci-lint # Go の統合 Lint ツール
+    golangci-lint            # Go の統合 Lint ツール
+    golangci-lint-langserver # golangci-lint の Language Server
+    gotools                  # goimports 等の Go 公式補助ツール群
 
     # システム情報・監視
     fastfetch    # システム情報をターミナルに高速表示
@@ -195,6 +197,7 @@
       "powerline" = { source = ../powerline/config; recursive = true; };
       "claude/settings.json".source = ../claude/settings.json;
       "tmux-powerline" = { source = ../tmux-powerline; recursive = true; };
+      "zellij/config.kdl".source = ../zellij/config.kdl;
   };
 
   # Home Manager can also manage your environment variables through
