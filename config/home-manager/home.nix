@@ -231,7 +231,6 @@ in
       "nvim/init.lua".source = ../nvim/init.lua;
       "nvim/lua" = { source = ../nvim/lua; recursive = true; };
       "nvim/coc-settings.json".source = ../nvim/coc-settings.json;
-      "powerline" = { source = ../powerline/config; recursive = true; };
       "claude/settings.json".source = ../claude/settings.json;
       "tmux-powerline" = { source = ../tmux-powerline; recursive = true; };
       "zellij/config.kdl".source = ../zellij/config.kdl;
