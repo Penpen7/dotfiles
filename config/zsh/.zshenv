@@ -48,4 +48,4 @@ export GIT_EDITOR=nvim
 export HOMEBREW_NO_ANALYTICS=1
 
 export HOMEBREW_NO_GOOGLE_ANALYTICS=1
-export POWERLINE_COMMAND="$HOME/dotfiles/config/powerline/venv/bin/powerline"
+export POWERLINE_COMMAND="powerline"
