@@ -51,7 +51,6 @@ in
       "docker-desktop"        # Docker Desktop for Mac
       "kap"                   # 画面録画ツール
       "logi-options+"         # Logicool デバイス管理アプリ
-      "mactex"                # macOS 向け TeX Live ディストリビューション
       "microsoft-auto-update" # Microsoft アプリの自動更新ツール
       "microsoft-teams"       # Microsoft Teams ビデオ会議・チャット
       "tableplus"             # データベース GUI クライアント
