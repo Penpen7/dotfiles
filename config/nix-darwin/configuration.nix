@@ -1,4 +1,8 @@
 { self, pkgs, ... }:
+let 
+  # myShell = pkgs.zsh;
+  shellPath = "/bin/zsh";
+in
 {
   system = {
     stateVersion = "5.0";
@@ -31,7 +35,12 @@
   nixpkgs.hostPlatform = "aarch64-darwin";
   nix.enable = false;
   security.pam.services.sudo_local.touchIdAuth = true;
-  users.users.naoki = {
-    shell = pkgs.zsh;
-  };
+  system.activationScripts.postActivation.text = ''
+    echo "setting default shell to zsh..." >&2
+    SHELL_PATH="${shellPath}"
+    if [ "$(dscl . -read /Users/naoki UserShell | awk '{print $2}')" != "$SHELL_PATH" ]; then
+      chsh -s "$SHELL_PATH" naoki
+    fi
+  '';
+  environment.shells = [ shellPath ];
 }
