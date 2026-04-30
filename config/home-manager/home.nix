@@ -60,7 +60,8 @@ in
     zsh          # Zシェル
     zellij       # セッション管理対応のターミナルマルチプレクサ
     yazi         # Rust 製の高速ターミナルファイルマネージャ
-    tmux         # ターミナルマルチプレクサ
+    tmux              # ターミナルマルチプレクサ
+    tmux-mem-cpu-load # tmux-powerline から呼ばれる CPU/メモリ表示バイナリ
 
     # エディタ
     neovim       # モダンな Vim 派生テキストエディタ
@@ -219,7 +220,6 @@ in
     ".gitconfig".source = ../git/gitconfig;
     ".tigrc".source = ../tig/.tigrc;
 
-    ".tmux.conf".source = ../tmux/.tmux.conf;
     ".hyper.js".source = ../hyper/.hyper.js;
     ".p10k.zsh".source = ../powerlevel/.p10k.zsh;
 
@@ -259,5 +259,18 @@ in
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   programs.zsh.enable = true;
+
+  programs.tmux = {
+    enable = true;
+    plugins = with pkgs.tmuxPlugins; [
+      yank
+      open
+      resurrect
+      battery
+      pain-control
+      tmux-powerline
+    ];
+    extraConfig = builtins.readFile ../tmux/.tmux.conf;
+  };
 
 }
