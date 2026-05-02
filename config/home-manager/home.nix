@@ -260,17 +260,24 @@ in
   programs.home-manager.enable = true;
   programs.zsh.enable = true;
 
-  programs.tmux = {
-    enable = true;
-    plugins = with pkgs.tmuxPlugins; [
-      yank
-      open
-      resurrect
-      battery
-      pain-control
-      tmux-powerline
-    ];
-    extraConfig = builtins.readFile ../tmux/.tmux.conf;
-  };
+  # .tmux.conf の @@ プレースホルダを Nix ストアパスに置換して配置
+  home.file.".tmux.conf".text = builtins.replaceStrings
+    [
+      "@@TMUX_PLUGIN_YANK@@"
+      "@@TMUX_PLUGIN_OPEN@@"
+      "@@TMUX_PLUGIN_PAIN_CONTROL@@"
+      "@@TMUX_PLUGIN_RESURRECT@@"
+      "@@TMUX_PLUGIN_BATTERY@@"
+      "@@TMUX_PLUGIN_POWERLINE@@"
+    ]
+    [
+      "${pkgs.tmuxPlugins.yank.rtp}"
+      "${pkgs.tmuxPlugins.open.rtp}"
+      "${pkgs.tmuxPlugins."pain-control".rtp}"
+      "${pkgs.tmuxPlugins.resurrect.rtp}"
+      "${pkgs.tmuxPlugins.battery.rtp}"
+      "${pkgs.tmuxPlugins.tmux-powerline.rtp}"
+    ]
+    (builtins.readFile ../tmux/.tmux.conf);
 
 }
