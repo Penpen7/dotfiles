@@ -1,3 +1,3 @@
 return {
-  { "aklt/plantuml-syntax", ft = "plantuml" },
+  { "aklt/plantuml-syntax", dir = "@plantumlSyntax@", ft = "plantuml" },
 }

@@ -1,5 +1,5 @@
 return (
   {
-    { "mattn/emmet-vim", ft = "html" },
+    { "mattn/emmet-vim", dir = "@emmetVim@", ft = "html" },
   }
 )

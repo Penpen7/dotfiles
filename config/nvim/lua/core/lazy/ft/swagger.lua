@@ -1,5 +1,6 @@
 return {
   "vinnymeller/swagger-preview.nvim",
+  dir = "@swaggerPreview@",
   ft = "yaml",
   config = function()
     -- swagger-ui-watcherがなければ、npm install -g swagger-ui-watcherを実行

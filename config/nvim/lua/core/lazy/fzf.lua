@@ -1,13 +1,14 @@
 return (
   {
-    { "junegunn/fzf", build = "./install --all", merged = 0 },
+    { "junegunn/fzf", dir = "@fzfWrapper@", merged = 0 },
     {
       "nvim-telescope/telescope.nvim",
+      dir = "@telescopeNvim@",
       tag = "0.1.4",
       dependencies = {
-        "nvim-lua/plenary.nvim",
-        'fannheyward/telescope-coc.nvim',
-        'Penpen7/telescope-co-author.nvim'
+        { "nvim-lua/plenary.nvim",              dir = "@plenaryNvim@" },
+        { 'fannheyward/telescope-coc.nvim',     dir = "@telescopeCocNvim@" },
+        { 'Penpen7/telescope-co-author.nvim',   dir = "@telescopeCoAuthor@" },
       },
       keys = { "<leader>f" },
       config = function()

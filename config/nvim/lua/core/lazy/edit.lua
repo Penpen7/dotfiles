@@ -1,11 +1,12 @@
 return {
-  "tpope/vim-endwise",
-  "tpope/vim-surround",
-  "tpope/vim-fugitive",
-  "tomtom/tcomment_vim",
-  "godlygeek/tabular",
+  { "tpope/vim-endwise",    dir = "@vimEndwise@" },
+  { "tpope/vim-surround",   dir = "@vimSurround@" },
+  { "tpope/vim-fugitive",   dir = "@vimFugitive@" },
+  { "tomtom/tcomment_vim",  dir = "@tcommentVim@" },
+  { "godlygeek/tabular",    dir = "@tabular@" },
   {
     'windwp/nvim-autopairs',
+    dir = "@nvimAutopairs@",
     event = "InsertEnter",
     opts = {}, -- this is equalent to setup({}) function
     config = function()
@@ -41,6 +42,7 @@ return {
   },
   {
     "zbirenbaum/copilot.lua",
+    dir = "@copilotLua@",
     event = { "InsertEnter" },
     config = function()
       require("copilot").setup({
@@ -58,10 +60,11 @@ return {
   {
     {
       "CopilotC-Nvim/CopilotChat.nvim",
+      dir = "@copilotChatNvim@",
       branch = "main",
       dependencies = {
         { "zbirenbaum/copilot.lua" },
-        { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
+        { "nvim-lua/plenary.nvim", dir = "@plenaryNvim@" },
       },
       opts = {
         debug = true, -- Enable debugging
@@ -72,12 +75,14 @@ return {
   },
   {
     "folke/snacks.nvim",
+    dir = "@snacksNvim@",
     priority = 1000,
     lazy = false,
     opts = {},
   },
   {
     "coder/claudecode.nvim",
+    dir = "@claudecodeNvim@",
     dependencies = { "folke/snacks.nvim" },
     config = function()
       require("claudecode").setup({
@@ -102,6 +107,7 @@ return {
   },
   {
     "yetone/avante.nvim",
+    dir = "@avanteNvim@",
     event = "VeryLazy",
     lazy = false,
     version = false,
@@ -126,19 +132,19 @@ return {
         width = 30,          -- サイドバーの幅
       },
     },
-    build = "make",
     -- 依存関係の設定
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
-      "stevearc/dressing.nvim",
+      { "stevearc/dressing.nvim",  dir = "@dressingNvim@" },
       "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-      "nvim-tree/nvim-web-devicons",   -- or echasnovski/mini.icons
-      "zbirenbaum/copilot.lua",        -- for providers='copilot'
+      { "MunifTanjim/nui.nvim",    dir = "@nuiNvim@" },
+      "nvim-telescope/telescope.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "zbirenbaum/copilot.lua",
       {
         -- support for image pasting
         "HakonHarnes/img-clip.nvim",
+        dir = "@imgClipNvim@",
         event = "VeryLazy",
         opts = {
           -- recommended settings
@@ -155,7 +161,7 @@ return {
       },
     }
   },
-  { "dhruvasagar/vim-table-mode", event = { "InsertEnter" } },
+  { "dhruvasagar/vim-table-mode", dir = "@vimTableMode@", event = { "InsertEnter" } },
   {
     "Penpen7/IMEswitcher.nvim",
     build = "make",

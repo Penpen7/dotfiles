@@ -1,3 +1,3 @@
 return {
-  { "hashivim/vim-terraform", ft = "tf" },
+  { "hashivim/vim-terraform", dir = "@vimTerraform@", ft = "tf" },
 }

@@ -1,6 +1,7 @@
 return {
   {
     "shaunsingh/nord.nvim",
+    dir = "@nordNvim@",
     config = function()
       vim.g.nord_disable_background = true
       vim.cmd [[colorscheme nord]]
@@ -8,7 +9,11 @@ return {
   },
   {
     "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons", "linrongbin16/lsp-progress.nvim" },
+    dir = "@lualineNvim@",
+    dependencies = {
+      { "nvim-tree/nvim-web-devicons", dir = "@nvimWebDevicons@" },
+      { "linrongbin16/lsp-progress.nvim", dir = "@lspProgressNvim@" },
+    },
     config = function()
       require("lualine").setup({
         options = {

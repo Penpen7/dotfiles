@@ -1,11 +1,12 @@
 return ({
   {
     'stevearc/aerial.nvim',
+    dir = "@aerialNvim@",
     opts = {},
     -- Optional dependencies
     dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons"
+      { "nvim-treesitter/nvim-treesitter", dir = "@nvimTreesitter@" },
+      { "nvim-tree/nvim-web-devicons",     dir = "@nvimWebDevicons@" },
     },
     config = function()
       require("aerial").setup({
@@ -19,11 +20,11 @@ return ({
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    dir = "@nvimTreesitter@",
     version = false,
     event = { "CursorHold", "CursorHoldI" },
-    build = ":TSUpdate",
     config = function()
-      require("nvim-treesitter.configs").setup({
+      require("nvim-treesitter.config").setup({
         ignore_install = { "phpdoc", "swift" },
         highlight = {
           enable = true,
@@ -36,8 +37,9 @@ return ({
   },
   {
     "HiPhish/rainbow-delimiters.nvim",
+    dir = "@rainbowDelimitersNvim@",
     event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
     dependencies = { "nvim-treesitter/nvim-treesitter" },
   },
-  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
+  { "lukas-reineke/indent-blankline.nvim", dir = "@indentBlanklineNvim@", main = "ibl", opts = {} },
 })

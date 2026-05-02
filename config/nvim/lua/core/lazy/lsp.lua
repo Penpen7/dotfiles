@@ -1,6 +1,7 @@
 return {
   {
     'neoclide/coc.nvim',
+    dir = "@cocNvim@",
     branch = 'release',
     config = function()
       vim.g.coc_global_extensions = {

@@ -2,14 +2,15 @@ return (
   {
     {
       "iamcco/markdown-preview.nvim",
+      dir = "@markdownPreviewNvim@",
       ft = { "markdown", "pandoc.markdown", "rmd", "plantuml" },
-      build = 'sh -c "cd app && yarn install"',
       config = function()
         vim.g.mkdp_filetypes = { "markdown", "plantuml" }
       end,
     },
     {
       "plasticboy/vim-markdown",
+      dir = "@vimMarkdown@",
       ft = { "markdown" },
       config = function()
         vim.g.vim_markdown_math = 1

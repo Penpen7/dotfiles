@@ -1,6 +1,7 @@
 return ({
   {
     "lambdalisue/fern.vim",
+    dir = "@fernVim@",
     config = function()
       vim.g["fern#renderer"] = "nerdfont"
       vim.g["fern#default_hidden"] = 1
@@ -8,12 +9,13 @@ return ({
       vim.api.nvim_set_keymap("n", "<C-e><C-e", ":Fern .<CR>", { noremap = true })
     end,
   },
-  { "lambdalisue/fern-renderer-nerdfont.vim", dependencies = "lambdalisue/fern.vim" },
-  { "lambdalisue/fern-git-status.vim",        dependencies = "lambdalisue/fern.vim" },
-  { "lambdalisue/nerdfont.vim", },
-  "nvim-tree/nvim-web-devicons",
+  { "lambdalisue/fern-renderer-nerdfont.vim", dir = "@fernRendererNerdfont@", dependencies = "lambdalisue/fern.vim" },
+  { "lambdalisue/fern-git-status.vim",        dir = "@fernGitStatus@",        dependencies = "lambdalisue/fern.vim" },
+  { "lambdalisue/nerdfont.vim",               dir = "@nerdfont@" },
+  { "nvim-tree/nvim-web-devicons",            dir = "@nvimWebDevicons@" },
   {
     "lambdalisue/glyph-palette.vim",
+    dir = "@glyphPalette@",
     config = function()
       vim.cmd([[
         augroup my-glyph-palette
@@ -26,12 +28,14 @@ return ({
   },
   {
     "ryanoasis/vim-devicons",
+    dir = "@vimDevicons@",
     config = function()
       vim.g.WebDevIconsUnicodeDecorateFolderNodes = 1
     end,
   },
   {
     'akinsho/bufferline.nvim',
+    dir = "@bufferlineNvim@",
     version = "*",
     dependencies = 'nvim-tree/nvim-web-devicons',
     config = function()
@@ -51,14 +55,16 @@ return ({
   },
   {
     "mbbill/undotree",
+    dir = "@undotree@",
     config = function()
       vim.api.nvim_set_keymap("n", "<Leader>u", "[undotree-p]", {})
       vim.api.nvim_set_keymap("n", "[undotree-p]", ":UndotreeToggle<CR>", { noremap = true })
     end,
   },
-  "itchyny/calendar.vim",
+  { "itchyny/calendar.vim",        dir = "@calendarVim@" },
   {
     "vim-test/vim-test",
+    dir = "@vimTest@",
     keys = { "<Leader>t" },
     config = function()
       vim.api.nvim_set_keymap("n", "<Leader>t", "[vim-test]", {})
@@ -72,6 +78,7 @@ return ({
   },
   {
     "tyru/open-browser.vim",
+    dir = "@openBrowserVim@",
     config = function()
       vim.g.netrw_nogx = 1 -- disable netrw's gx mapping.
       vim.api.nvim_set_keymap("n", "gx", "<Plug>(openbrowser-smart-search)", {})
@@ -86,12 +93,14 @@ return ({
   },
   {
     "folke/which-key.nvim",
+    dir = "@whichKeyNvim@",
     event = "VeryLazy",
   },
-  "machakann/vim-highlightedyank",
-  "rbgrouleff/bclose.vim",
+  { "machakann/vim-highlightedyank", dir = "@vimHighlightedyank@" },
+  { "rbgrouleff/bclose.vim",         dir = "@bcloseVim@" },
   {
     "phaazon/hop.nvim",
+    dir = "@hopNvim@",
     keys = { "<leader><leader>" },
     config = function()
       require("hop").setup()

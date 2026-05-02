@@ -83,6 +83,80 @@ let
       hash  = "sha256-0ibtd1gTyr8hJDBsAfmgH3qr0zC0o2Fn0tjN/S+zxgA=";
     };
   });
+
+  nvimFernRendererNerdfont = pkgs.vimUtils.buildVimPlugin {
+    name = "fern-renderer-nerdfont.vim";
+    src = pkgs.fetchFromGitHub {
+      owner = "lambdalisue";
+      repo  = "fern-renderer-nerdfont.vim";
+      rev   = "325629c68eb543229715b68920fbcb92b206beb6";
+      hash  = "sha256-bcFIyPHxdckmmEGSCr9F5hLGTENF+KgRoz2BK49rGv4=";
+    };
+  };
+  nvimFernGitStatus = pkgs.vimUtils.buildVimPlugin {
+    name = "fern-git-status.vim";
+    src = pkgs.fetchFromGitHub {
+      owner = "lambdalisue";
+      repo  = "fern-git-status.vim";
+      rev   = "151336335d3b6975153dad77e60049ca7111da8e";
+      hash  = "sha256-9N+T/MB+4hKcxoKRwY8F7iwmTsMtNmHCHiVZfcsADcc=";
+    };
+  };
+  nvimNerdfont = pkgs.vimUtils.buildVimPlugin {
+    name = "nerdfont.vim";
+    src = pkgs.fetchFromGitHub {
+      owner = "lambdalisue";
+      repo  = "nerdfont.vim";
+      rev   = "cc50782ee9580fc70b659cf1ebd55229d94b37ab";
+      hash  = "sha256-Eb79rGmFBidT9hdjYZqyxwXynpsipfZopJFabYHimys=";
+    };
+  };
+  nvimGlyphPalette = pkgs.vimUtils.buildVimPlugin {
+    name = "glyph-palette.vim";
+    src = pkgs.fetchFromGitHub {
+      owner = "lambdalisue";
+      repo  = "glyph-palette.vim";
+      rev   = "675f0ad64e2c4b823bffc1907d469deefaf6e3bd";
+      hash  = "sha256-y3pykCEynYGvjrQKzcYJsiuVOci+y2SNh0ZOg2xV8yU=";
+    };
+  };
+  nvimTigExplorer = pkgs.vimUtils.buildVimPlugin {
+    name = "tig-explorer.vim";
+    src = pkgs.fetchFromGitHub {
+      owner = "iberianpig";
+      repo  = "tig-explorer.vim";
+      rev   = "c134fa56ad46a5ff78fcb87c8e10c8cf8ec85b0c";
+      hash  = "sha256-X+++SPMYTNl3/waFiJ0ZAElZa8+r/XqlV56BFegwBdM=";
+    };
+  };
+  nvimTelescopeCoAuthor = pkgs.vimUtils.buildVimPlugin {
+    name = "telescope-co-author.nvim";
+    src = pkgs.fetchFromGitHub {
+      owner = "Penpen7";
+      repo  = "telescope-co-author.nvim";
+      rev   = "e0eefc8474230ccdab8a572f099547c2104c388e";
+      hash  = "sha256-nONZmtOH1l8BMhK0zxWFVQRFp/fnsDxWEZrs7pu+rZc=";
+    };
+    dependencies = [ pkgs.vimPlugins.telescope-nvim pkgs.vimPlugins.plenary-nvim ];
+  };
+  nvimVimRestConsole = pkgs.vimUtils.buildVimPlugin {
+    name = "vim-rest-console";
+    src = pkgs.fetchFromGitHub {
+      owner = "diepm";
+      repo  = "vim-rest-console";
+      rev   = "7b407f47185468d1b57a8bd71cdd66c9a99359b2";
+      hash  = "sha256-Us7LLK/GJsFyIIROGn4y0k8c3yz+Y/X+WWwHcRqL+PQ=";
+    };
+  };
+  nvimSwaggerPreview = pkgs.vimUtils.buildVimPlugin {
+    name = "swagger-preview.nvim";
+    src = pkgs.fetchFromGitHub {
+      owner = "vinnymeller";
+      repo  = "swagger-preview.nvim";
+      rev   = "42999dd6ad0bbb3e6ca5e857f3fc3c12de014110";
+      hash  = "sha256-0PmasvfQKBKtqYOoY/CCqVMuku2zSeex3qGK8KVqPE0=";
+    };
+  };
 in
 
 {
@@ -288,8 +362,112 @@ in
 
   xdg.configFile = {
       "nvim/init.lua".source = ../nvim/init.lua;
-      "nvim/lua" = { source = ../nvim/lua; recursive = true; };
       "nvim/coc-settings.json".source = ../nvim/coc-settings.json;
+
+      "nvim/lua/core/core.lua".source        = ../nvim/lua/core/core.lua;
+      "nvim/lua/core/key_mapping.lua".source = ../nvim/lua/core/key_mapping.lua;
+      "nvim/lua/core/lazy/ft.lua".source     = ../nvim/lua/core/lazy/ft.lua;
+
+      "nvim/lua/core/lazy.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy.lua {
+        lazyNvim = pkgs.vimPlugins.lazy-nvim;
+      };
+
+      "nvim/lua/core/lazy/appearance.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/appearance.lua {
+        nordNvim        = pkgs.vimPlugins.nord-nvim;
+        lualineNvim     = pkgs.vimPlugins.lualine-nvim;
+        nvimWebDevicons = pkgs.vimPlugins.nvim-web-devicons;
+        lspProgressNvim = pkgs.vimPlugins.lsp-progress-nvim;
+      };
+
+      "nvim/lua/core/lazy/ui.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/ui.lua {
+        fernVim              = pkgs.vimPlugins.vim-fern;
+        fernRendererNerdfont = nvimFernRendererNerdfont;
+        fernGitStatus        = nvimFernGitStatus;
+        nerdfont             = nvimNerdfont;
+        nvimWebDevicons      = pkgs.vimPlugins.nvim-web-devicons;
+        glyphPalette         = nvimGlyphPalette;
+        vimDevicons          = pkgs.vimPlugins.vim-devicons;
+        bufferlineNvim       = pkgs.vimPlugins.bufferline-nvim;
+        undotree             = pkgs.vimPlugins.undotree;
+        calendarVim          = pkgs.vimPlugins.calendar-vim;
+        vimTest              = pkgs.vimPlugins.vim-test;
+        openBrowserVim       = pkgs.vimPlugins.open-browser-vim;
+        whichKeyNvim         = pkgs.vimPlugins.which-key-nvim;
+        vimHighlightedyank   = pkgs.vimPlugins.vim-highlightedyank;
+        bcloseVim            = pkgs.vimPlugins.bclose-vim;
+        hopNvim              = pkgs.vimPlugins.hop-nvim;
+      };
+
+      "nvim/lua/core/lazy/treesitter.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/treesitter.lua {
+        aerialNvim            = pkgs.vimPlugins.aerial-nvim;
+        nvimWebDevicons       = pkgs.vimPlugins.nvim-web-devicons;
+        nvimTreesitter        = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
+        rainbowDelimitersNvim = pkgs.vimPlugins.rainbow-delimiters-nvim;
+        indentBlanklineNvim   = pkgs.vimPlugins.indent-blankline-nvim;
+      };
+
+      "nvim/lua/core/lazy/lsp.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/lsp.lua {
+        cocNvim = pkgs.vimPlugins.coc-nvim;
+      };
+
+      "nvim/lua/core/lazy/edit.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/edit.lua {
+        vimEndwise      = pkgs.vimPlugins.vim-endwise;
+        vimSurround     = pkgs.vimPlugins.vim-surround;
+        vimFugitive     = pkgs.vimPlugins.vim-fugitive;
+        tcommentVim     = pkgs.vimPlugins.tcomment_vim;
+        tabular         = pkgs.vimPlugins.tabular;
+        nvimAutopairs   = pkgs.vimPlugins.nvim-autopairs;
+        copilotLua      = pkgs.vimPlugins.copilot-lua;
+        copilotChatNvim = pkgs.vimPlugins.CopilotChat-nvim;
+        plenaryNvim     = pkgs.vimPlugins.plenary-nvim;
+        snacksNvim      = pkgs.vimPlugins.snacks-nvim;
+        claudecodeNvim  = pkgs.vimPlugins.claudecode-nvim;
+        avanteNvim      = pkgs.vimPlugins.avante-nvim;
+        dressingNvim    = pkgs.vimPlugins.dressing-nvim;
+        nuiNvim         = pkgs.vimPlugins.nui-nvim;
+        imgClipNvim     = pkgs.vimPlugins.img-clip-nvim;
+        vimTableMode    = pkgs.vimPlugins.vim-table-mode;
+      };
+
+      "nvim/lua/core/lazy/git.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/git.lua {
+        tigExplorer  = nvimTigExplorer;
+        gitsignsNvim = pkgs.vimPlugins.gitsigns-nvim;
+      };
+
+      "nvim/lua/core/lazy/fzf.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/fzf.lua {
+        fzfWrapper        = pkgs.vimPlugins.fzf-wrapper;
+        telescopeNvim     = pkgs.vimPlugins.telescope-nvim;
+        plenaryNvim       = pkgs.vimPlugins.plenary-nvim;
+        telescopeCocNvim  = pkgs.vimPlugins.telescope-coc-nvim;
+        telescopeCoAuthor = nvimTelescopeCoAuthor;
+      };
+
+      "nvim/lua/core/lazy/utils.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/utils.lua {
+        vimStartuptime = pkgs.vimPlugins.vim-startuptime;
+      };
+
+      "nvim/lua/core/lazy/ft/html.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/ft/html.lua {
+        emmetVim = pkgs.vimPlugins.emmet-vim;
+      };
+      "nvim/lua/core/lazy/ft/markdown.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/ft/markdown.lua {
+        markdownPreviewNvim = pkgs.vimPlugins.markdown-preview-nvim;
+        vimMarkdown         = pkgs.vimPlugins.vim-markdown;
+      };
+      "nvim/lua/core/lazy/ft/plantuml.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/ft/plantuml.lua {
+        plantumlSyntax = pkgs.vimPlugins.plantuml-syntax;
+      };
+      "nvim/lua/core/lazy/ft/rest.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/ft/rest.lua {
+        vimRestConsole = nvimVimRestConsole;
+      };
+      "nvim/lua/core/lazy/ft/swagger.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/ft/swagger.lua {
+        swaggerPreview = nvimSwaggerPreview;
+      };
+      "nvim/lua/core/lazy/ft/terraform.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/ft/terraform.lua {
+        vimTerraform = pkgs.vimPlugins.vim-terraform;
+      };
+      "nvim/lua/core/lazy/ft/ts.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/ft/ts.lua {
+        nvimTsAutotag = pkgs.vimPlugins.nvim-ts-autotag;
+      };
       "claude/settings.json".source = ../claude/settings.json;
       "tmux-powerline" = { source = ../tmux-powerline; recursive = true; };
       "zellij/config.kdl".source = ../zellij/config.kdl;
