@@ -407,7 +407,17 @@ in
       };
 
       "nvim/lua/core/lazy/lsp.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/lsp.lua {
-        cocNvim = pkgs.vimPlugins.coc-nvim;
+        cocNvim         = pkgs.vimPlugins.coc-nvim;
+        cocClangd       = pkgs.vimPlugins.coc-clangd;
+        cocCss          = pkgs.vimPlugins.coc-css;
+        cocDiagnostic   = pkgs.vimPlugins.coc-diagnostic;
+        cocJson         = pkgs.vimPlugins.coc-json;
+        cocLua          = pkgs.vimPlugins.coc-lua;
+        cocPairs        = pkgs.vimPlugins.coc-pairs;
+        cocRustAnalyzer = pkgs.vimPlugins.coc-rust-analyzer;
+        cocSnippets     = pkgs.vimPlugins.coc-snippets;
+        cocToml         = pkgs.vimPlugins.coc-toml;
+        cocYaml         = pkgs.vimPlugins.coc-yaml;
       };
 
       "nvim/lua/core/lazy/edit.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/edit.lua {
