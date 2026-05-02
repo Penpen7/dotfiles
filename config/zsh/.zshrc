@@ -2,13 +2,8 @@
 typeset -U path
 export PATH="/usr/local/bin":$PATH
 export PATH="/usr/local/sbin":$PATH
-export PATH="${HOMEBREW_PREFIX}/bin":$PATH
-export PATH="${HOMEBREW_PREFIX}/sbin":$PATH
 export PATH="$GOPATH/bin":$PATH
-export PATH="$HOME/.nodebrew/current/bin":$PATH
 export PATH="$HOME/.cargo/bin:"$PATH
-export PATH=${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH
-export PATH=${HOMEBREW_PREFIX}/opt/llvm/bin:$PATH
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.bun/bin:$PATH"
 . "$HOME/.cargo/env"
@@ -19,32 +14,17 @@ if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
 fi
 . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
 
-### Added by Zinit's installer
-if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
-        print -P "%F{33} %F{34}Installation successful.%f%b" || \
-        print -P "%F{160} The clone has failed.%f%b"
-fi
-
-source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+source @zinit@/zinit.zsh
 autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zdharma-continuum/zinit-annex-as-monitor \
-    zdharma-continuum/zinit-annex-bin-gem-node \
-    zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-rust
-
-### End of Zinit's installer chunk
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-zinit ice wait lucid; zinit light zsh-users/zsh-autosuggestions
-zinit ice wait lucid; zinit light zdharma-continuum/fast-syntax-highlighting
-zinit ice wait lucid; zinit light zsh-users/zsh-completions
+((${+_comps})) && _comps[zinit]=_zinit
+zinit ice depth=1
+zinit light @zshPowerlevel10k@
+zinit ice wait lucid
+zinit light @zshAutosuggestions@
+zinit ice wait lucid
+zinit light @zshFastSyntaxHighlighting@
+zinit ice wait lucid
+zinit light @zshCompletions@
 
 DOTFILE=~/dotfiles/config
 if [ ~/.zshrc -nt ~/.zshrc.zwc ]; then
@@ -77,7 +57,7 @@ for shell in ${shells[@]}; do
   source $shell
 done
 
-if (which zprof > /dev/null 2>&1); then
+if (which zprof >/dev/null 2>&1); then
   zprof
 fi
 
@@ -103,4 +83,3 @@ function precmd() {
     tmux refresh-client -S
   fi
 }
-

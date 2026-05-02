@@ -264,7 +264,14 @@ in
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
-    ".zshrc".source = ../zsh/.zshrc;
+    ".zshrc".source = pkgs.substituteAll {
+      src = ../zsh/.zshrc;
+      zinit                     = "${pkgs.zinit}/share/zinit";
+      zshPowerlevel10k          = "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k";
+      zshAutosuggestions        = "${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions";
+      zshFastSyntaxHighlighting = "${pkgs.zsh-fast-syntax-highlighting}/share/zsh-fast-syntax-highlighting";
+      zshCompletions            = "${pkgs.zsh-completions}/share/zsh-completions";
+    };
     ".zshenv".source = ../zsh/.zshenv;
 
     ".gitconfig".source = ../git/gitconfig;
