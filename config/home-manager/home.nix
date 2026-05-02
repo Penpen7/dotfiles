@@ -31,6 +31,58 @@ let
     powerline-mem-segment
     powerline-wttr
   ]);
+
+  # nixpkgs より新しい tmux プラグイン (GitHub 最新版へ上書き)
+  tmuxPluginOpen = pkgs.tmuxPlugins.open.overrideAttrs (_: {
+    version = "unstable-2022-08-22";
+    src = pkgs.fetchFromGitHub {
+      owner = "tmux-plugins";
+      repo  = "tmux-open";
+      rev   = "763d0a852e6703ce0f5090a508330012a7e6788e";
+      hash  = "sha256-Thii7D21MKodtjn/MzMjOGbJX8BwnS+fQqAtYv8CjPc=";
+    };
+  });
+  tmuxPluginResurrect = pkgs.tmuxPlugins.resurrect.overrideAttrs (_: {
+    version = "unstable-2023-03-06";
+    src = pkgs.fetchFromGitHub {
+      owner = "tmux-plugins";
+      repo  = "tmux-resurrect";
+      rev   = "cff343cf9e81983d3da0c8562b01616f12e8d548";
+      hash  = "sha256-FcSjYyWjXM1B+WmiK2bqUNJYtH7sJBUsY2IjSur5TjY=";
+    };
+    # git submodule (lib/tmux-test) 未取得によるリンク切れを除去
+    postInstall = ''
+      rm -rf $out/share/tmux-plugins/resurrect/tests \
+             $out/share/tmux-plugins/resurrect/run_tests
+    '';
+  });
+  tmuxPluginBattery = pkgs.tmuxPlugins.battery.overrideAttrs (_: {
+    version = "unstable-2025-12-30";
+    src = pkgs.fetchFromGitHub {
+      owner = "tmux-plugins";
+      repo  = "tmux-battery";
+      rev   = "43832651ede43f54dcf0588727c1957fe648d57d";
+      hash  = "sha256-kyUrJdraDDye8WEBP2RgHN7kHmafToYtLmrMJ9u0f+0=";
+    };
+  });
+  tmuxPluginPainControl = pkgs.tmuxPlugins."pain-control".overrideAttrs (_: {
+    version = "unstable-2021-08-09";
+    src = pkgs.fetchFromGitHub {
+      owner = "tmux-plugins";
+      repo  = "tmux-pain-control";
+      rev   = "32b760f6652f2305dfef0acd444afc311cf5c077";
+      hash  = "sha256-2VI9w7Naj9OHF3iuV63Ij4QcYhbrtngyJ3GpeyzIKxs=";
+    };
+  });
+  tmuxPluginPowerline = pkgs.tmuxPlugins.tmux-powerline.overrideAttrs (_: {
+    version = "unstable-2026-02-09";
+    src = pkgs.fetchFromGitHub {
+      owner = "erikw";
+      repo  = "tmux-powerline";
+      rev   = "d70011158dc389070d6ed7a67b65367206b6ddec";
+      hash  = "sha256-0ibtd1gTyr8hJDBsAfmgH3qr0zC0o2Fn0tjN/S+zxgA=";
+    };
+  });
 in
 
 {
@@ -272,11 +324,11 @@ in
     ]
     [
       "${pkgs.tmuxPlugins.yank.rtp}"
-      "${pkgs.tmuxPlugins.open.rtp}"
-      "${pkgs.tmuxPlugins."pain-control".rtp}"
-      "${pkgs.tmuxPlugins.resurrect.rtp}"
-      "${pkgs.tmuxPlugins.battery.rtp}"
-      "${pkgs.tmuxPlugins.tmux-powerline.rtp}"
+      "${tmuxPluginOpen.rtp}"
+      "${tmuxPluginPainControl.rtp}"
+      "${tmuxPluginResurrect.rtp}"
+      "${tmuxPluginBattery.rtp}"
+      "${tmuxPluginPowerline.rtp}"
     ]
     (builtins.readFile ../tmux/.tmux.conf);
 
