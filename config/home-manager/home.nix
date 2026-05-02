@@ -264,8 +264,7 @@ in
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
-    ".zshrc".source = pkgs.substituteAll {
-      src = ../zsh/.zshrc;
+    ".zshrc".source = pkgs.replaceVars ../zsh/.zshrc {
       zinit                     = "${pkgs.zinit}/share/zinit";
       zshPowerlevel10k          = "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k";
       zshAutosuggestions        = "${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions";
