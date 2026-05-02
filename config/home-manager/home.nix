@@ -119,8 +119,6 @@ in
     neovim       # モダンな Vim 派生テキストエディタ
     emacs        # 高度に拡張可能なテキストエディタ
     helix        # モダンなターミナルテキストエディタ (Vim 系)
-    vscode       # Microsoft 製のコードエディタ (unfree)
-
     # Git 関連
     git          # バージョン管理システム
     git-secrets  # シークレット情報の git コミットを防止
@@ -306,6 +304,29 @@ in
   #
   home.sessionVariables = {
     # EDITOR = "emacs";
+  };
+
+  programs.vscode = {
+    enable = true;
+    extensions = with pkgs.vscode-marketplace; [
+      asvetliakov.vscode-neovim
+      golang.go
+      hashicorp.terraform
+      jdinhlife.gruvbox
+      jebbs.plantuml
+      mhutchie.git-graph
+      ms-azuretools.vscode-docker
+      ms-ceintl.vscode-language-pack-ja
+      ms-python.python
+      ms-python.vscode-pylance
+      ms-toolsai.jupyter
+      ms-toolsai.jupyter-keymap
+      ms-toolsai.jupyter-renderers
+      ms-vscode-remote.remote-containers
+      ms-vsliveshare.vsliveshare
+      ms-vsliveshare.vsliveshare-audio
+      ms-vsliveshare.vsliveshare-pack
+    ];
   };
 
   # Let Home Manager install and manage itself.

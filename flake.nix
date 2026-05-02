@@ -15,6 +15,11 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -23,10 +28,14 @@
       nixpkgs,
       home-manager,
       nix-darwin,
+      nix-vscode-extensions,
     }:
     let
       system = "aarch64-darwin";
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [ nix-vscode-extensions.overlays.default ];
+      };
     in
     {
       homeConfigurations."naoki" = home-manager.lib.homeManagerConfiguration {
