@@ -308,7 +308,7 @@ in
 
   programs.vscode = {
     enable = true;
-    extensions = with pkgs.vscode-marketplace; [
+    profiles.default.extensions = with pkgs.vscode-marketplace; [
       asvetliakov.vscode-neovim
       golang.go
       hashicorp.terraform
