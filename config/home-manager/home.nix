@@ -325,7 +325,6 @@ in
       ms-vscode-remote.remote-containers
       ms-vsliveshare.vsliveshare
       ms-vsliveshare.vsliveshare-audio
-      ms-vsliveshare.vsliveshare-pack
     ];
   };
 
