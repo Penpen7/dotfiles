@@ -275,6 +275,9 @@ in
 
     ".ideavimrc".source = ../intellij/.ideavimrc;
 
+    "Library/Application Support/Code/User/settings.json".source = ../vscode/settings.json;
+    "Library/Application Support/Code/User/keybindings.json".source = ../vscode/keybindings.json;
+
   };
 
   xdg.configFile = {
