@@ -1,25 +1,46 @@
 # dotfiles
 [![ubuntu](https://github.com/Penpen7/dotfiles/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/Penpen7/dotfiles/actions/workflows/ubuntu.yml)
 [![mac](https://github.com/Penpen7/dotfiles/actions/workflows/mac.yml/badge.svg)](https://github.com/Penpen7/dotfiles/actions/workflows/mac.yml)
+
 ## Description
-This is my setting files
 
-# Dependencies
-- git
-- curl
-- HackGenNerd
-- iTerm2
+Nix flake based dotfiles for macOS (Apple Silicon).
 
-# Getting Started
-- Install Dependencies
-- Clone this repository into your home directory.
+## Dependencies
+
+- [Nix](https://nixos.org/download/)
+- [home-manager](https://github.com/nix-community/home-manager)
+- [nix-darwin](https://github.com/LnL7/nix-darwin)
+
+## Getting Started
+
+### 1. Install Nix
+
+```sh
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
-cd ~
-git clone https://github.com/Penpen7/dotfiles
+
+### 2. Clone this repository
+
+```sh
+git clone https://github.com/Penpen7/dotfiles ~/dotfiles
+cd ~/dotfiles
 ```
-- Change the directory and run make_symlink.sh
+
+### 3. Apply home-manager configuration
+
+```sh
+nix run home-manager/master -- switch --flake .
 ```
-cd dotfiles/scripts
-./setup.sh
+
+### 4. Apply nix-darwin configuration (optional)
+
+```sh
+nix run nix-darwin -- switch --flake .
 ```
-- Run zsh
+
+## Update
+
+```sh
+home-manager switch --flake .
+```
