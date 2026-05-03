@@ -1,5 +1,7 @@
 {
-  "coc.preferences.formatOnSaveFiletypes": ["*"],
+  "coc.preferences.formatOnSaveFiletypes": [
+    "*"
+  ],
   "diagnostic-languageserver.formatFiletypes": {
     "sh": "shfmt",
     "zsh": "shfmt",
@@ -8,40 +10,63 @@
   "languageserver": {
     "golangci-lint-languageserver": {
       "command": "golangci-lint-langserver",
-      "filetypes": ["go"],
+      "filetypes": [
+        "go"
+      ],
       "initializationOptions": {
         "command": [
           "golangci-lint",
           "run",
-          "--fast",
-          "--print-issued-lines=false",
-          "--out-format",
-          "json"
+          "--output.json.path",
+          "stdout",
+          "--show-stats=false",
+          "--issues-exit-code=1"
         ]
       }
     },
     "terraform": {
       "command": "terraform-ls",
-      "args": ["serve"],
-      "filetypes": ["terraform", "tf"],
+      "args": [
+        "serve"
+      ],
+      "filetypes": [
+        "terraform",
+        "tf"
+      ],
       "initializationOptions": {},
       "settings": {}
     },
     "shell": {
       "command": "bash-language-server",
-      "args": ["start"],
-      "filetypes": ["sh", "zsh"],
-      "ignoredRootPaths": ["~"]
+      "args": [
+        "start"
+      ],
+      "filetypes": [
+        "sh",
+        "zsh"
+      ],
+      "ignoredRootPaths": [
+        "~"
+      ]
     }
   },
   "diagnostic-languageserver.formatters": {
     "shfmt": {
       "command": "shfmt",
-      "args": ["-i", "2", "-bn", "-ci", "-sr"]
+      "args": [
+        "-i",
+        "2",
+        "-bn",
+        "-ci",
+        "-sr"
+      ]
     },
     "black": {
       "command": "black",
-      "args": ["-q", "-"]
+      "args": [
+        "-q",
+        "-"
+      ]
     }
   },
   "diagnostic-languageserver.linters": {
@@ -72,8 +97,6 @@
   "diagnostic-languageserver.filetypes": {
     "python": "mypy"
   },
-  "clangd.path": "/Users/naoki/.config/coc/extensions/coc-clangd-data/install/12.0.0/clangd_12.0.0/bin/clangd",
-  "go.goplsPath": "~/go/bin/gopls",
   "suggest.completionItemKindLabels": {
     "method": "  メソッド",
     "function": " 󰊕 関数",
@@ -109,7 +132,9 @@
   "coc.preferences.formatOnType": true,
   "diagnostic.virtualTextAlign": "below",
   "snippets.ultisnips.pythonPrompt": false,
-  "Lua.diagnostics.globals": ["vim"],
+  "Lua.diagnostics.globals": [
+    "vim"
+  ],
   "diagnostic.infoSign": "",
   "diagnostic.hintSign": "",
   "diagnostic.warningSign": "",
