@@ -1,6 +1,13 @@
 { config, pkgs, ... }:
 
 let
+  tsParserDirs = pkgs.lib.pipe
+    (pkgs.vimPlugins.nvim-treesitter.withPlugins (p: with p; [
+      bash c cpp css go gomod gosum gowork
+      json lua nix rust toml typescript vim vimdoc yaml
+    ])).dependencies
+    [ (map toString) (builtins.concatStringsSep ",") ];
+
   powerline-mem-segment = pkgs.python3Packages.buildPythonPackage rec {
     pname = "powerline-mem-segment";
     version = "2.4.1";
@@ -410,9 +417,10 @@ in
       "nvim/lua/core/lazy/treesitter.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/treesitter.lua {
         aerialNvim            = pkgs.vimPlugins.aerial-nvim;
         nvimWebDevicons       = pkgs.vimPlugins.nvim-web-devicons;
-        nvimTreesitter        = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
+        nvimTreesitter        = pkgs.vimPlugins.nvim-treesitter;
         rainbowDelimitersNvim = pkgs.vimPlugins.rainbow-delimiters-nvim;
         indentBlanklineNvim   = pkgs.vimPlugins.indent-blankline-nvim;
+        inherit tsParserDirs;
       };
 
       "nvim/lua/core/lazy/lsp.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/lsp.lua {

@@ -22,17 +22,23 @@ return ({
     "nvim-treesitter/nvim-treesitter",
     dir = "@nvimTreesitter@",
     version = false,
-    event = { "CursorHold", "CursorHoldI" },
+    event = { "BufRead", "BufNewFile", "CursorHold", "CursorHoldI" },
+    init = function()
+      for dir in ("@tsParserDirs@"):gmatch("[^,]+") do
+        vim.opt.runtimepath:append(dir)
+      end
+    end,
     config = function()
-      require("nvim-treesitter.config").setup({
-        ignore_install = { "phpdoc", "swift" },
-        highlight = {
-          enable = true,
-        },
-        indent = {
-          enable = true
-        }
+      local function attach(bufnr)
+        pcall(vim.treesitter.start, bufnr)
+        vim.bo[bufnr].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      end
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function(ev)
+          attach(ev.buf)
+        end,
       })
+      attach(vim.api.nvim_get_current_buf())
     end,
   },
   {
