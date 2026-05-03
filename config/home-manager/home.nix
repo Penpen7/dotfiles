@@ -2,10 +2,7 @@
 
 let
   tsParserDirs = pkgs.lib.pipe
-    (pkgs.vimPlugins.nvim-treesitter.withPlugins (p: with p; [
-      bash c cpp css go gomod gosum gowork
-      json lua nix rust toml typescript vim vimdoc yaml
-    ])).dependencies
+    (pkgs.vimPlugins.nvim-treesitter.withPlugins (p: builtins.attrValues p)).dependencies
     [ (map toString) (builtins.concatStringsSep ",") ];
 
   powerline-mem-segment = pkgs.python3Packages.buildPythonPackage rec {
