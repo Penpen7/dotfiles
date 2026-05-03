@@ -6,7 +6,6 @@ export PATH="$GOPATH/bin":$PATH
 export PATH="$HOME/.cargo/bin:"$PATH
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.bun/bin:$PATH"
-. "$HOME/.cargo/env"
 
 # Nix (最後に追加することで優先される)
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
