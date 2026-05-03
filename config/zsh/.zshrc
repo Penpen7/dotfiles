@@ -43,7 +43,6 @@ shells=(
   $DOTFILE/tmux/split.zsh
   $DOTFILE/tmux/tmux.zsh
   $DOTFILE/zsh/keybind.zsh
-  $DOTFILE/zsh/proxy.zsh
 )
 
 for shell in ${shells[@]}; do
