@@ -350,6 +350,15 @@ in
     ".gitconfig".source = ../git/gitconfig;
     ".tigrc".source = ../tig/.tigrc;
 
+  ".tmux.conf".source = pkgs.replaceVars ../tmux/.tmux.conf {
+      TMUX_PLUGIN_YANK             = "${pkgs.tmuxPlugins.yank.rtp}";
+      TMUX_PLUGIN_OPEN             = "${tmuxPluginOpen.rtp}";
+      TMUX_PLUGIN_PAIN_CONTROL     = "${tmuxPluginPainControl.rtp}";
+      TMUX_PLUGIN_RESURRECT        = "${tmuxPluginResurrect.rtp}";
+      TMUX_PLUGIN_BATTERY          = "${tmuxPluginBattery.rtp}";
+      TMUX_PLUGIN_POWERLINE        = "${tmuxPluginPowerline.rtp}";
+    };
+
     ".hyper.js".source = ../hyper/.hyper.js;
     ".p10k.zsh".source = ../powerlevel/.p10k.zsh;
 
@@ -536,25 +545,4 @@ in
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   programs.zsh.enable = true;
-
-  # .tmux.conf の @@ プレースホルダを Nix ストアパスに置換して配置
-  home.file.".tmux.conf".text = builtins.replaceStrings
-    [
-      "@@TMUX_PLUGIN_YANK@@"
-      "@@TMUX_PLUGIN_OPEN@@"
-      "@@TMUX_PLUGIN_PAIN_CONTROL@@"
-      "@@TMUX_PLUGIN_RESURRECT@@"
-      "@@TMUX_PLUGIN_BATTERY@@"
-      "@@TMUX_PLUGIN_POWERLINE@@"
-    ]
-    [
-      "${pkgs.tmuxPlugins.yank.rtp}"
-      "${tmuxPluginOpen.rtp}"
-      "${tmuxPluginPainControl.rtp}"
-      "${tmuxPluginResurrect.rtp}"
-      "${tmuxPluginBattery.rtp}"
-      "${tmuxPluginPowerline.rtp}"
-    ]
-    (builtins.readFile ../tmux/.tmux.conf);
-
 }
