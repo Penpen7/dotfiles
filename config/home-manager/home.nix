@@ -206,6 +206,11 @@ in
     ghq          # リポジトリの一元管理ツール
     hub          # GitHub を CLI から操作する拡張コマンド
 
+    # Rust
+    (pkgs.rust-bin.stable.latest.default.override {
+      extensions = [ "rust-src" "rust-analyzer" ];
+    })
+
     # ビルド・コンパイル
     cmake        # クロスプラットフォームのビルドシステム生成ツール
     gcc          # GNU Cコンパイラコレクション

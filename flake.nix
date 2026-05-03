@@ -20,6 +20,11 @@
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -29,12 +34,16 @@
       home-manager,
       nix-darwin,
       nix-vscode-extensions,
+      rust-overlay,
     }:
     let
       system = "aarch64-darwin";
       pkgs = import nixpkgs {
         inherit system;
-        overlays = [ nix-vscode-extensions.overlays.default ];
+        overlays = [
+          nix-vscode-extensions.overlays.default
+          rust-overlay.overlays.default
+        ];
       };
     in
     {
