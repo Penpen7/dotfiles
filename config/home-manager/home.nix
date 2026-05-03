@@ -342,8 +342,8 @@ in
       zinit                     = "${pkgs.zinit}/share/zinit";
       zshPowerlevel10k          = "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k";
       zshAutosuggestions        = "${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions";
-      zshFastSyntaxHighlighting = "${pkgs.zsh-fast-syntax-highlighting}/share/zsh-fast-syntax-highlighting";
-      zshCompletions            = "${pkgs.zsh-completions}/share/zsh-completions";
+      zshFastSyntaxHighlighting = "${pkgs.zsh-fast-syntax-highlighting}/share/zsh/plugins/fast-syntax-highlighting";
+      zshCompletions            = "${pkgs.zsh-completions}/share/zsh/site-functions";
     };
     ".zshenv".source = ../zsh/.zshenv;
 
