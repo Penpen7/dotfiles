@@ -1,233 +1,230 @@
 return {
+  -- LSPサーバー設定
   {
-    'neoclide/coc.nvim',
-    dir = "@cocNvim@",
-    branch = 'release',
-    dependencies = {
-      { "coc-clangd",        dir = "@cocClangd@" },
-      { "coc-css",           dir = "@cocCss@" },
-      { "coc-diagnostic",    dir = "@cocDiagnostic@" },
-      { "coc-json",          dir = "@cocJson@" },
-      { "coc-lua",           dir = "@cocLua@" },
-      { "coc-pairs",         dir = "@cocPairs@" },
-      { "coc-rust-analyzer", dir = "@cocRustAnalyzer@" },
-      { "coc-snippets",      dir = "@cocSnippets@" },
-      { "coc-toml",          dir = "@cocToml@" },
-      { "coc-yaml",          dir = "@cocYaml@" },
-    },
+    "neovim/nvim-lspconfig",
+    dir = "@nvimLspconfig@",
     config = function()
-      vim.g.coc_global_extensions = {
-        'coc-cssmodules',
-        'coc-jedi',
-        'coc-go',
-        'coc-sql',
-        'coc-tsserver',
-        'coc-typos',
-        'coc-word',
-      }
-      -- Some servers have issues with backup files, see #649
-      vim.opt.backup = false
-      vim.opt.writebackup = false
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-      -- Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
-      -- delays and poor user experience
+      -- 全サーバー共通のデフォルト設定
+      vim.lsp.config("*", { capabilities = capabilities })
+
+      -- サーバー個別の設定
+      vim.lsp.config("bashls", { filetypes = { "sh", "zsh" } })
+      vim.lsp.config("lua_ls", {
+        settings = {
+          Lua = { diagnostics = { globals = { "vim" } } },
+        },
+      })
+      vim.lsp.config("golangci_lint_ls", {
+        init_options = {
+          command = {
+            "golangci-lint", "run",
+            "--output.json.path", "stdout",
+            "--show-stats=false",
+            "--issues-exit-code=1",
+          },
+        },
+      })
+
+      -- サーバーを有効化
+      vim.lsp.enable({
+        "clangd",
+        "cssls",
+        "cssmodules_ls",
+        "jsonls",
+        "taplo",
+        "yamlls",
+        "rust_analyzer",
+        "ts_ls",
+        "sqls",
+        "typos_lsp",
+        "gopls",
+        "jedi_language_server",
+        "golangci_lint_ls",
+        "terraformls",
+        "bashls",
+        "lua_ls",
+      })
+
+      -- LspAttach で共通のキーマップを設定
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+          local bufnr = args.buf
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          local opts = { buffer = bufnr, silent = true }
+
+          vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+          vim.keymap.set("n", "<space>r", vim.lsp.buf.rename, opts)
+          vim.keymap.set("n", "<leader>qf", vim.lsp.buf.code_action, opts)
+          vim.keymap.set("n", "[g", vim.diagnostic.goto_prev, opts)
+          vim.keymap.set("n", "]g", vim.diagnostic.goto_next, opts)
+
+          -- カーソル下のシンボルをハイライト
+          if client and client.supports_method("textDocument/documentHighlight") then
+            vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+              buffer = bufnr,
+              callback = vim.lsp.buf.document_highlight,
+            })
+            vim.api.nvim_create_autocmd("CursorMoved", {
+              buffer = bufnr,
+              callback = vim.lsp.buf.clear_references,
+            })
+          end
+        end,
+      })
+
+      -- diagnosticsの表示設定 (Neovim 0.10+)
+      vim.diagnostic.config({
+        virtual_lines = true,
+        virtual_text  = false,
+        underline     = true,
+        signs         = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = "",
+            [vim.diagnostic.severity.WARN]  = "",
+            [vim.diagnostic.severity.HINT]  = "",
+            [vim.diagnostic.severity.INFO]  = "",
+          },
+        },
+      })
+
       vim.opt.updatetime = 300
 
-      -- Always show the signcolumn, otherwise it would shift the text each time
-      -- diagnostics appeared/became resolved
-      vim.opt.signcolumn = "yes"
-
-      local keyset = vim.keymap.set
-      -- Autocomplete
-      function _G.check_back_space()
-        local col = vim.fn.col('.') - 1
-        return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
-      end
-
-      -- Use Tab for trigger completion with characters ahead and navigate
-      -- NOTE: There's always a completion item selected by default, you may want to enable
-      -- no select by setting `"suggest.noselect": true` in your configuration file
-      -- NOTE: Use command ':verbose imap <tab>' to make sure Tab is not mapped by
-      -- other plugins before putting this into your config
-      local opts = { silent = true, noremap = true, expr = true, replace_keycodes = false }
-
-      -- Make <CR> to accept selected completion item or notify coc.nvim to format
-      -- <C-g>u breaks current undo, please make your own choice
-      keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
-
-      -- Use <c-j> to trigger snippets
-      keyset("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)")
-      -- Use <c-space> to trigger completion
-      keyset("i", "<c-space>", "coc#refresh()", { silent = true, expr = true })
-
-      -- Use `[g` and `]g` to navigate diagnostics
-      -- Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
-      keyset("n", "[g", "<Plug>(coc-diagnostic-prev)", { silent = true })
-      keyset("n", "]g", "<Plug>(coc-diagnostic-next)", { silent = true })
-
-      -- GoTo code navigation
-      keyset("n", "gd", "<Plug>(coc-definition)", { silent = true })
-      keyset("n", "gy", "<Plug>(coc-type-definition)", { silent = true })
-      keyset("n", "gi", "<Plug>(coc-implementation)", { silent = true })
-      keyset("n", "gr", "<Plug>(coc-references)", { silent = true })
-
-
-      -- Use K to show documentation in preview window
-      function _G.show_docs()
-        local cw = vim.fn.expand('<cword>')
-        if vim.fn.index({ 'vim', 'help' }, vim.bo.filetype) >= 0 then
-          vim.api.nvim_command('h ' .. cw)
-        elseif vim.api.nvim_eval('coc#rpc#ready()') then
-          vim.fn.CocActionAsync('doHover')
-        else
-          vim.api.nvim_command('!' .. vim.o.keywordprg .. ' ' .. cw)
-        end
-      end
-
-      keyset("n", "K", '<CMD>lua _G.show_docs()<CR>', { silent = true })
-
-
-      -- Highlight the symbol and its references on a CursorHold event(cursor is idle)
-      vim.api.nvim_create_augroup("CocGroup", {})
-      vim.api.nvim_create_autocmd("CursorHold", {
-        group = "CocGroup",
-        command = "silent call CocActionAsync('highlight')",
-        desc = "Highlight symbol under cursor on CursorHold"
-      })
-
-
-      -- Symbol renaming
-      keyset("n", "<space>r", "<Plug>(coc-rename)", { silent = true })
-
-
-      -- Setup formatexpr specified filetype(s)
-      vim.api.nvim_create_autocmd("FileType", {
-        group = "CocGroup",
-        pattern = "typescript,json",
-        command = "setl formatexpr=CocAction('formatSelected')",
-        desc = "Setup formatexpr specified filetype(s)."
-      })
-
-      -- Update signature help on jump placeholder
-      vim.api.nvim_create_autocmd("User", {
-        group = "CocGroup",
-        pattern = "CocJumpPlaceholder",
-        command = "call CocActionAsync('showSignatureHelp')",
-        desc = "Update signature help on jump placeholder"
-      })
-
-      -- -- Apply codeAction to the selected region
-      -- -- Example: `<leader>aap` for current paragraph
-      -- local opts = { silent = true, nowait = true }
-      -- keyset("x", "<leader>a", "<Plug>(coc-codeaction-selected)", opts)
-      -- keyset("n", "<leader>a", "<Plug>(coc-codeaction-selected)", opts)
-      --
-      -- -- Remap keys for apply code actions at the cursor position.
-      -- keyset("n", "<leader>ac", "<Plug>(coc-codeaction-cursor)", opts)
-      -- -- Remap keys for apply source code actions for current file.
-      -- keyset("n", "<leader>as", "<Plug>(coc-codeaction-source)", opts)
-      -- Apply the most preferred quickfix action on the current line.
-      keyset("n", "<leader>qf", "<Plug>(coc-fix-current)", opts)
-
-      -- Remap keys for apply refactor code actions.
-      keyset("n", "<leader>re", "<Plug>(coc-codeaction-refactor)", { silent = true })
-      keyset("x", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
-      keyset("n", "<leader>r", "<Plug>(coc-codeaction-refactor-selected)", { silent = true })
-
-      -- Run the Code Lens actions on the current line
-      keyset("n", "<leader>cl", "<Plug>(coc-codelens-action)", opts)
-
-
-      -- Map function and class text objects
-      -- NOTE: Requires 'textDocument.documentSymbol' support from the language server
-      keyset("x", "if", "<Plug>(coc-funcobj-i)", opts)
-      keyset("o", "if", "<Plug>(coc-funcobj-i)", opts)
-      keyset("x", "af", "<Plug>(coc-funcobj-a)", opts)
-      keyset("o", "af", "<Plug>(coc-funcobj-a)", opts)
-      keyset("x", "ic", "<Plug>(coc-classobj-i)", opts)
-      keyset("o", "ic", "<Plug>(coc-classobj-i)", opts)
-      keyset("x", "ac", "<Plug>(coc-classobj-a)", opts)
-      keyset("o", "ac", "<Plug>(coc-classobj-a)", opts)
-
-
-      -- Remap <C-f> and <C-b> to scroll float windows/popups
-      ---@diagnostic disable-next-line: redefined-local
-      local opts = { silent = true, nowait = true, expr = true }
-      keyset("n", "<C-f>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
-      keyset("n", "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts)
-      keyset("i", "<C-f>",
-        'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(1)<cr>" : "<Right>"', opts)
-      keyset("i", "<C-b>",
-        'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(0)<cr>" : "<Left>"', opts)
-      keyset("v", "<C-f>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
-      keyset("v", "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts)
-
-
-      -- Use CTRL-S for selections ranges
-      -- Requires 'textDocument/selectionRange' support of language server
-      keyset("n", "<C-s>", "<Plug>(coc-range-select)", { silent = true })
-      keyset("x", "<C-s>", "<Plug>(coc-range-select)", { silent = true })
-
-
-      -- Add `:Format` command to format current buffer
-      vim.api.nvim_create_user_command("Format", "call CocAction('format')", {})
-
-      -- " Add `:Fold` command to fold current buffer
-      vim.api.nvim_create_user_command("Fold", "call CocAction('fold', <f-args>)", { nargs = '?' })
-
-      -- Add `:OR` command for organize imports of the current buffer
-      vim.api.nvim_create_user_command("OR", "call CocActionAsync('runCommand', 'editor.action.organizeImport')", {})
-
-      -- Add (Neo)Vim's native statusline support
-      -- NOTE: Please see `:h coc-status` for integrations with external plugins that
-      -- provide custom statusline: lightline.vim, vim-airline
-      vim.opt.statusline:prepend("%{coc#status()}%{get(b:,'coc_current_function','')}")
-
-      -- Mappings for CoCList
-      -- code actions and coc stuff
-      ---@diagnostic disable-next-line: redefined-local
-      local opts = { silent = true, nowait = true }
-      -- Show all diagnostics
-      keyset("n", "<space>a", ":<C-u>CocList diagnostics<cr>", opts)
-      -- Manage extensions
-      keyset("n", "<space>e", ":<C-u>CocList extensions<cr>", opts)
-      -- Show commands
-      keyset("n", "<space>c", ":<C-u>CocList commands<cr>", opts)
-      -- Find symbol of current document
-      keyset("n", "<space>o", ":<C-u>CocList outline<cr>", opts)
-      -- Search workspace symbols
-      keyset("n", "<space>s", ":<C-u>CocList -I symbols<cr>", opts)
-      -- Do default action for next item
-      keyset("n", "<space>j", ":<C-u>CocNext<cr>", opts)
-      -- Do default action for previous item
-      keyset("n", "<space>k", ":<C-u>CocPrev<cr>", opts)
-      -- Resume latest coc list
-      keyset("n", "<space>p", ":<C-u>CocListResume<cr>", opts)
-
-      -- coc-htmlがうまく動作しないので、htmlファイルの時はcoc-navを無効にする
-      vim.api.nvim_create_augroup("CocNavToggle", { clear = true })
-
-      vim.api.nvim_create_autocmd("BufEnter", {
-        group = "CocNavToggle",
-        pattern = "*.html",
-        command = "call CocActionAsync('deactivateExtension', 'coc-nav')",
-        desc = "Turn off coc-nav for html"
-      })
-
-      vim.api.nvim_create_autocmd("BufLeave", {
-        group = "CocNavToggle",
-        pattern = "*.html",
-        command = "call CocActionAsync('toggleExtension', 'coc-nav')",
-        desc = "Turn on coc-nav for other files"
-      })
-
-      -- goのファイルの時は、保存時に自動でimportを整理する
-      vim.api.nvim_create_augroup("CocGoImports", { clear = true })
+      -- Goファイル保存時にimport整理
       vim.api.nvim_create_autocmd("BufWritePre", {
-        group = "CocGoImports",
         pattern = "*.go",
-        command = "call CocActionAsync('runCommand', 'editor.action.organizeImport')",
+        callback = function()
+          vim.lsp.buf.code_action({
+            context = { only = { "source.organizeImports" } },
+            apply   = true,
+          })
+        end,
       })
-    end
+    end,
+  },
+
+  -- 補完 (blink.cmp)
+  {
+    "saghen/blink.cmp",
+    dir = "@blinkCmp@",
+    dependencies = {
+      { "rafamadriz/friendly-snippets", dir = "@friendlySnippets@" },
+      { "archie-judd/blink-cmp-words",  dir = "@blinkCmpWords@" },
+      { "onsails/lspkind.nvim",         dir = "@lspkindNvim@" },
+    },
+    opts = {
+      keymap = {
+        preset        = "default",
+        ["<CR>"]      = { "accept", "fallback" },
+        ["<C-j>"]     = { "snippet_forward", "fallback" },
+        ["<C-k>"]     = { "snippet_backward", "fallback" },
+        ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+      },
+      completion = {
+        menu = {
+          draw = {
+            components = {
+              kind_icon = {
+                text = function(ctx)
+                  local icon = require("lspkind").symbol_map[ctx.kind] or ""
+                  return icon .. " "
+                end,
+                highlight = function(ctx)
+                  return "BlinkCmpKind" .. ctx.kind
+                end,
+              },
+              kind = {
+                text = function(ctx)
+                  local labels = {
+                    Method        = "メソッド",
+                    Function      = "関数",
+                    Variable      = "変数",
+                    Field         = "フィールド",
+                    TypeParameter = "型",
+                    Constant      = "定数",
+                    Class         = "クラス",
+                    Interface     = "インターフェース",
+                    Struct        = "構造体",
+                    Event         = "イベント",
+                    Operator      = "演算子",
+                    Module        = "モジュール",
+                    Property      = "プロパティ",
+                    Enum          = "列挙体",
+                    Reference     = "リファレンス",
+                    Keyword       = "キーワード",
+                    File          = "ファイル",
+                    Folder        = "ディレクトリ",
+                    Color         = "カラー",
+                    Unit          = "ユニット",
+                    Snippet       = "スニペット",
+                    Text          = "テキスト",
+                    Constructor   = "コンストラクタ",
+                    Value         = "値",
+                    EnumMember    = "列挙体のメンバ",
+                  }
+                  return labels[ctx.kind] or ctx.kind
+                end,
+                highlight = "BlinkCmpKind",
+              },
+            },
+          },
+        },
+      },
+      sources = {
+        default = { "lsp", "path", "snippets", "buffer", "words" },
+        providers = {
+          words = {
+            name         = "words",
+            module       = "blink-cmp-words",
+            score_offset = -3,
+            opts         = { number_of_candidates = 3 },
+          },
+        },
+      },
+    },
+  },
+
+  -- フォーマッター (conform.nvim)
+  {
+    "stevearc/conform.nvim",
+    dir = "@conformNvim@",
+    opts = {
+      formatters_by_ft = {
+        sh     = { "shfmt" },
+        zsh    = { "shfmt" },
+        python = { "black" },
+      },
+      format_on_save = {
+        timeout_ms = 500,
+        lsp_fallback = true,
+      },
+      formatters = {
+        shfmt = { prepend_args = { "-i", "2", "-bn", "-ci", "-sr" } },
+      },
+    },
+  },
+
+  -- リンター (nvim-lint)
+  {
+    "mfussenegger/nvim-lint",
+    dir = "@nvimLint@",
+    config = function()
+      require("lint").linters_by_ft = {
+        python = { "mypy" },
+      }
+      vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+        callback = function()
+          require("lint").try_lint()
+        end,
+      })
+    end,
+  },
+
+  -- LSP進捗表示 (fidget.nvim)
+  {
+    "j-hui/fidget.nvim",
+    dir = "@fidgetNvim@",
+    opts = {},
   },
 }

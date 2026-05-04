@@ -1,9 +1,9 @@
 return {
-  { "tpope/vim-endwise",    dir = "@vimEndwise@" },
-  { "tpope/vim-surround",   dir = "@vimSurround@" },
-  { "tpope/vim-fugitive",   dir = "@vimFugitive@" },
-  { "tomtom/tcomment_vim",  dir = "@tcommentVim@" },
-  { "godlygeek/tabular",    dir = "@tabular@" },
+  { "tpope/vim-endwise",   dir = "@vimEndwise@" },
+  { "tpope/vim-surround",  dir = "@vimSurround@" },
+  { "tpope/vim-fugitive",  dir = "@vimFugitive@" },
+  { "tomtom/tcomment_vim", dir = "@tcommentVim@" },
+  { "godlygeek/tabular",   dir = "@tabular@" },
   {
     'windwp/nvim-autopairs',
     dir = "@nvimAutopairs@",
@@ -99,10 +99,10 @@ return {
       })
     end,
     keys = {
-      { "<leader>a", nil, desc = "AI/Claude Code" },
-      { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+      { "<leader>a",  nil,                        desc = "AI/Claude Code" },
+      { "<leader>ac", "<cmd>ClaudeCode<cr>",      desc = "Toggle Claude" },
       { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
-      { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" },
+      { "<leader>as", "<cmd>ClaudeCodeSend<cr>",  mode = "v",             desc = "Send to Claude" },
     },
   },
   {
@@ -135,9 +135,9 @@ return {
     -- 依存関係の設定
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
-      { "stevearc/dressing.nvim",  dir = "@dressingNvim@" },
+      { "stevearc/dressing.nvim", dir = "@dressingNvim@" },
       "nvim-lua/plenary.nvim",
-      { "MunifTanjim/nui.nvim",    dir = "@nuiNvim@" },
+      { "MunifTanjim/nui.nvim",   dir = "@nuiNvim@" },
       "nvim-telescope/telescope.nvim",
       "nvim-tree/nvim-web-devicons",
       "zbirenbaum/copilot.lua",

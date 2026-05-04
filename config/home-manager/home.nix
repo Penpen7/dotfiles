@@ -380,8 +380,6 @@ in
 
   xdg.configFile = {
       "nvim/init.lua".source = ../nvim/init.lua;
-      "nvim/coc-settings.json".source = ../nvim/coc-settings.json;
-
       "nvim/lua/core/core.lua".source        = ../nvim/lua/core/core.lua;
       "nvim/lua/core/key_mapping.lua".source = ../nvim/lua/core/key_mapping.lua;
       "nvim/lua/core/lazy/ft.lua".source     = ../nvim/lua/core/lazy/ft.lua;
@@ -426,17 +424,14 @@ in
       };
 
       "nvim/lua/core/lazy/lsp.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/lsp.lua {
-        cocNvim         = pkgs.vimPlugins.coc-nvim;
-        cocClangd       = pkgs.vimPlugins.coc-clangd;
-        cocCss          = pkgs.vimPlugins.coc-css;
-        cocDiagnostic   = pkgs.vimPlugins.coc-diagnostic;
-        cocJson         = pkgs.vimPlugins.coc-json;
-        cocLua          = pkgs.vimPlugins.coc-lua;
-        cocPairs        = pkgs.vimPlugins.coc-pairs;
-        cocRustAnalyzer = pkgs.vimPlugins.coc-rust-analyzer;
-        cocSnippets     = pkgs.vimPlugins.coc-snippets;
-        cocToml         = pkgs.vimPlugins.coc-toml;
-        cocYaml         = pkgs.vimPlugins.coc-yaml;
+        nvimLspconfig    = pkgs.vimPlugins.nvim-lspconfig;
+        blinkCmp         = pkgs.vimPlugins.blink-cmp;
+        blinkCmpWords    = pkgs.vimPlugins.blink-cmp-words;
+        friendlySnippets = pkgs.vimPlugins.friendly-snippets;
+        conformNvim      = pkgs.vimPlugins.conform-nvim;
+        nvimLint         = pkgs.vimPlugins.nvim-lint;
+        fidgetNvim       = pkgs.vimPlugins.fidget-nvim;
+        lspkindNvim      = pkgs.vimPlugins.lspkind-nvim;
       };
 
       "nvim/lua/core/lazy/edit.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/edit.lua {
@@ -467,7 +462,6 @@ in
         fzfWrapper        = pkgs.vimPlugins.fzf-wrapper;
         telescopeNvim     = pkgs.vimPlugins.telescope-nvim;
         plenaryNvim       = pkgs.vimPlugins.plenary-nvim;
-        telescopeCocNvim  = pkgs.vimPlugins.telescope-coc-nvim;
         telescopeCoAuthor = nvimTelescopeCoAuthor;
       };
 

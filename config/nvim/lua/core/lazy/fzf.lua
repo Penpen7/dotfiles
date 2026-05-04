@@ -7,7 +7,6 @@ return (
       tag = "0.1.4",
       dependencies = {
         { "nvim-lua/plenary.nvim",              dir = "@plenaryNvim@" },
-        { 'fannheyward/telescope-coc.nvim',     dir = "@telescopeCocNvim@" },
         { 'Penpen7/telescope-co-author.nvim',   dir = "@telescopeCoAuthor@" },
       },
       keys = { "<leader>f" },
@@ -24,24 +23,22 @@ return (
 
         telescope.setup({
           extensions = {
-            coc = {
-              theme = 'dropdown',
-              prefer_locations = true,    -- always use Telescope locations to preview definitions/declarations/implementations etc
-              push_cursor_on_edit = true, -- save the cursor position to jump back in the future
-              timeout = 3000,             -- timeout for coc commands
-            },
             co_author = {}
           },
         })
-        telescope.load_extension('coc')
         telescope.load_extension('co_author')
 
         -- GoTo code navigation
-        vim.keymap.set("n", "gd", ":Telescope coc definitions<CR>", { silent = true })
-        vim.keymap.set("n", "gy", ":Telescope coc type_definitions<CR>", { silent = true })
-        vim.keymap.set("n", "gi", ":Telescope coc implementations<CR>", { silent = true })
-        vim.keymap.set("n", "gr", ":Telescope coc references<CR>", { silent = true })
+        vim.keymap.set("n", "gd", builtin.lsp_definitions,      { silent = true })
+        vim.keymap.set("n", "gy", builtin.lsp_type_definitions,  { silent = true })
+        vim.keymap.set("n", "gi", builtin.lsp_implementations,   { silent = true })
+        vim.keymap.set("n", "gr", builtin.lsp_references,        { silent = true })
         vim.keymap.set("n", "<leader>fc", ":Telescope co_author<CR>", { silent = true })
+
+        -- LSP ピッカー
+        vim.keymap.set("n", "<space>a", builtin.diagnostics,           { silent = true })
+        vim.keymap.set("n", "<space>o", builtin.lsp_document_symbols,  { silent = true })
+        vim.keymap.set("n", "<space>s", builtin.lsp_workspace_symbols, { silent = true })
       end
     },
   }
