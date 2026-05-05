@@ -10,8 +10,6 @@ return {
     event = "InsertEnter",
     opts = {}, -- this is equalent to setup({}) function
     config = function()
-      -- Enterを押した際にcoc.nvimでの候補が表示されているときには候補を確定させる
-      -- coc.nvimでも必要な設定なので、削除する場合にはcoc.nvimに移動させること
       local remap = vim.api.nvim_set_keymap
       local npairs = require('nvim-autopairs')
       npairs.setup({ map_cr = false })
@@ -19,22 +17,16 @@ return {
       -- skip it, if you use another global object
       _G.MUtils = {}
 
-      -- old version
-      -- MUtils.completion_confirm=function()
-      -- if vim.fn["coc#pum#visible"]() ~= 0 then
-      -- return vim.fn["coc#_select_confirm"]()
-      -- else
-      -- return npairs.autopairs_cr()
-      -- end
-      -- end
-
-      -- new version for custom pum
       MUtils.completion_confirm = function()
-        if vim.fn["coc#pum#visible"]() ~= 0 then
-          return vim.fn["coc#pum#confirm"]()
-        else
-          return npairs.autopairs_cr()
+        local ok, blink = pcall(require, "blink.cmp")
+        if ok and blink.is_visible and blink.is_visible() then
+          if blink.accept then
+            blink.accept()
+            return ""
+          end
+          return vim.api.nvim_replace_termcodes("<C-y>", true, false, true)
         end
+        return npairs.autopairs_cr()
       end
 
       remap('i', '<CR>', 'v:lua.MUtils.completion_confirm()', { expr = true, noremap = true })

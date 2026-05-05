@@ -16,6 +16,13 @@ return {
           Lua = { diagnostics = { globals = { "vim" } } },
         },
       })
+      vim.lsp.config("gopls", {
+        settings = {
+          gopls = {
+            completeUnimported = true,
+          },
+        },
+      })
       vim.lsp.config("golangci_lint_ls", {
         init_options = {
           command = {
@@ -113,6 +120,19 @@ return {
       { "archie-judd/blink-cmp-words",  dir = "@blinkCmpWords@" },
       { "onsails/lspkind.nvim",         dir = "@lspkindNvim@" },
     },
+    config = function(_, opts)
+      require("blink.cmp").setup(opts)
+
+      local set_blink_cmp_highlights = function()
+        vim.api.nvim_set_hl(0, "BlinkCmpMenuSelection", { fg = "#ECEFF4", bg = "#434C5E" })
+      end
+
+      set_blink_cmp_highlights()
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        group = vim.api.nvim_create_augroup("BlinkCmpHighlights", { clear = true }),
+        callback = set_blink_cmp_highlights,
+      })
+    end,
     opts = {
       keymap = {
         preset        = "default",
@@ -123,6 +143,7 @@ return {
       },
       completion = {
         menu = {
+          winhighlight = "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
           draw = {
             components = {
               kind_icon = {
@@ -170,15 +191,20 @@ return {
             },
           },
         },
+        documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 200,
+        },
       },
       sources = {
         default = { "lsp", "path", "snippets", "buffer", "words" },
         providers = {
           words = {
-            name         = "words",
-            module       = "blink-cmp-words",
+            name         = "blink-cmp-words",
+            module       = "blink-cmp-words.dictionary",
+            max_items    = 3,
             score_offset = -3,
-            opts         = { number_of_candidates = 3 },
+            opts         = { dictionary_search_threshold = 3 },
           },
         },
       },
