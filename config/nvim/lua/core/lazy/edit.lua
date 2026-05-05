@@ -10,26 +10,8 @@ return {
     event = "InsertEnter",
     opts = {}, -- this is equalent to setup({}) function
     config = function()
-      local remap = vim.api.nvim_set_keymap
       local npairs = require('nvim-autopairs')
       npairs.setup({ map_cr = false })
-
-      -- skip it, if you use another global object
-      _G.MUtils = {}
-
-      MUtils.completion_confirm = function()
-        local ok, blink = pcall(require, "blink.cmp")
-        if ok and blink.is_visible and blink.is_visible() then
-          if blink.accept then
-            blink.accept()
-            return ""
-          end
-          return vim.api.nvim_replace_termcodes("<C-y>", true, false, true)
-        end
-        return npairs.autopairs_cr()
-      end
-
-      remap('i', '<CR>', 'v:lua.MUtils.completion_confirm()', { expr = true, noremap = true })
     end,
   },
   {
