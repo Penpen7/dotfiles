@@ -120,19 +120,6 @@ return {
       { "archie-judd/blink-cmp-words",  dir = "@blinkCmpWords@" },
       { "onsails/lspkind.nvim",         dir = "@lspkindNvim@" },
     },
-    config = function(_, opts)
-      require("blink.cmp").setup(opts)
-
-      local set_blink_cmp_highlights = function()
-        vim.api.nvim_set_hl(0, "BlinkCmpMenuSelection", { fg = "#ECEFF4", bg = "#434C5E" })
-      end
-
-      set_blink_cmp_highlights()
-      vim.api.nvim_create_autocmd("ColorScheme", {
-        group = vim.api.nvim_create_augroup("BlinkCmpHighlights", { clear = true }),
-        callback = set_blink_cmp_highlights,
-      })
-    end,
     opts = {
       keymap = {
         preset        = "default",
