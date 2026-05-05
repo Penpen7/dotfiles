@@ -68,7 +68,7 @@ return {
           vim.keymap.set("n", "]g", vim.diagnostic.goto_next, opts)
 
           -- カーソル下のシンボルをハイライト
-          if client and client.supports_method("textDocument/documentHighlight") then
+          if client and client.server_capabilities and client.server_capabilities.documentHighlightProvider then
             vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
               buffer = bufnr,
               callback = vim.lsp.buf.document_highlight,
@@ -130,7 +130,8 @@ return {
       },
       completion = {
         menu = {
-          winhighlight = "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
+          winhighlight =
+          "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
           draw = {
             components = {
               kind_icon = {
