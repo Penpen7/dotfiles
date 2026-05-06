@@ -313,13 +313,11 @@ in
     # GUI アプリ (nixpkgs)
     alacritty         # GPU アクセラレーション対応のターミナルエミュレータ
     audacity          # オーディオ編集・録音ツール
-    brave             # プライバシー重視のウェブブラウザ (unfree)
     chromedriver      # Chrome ブラウザの WebDriver (Selenium 等)
     cool-retro-term   # レトロ風ターミナルエミュレータ
     discord           # ゲーマー向けボイス・テキストチャット (unfree)
     flutter           # クロスプラットフォーム UI フレームワーク (unfree)
     geogebra          # 数学教育用動的グラフィクスソフト
-    google-chrome     # Google Chrome ウェブブラウザ (unfree)
     iterm2            # macOS 専用の高機能ターミナルエミュレータ (unfree) ← cask: iterm2
     keycastr          # キー入力を画面に表示するツール ← cask: keycastr
     kitty             # GPU アクセラレーション対応のターミナルエミュレータ
@@ -562,6 +560,22 @@ in
       { id = "gppongmhjkpfnbhagpmjfkannfbllamg"; } # Wappalyzer
       { id = "dbepggeogbaibhgnhhndojpepiihcmeb"; } # Vimium
       { id = "iielbgdjdenipcchemkiknljbghjfdlk"; } # SlideShare Viewer
+      { id = "ghbmnnjooekpmoecnnnilnnbdlolhkhi"; } # Google Off-line Document
+    ];
+  };
+
+  programs.google-chrome = {
+    enable = true;
+    extensions = [
+      { id = "nngceckbapebfimnlniiiahkandclblb"; } # Bitwarden Password Manager
+      { id = "kpmjjdhbcfebfjgdnpjagcndoelnidfj"; } # Control Panel for Twitter
+      { id = "plhaalebpkihaccllnkdaokdoeaokmle"; } # draw.io for Notion
+      { id = "eciepnnimnjaojlkcpdpcgbfkpcagahd"; } # Notion Boost
+      { id = "mcbpblocgmgfnpjjppndjkmgjaogfceg"; } # Take Webpage Screenshots
+      { id = "gppongmhjkpfnbhagpmjfkannfbllamg"; } # Wappalyzer
+      { id = "dbepggeogbaibhgnhhndojpepiihcmeb"; } # Vimium
+      { id = "iielbgdjdenipcchemkiknljbghjfdlk"; } # SlideShare Viewer
+      { id = "ghbmnnjooekpmoecnnnilnnbdlolhkhi"; } # Google Off-line Document
     ];
   };
 
