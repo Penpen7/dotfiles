@@ -95,6 +95,7 @@ in
       "kap"                   # 画面録画ツール
       "logi-options+"         # Logicool デバイス管理アプリ
       "minecraft"             # Minecraft Launcher
+      "rekordbox"             # Pioneer DJ rekordbox
       "microsoft-auto-update" # Microsoft アプリの自動更新ツール
       "microsoft-teams"       # Microsoft Teams ビデオ会議・チャット
       "synology-drive"        # Synology Drive Client
