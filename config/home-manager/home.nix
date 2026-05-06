@@ -551,6 +551,20 @@ in
     ];
   };
 
+  programs.brave = {
+    enable = true;
+    extensions = [
+      { id = "nngceckbapebfimnlniiiahkandclblb"; } # Bitwarden Password Manager
+      { id = "kpmjjdhbcfebfjgdnpjagcndoelnidfj"; } # Control Panel for Twitter
+      { id = "plhaalebpkihaccllnkdaokdoeaokmle"; } # draw.io for Notion
+      { id = "eciepnnimnjaojlkcpdpcgbfkpcagahd"; } # Notion Boost
+      { id = "mcbpblocgmgfnpjjppndjkmgjaogfceg"; } # Take Webpage Screenshots
+      { id = "gppongmhjkpfnbhagpmjfkannfbllamg"; } # Wappalyzer
+      { id = "dbepggeogbaibhgnhhndojpepiihcmeb"; } # Vimium
+      { id = "iielbgdjdenipcchemkiknljbghjfdlk"; } # SlideShare Viewer
+    ];
+  };
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   programs.zsh.enable = true;
