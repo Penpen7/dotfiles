@@ -316,12 +316,16 @@ in
     brave             # プライバシー重視のウェブブラウザ (unfree)
     chromedriver      # Chrome ブラウザの WebDriver (Selenium 等)
     cool-retro-term   # レトロ風ターミナルエミュレータ
+    discord           # ゲーマー向けボイス・テキストチャット (unfree)
     flutter           # クロスプラットフォーム UI フレームワーク (unfree)
+    geogebra          # 数学教育用動的グラフィクスソフト
     google-chrome     # Google Chrome ウェブブラウザ (unfree)
     iterm2            # macOS 専用の高機能ターミナルエミュレータ (unfree) ← cask: iterm2
     keycastr          # キー入力を画面に表示するツール ← cask: keycastr
     kitty             # GPU アクセラレーション対応のターミナルエミュレータ
     slack             # チームコミュニケーションツール (unfree)
+    synology-drive-client # Synology Drive ファイル同期クライアント (unfree)
+    tailscale-gui     # Tailscale macOS GUI クライアント (unfree)
     vagrant           # 仮想開発環境の構築・管理ツール
     skimpdf           # PDF ビューア・注釈ツール (unfree)
     realvnc-vnc-viewer # RealVNC リモートデスクトップクライアント (unfree)
