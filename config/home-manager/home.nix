@@ -376,7 +376,9 @@ in
 
     ".ideavimrc".source = ../intellij/.ideavimrc;
 
-    "Library/Application Support/Code/User/settings.json".source = ../vscode/settings.json;
+    "Library/Application Support/Code/User/settings.json".source = pkgs.replaceVars ../vscode/settings.json {
+      neovim = pkgs.neovim;
+    };
     "Library/Application Support/Code/User/keybindings.json".source = ../vscode/keybindings.json;
 
   };

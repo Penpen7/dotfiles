@@ -21,7 +21,7 @@
   ],
   "editor.formatOnSave": true,
   "vscode-neovim.neovimInitVimPaths.darwin": "/Users/naoki/.config/nvim/init.vim",
-  "vscode-neovim.neovimExecutablePaths.darwin": "/opt/homebrew/bin/nvim",
+  "vscode-neovim.neovimExecutablePaths.darwin": "@neovim@/bin/nvim",
   "editor.fontFamily": "HackGen35Nerd",
   "workbench.colorTheme": "Gruvbox Dark Medium",
   "workbench.startupEditor": "none",
