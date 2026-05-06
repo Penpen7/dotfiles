@@ -63,6 +63,29 @@ in
       upgrade = true;       # 既存 cask を最新版にアップグレード
       cleanup = "zap";      # 宣言に無いアプリを削除 (アンインストール)
     };
+    masApps = {
+      "AmorphousDiskMark" = 1168254295;
+      "Dropover" = 1355679052;
+      "Elmedia Video Player" = 1044549675;
+      "GarageBand" = 682658836;
+      "GeoGebra Classic 6" = 1182481622;
+      "iMovie" = 408981434;
+      "iWifi" = 1476136371;
+      "Keynote" = 409183694;
+      "Kindle" = 405399194;
+      "LINE" = 539883307;
+      "Logic Pro" = 634148309;
+      "Magnet" = 441258766;
+      "Numbers" = 409203825;
+      "Pages" = 409201541;
+      "PicGIF Lite" = 844918735;
+      "RunCat" = 1429033973;
+      "Skitch" = 425955336;
+      "Synology Image Assistant Extension" = 6503120862;
+      "Ultra Wifi" = 1664371307;
+      "WiFi Explorer" = 494803304;
+      "Xcode" = 497799835;
+    };
     casks = [
       "adobe-acrobat-reader"  # Adobe Acrobat PDF リーダー
       "claude"                # Claude AI デスクトップアプリ
