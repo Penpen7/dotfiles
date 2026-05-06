@@ -72,6 +72,7 @@ in
       "microsoft-auto-update" # Microsoft アプリの自動更新ツール
       "microsoft-teams"       # Microsoft Teams ビデオ会議・チャット
       "tableplus"             # データベース GUI クライアント
+      "tailscale-app"         # Tailscale VPN クライアント
       "virtualbox"            # x86 仮想化ソフトウェア
     ];
   };

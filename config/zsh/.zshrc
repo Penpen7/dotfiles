@@ -1,7 +1,7 @@
 # PATH
 typeset -U path
-export PATH="/usr/local/bin":$PATH
-export PATH="/usr/local/sbin":$PATH
+export PATH="$HOMEBREW_PREFIX/bin":$PATH
+export PATH="$HOMEBREW_PREFIX/sbin":$PATH
 export PATH="$GOPATH/bin":$PATH
 export PATH="$HOME/.cargo/bin:"$PATH
 export PATH="$HOME/.local/bin:$PATH"
