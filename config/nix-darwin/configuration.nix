@@ -78,6 +78,7 @@ in
       "Magnet" = 441258766;
       "Numbers" = 409203825;
       "Pages" = 409201541;
+      "Parallels Desktop" = 1085114709;
       "PicGIF Lite" = 844918735;
       "RunCat" = 1429033973;
       "Skitch" = 425955336;
@@ -90,10 +91,13 @@ in
       "adobe-acrobat-reader"  # Adobe Acrobat PDF リーダー
       "claude"                # Claude AI デスクトップアプリ
       "docker-desktop"        # Docker Desktop for Mac
+      "izotope-product-portal" # iZotope Product Portal
       "kap"                   # 画面録画ツール
       "logi-options+"         # Logicool デバイス管理アプリ
+      "minecraft"             # Minecraft Launcher
       "microsoft-auto-update" # Microsoft アプリの自動更新ツール
       "microsoft-teams"       # Microsoft Teams ビデオ会議・チャット
+      "synology-drive"        # Synology Drive Client
       "tableplus"             # データベース GUI クライアント
       "tailscale-app"         # Tailscale VPN クライアント
       "virtualbox"            # x86 仮想化ソフトウェア
