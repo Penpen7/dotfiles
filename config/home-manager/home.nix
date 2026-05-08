@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, username, ... }:
 
 let
   tsParserDirs = pkgs.lib.pipe
@@ -9,8 +9,8 @@ in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "naoki";
-  home.homeDirectory = "/Users/naoki";
+  home.username = username;
+  home.homeDirectory = "/Users/${username}";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release

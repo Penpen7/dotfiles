@@ -38,6 +38,7 @@
     }:
     let
       system = "aarch64-darwin";
+      username = "naoki";
       pkgs = import nixpkgs {
         inherit system;
         overlays = [
@@ -48,13 +49,14 @@
       };
     in
     {
-      homeConfigurations."naoki" = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
+        extraSpecialArgs = { inherit username; };
         modules = [ ./config/home-manager/home.nix ];
       };
       darwinConfigurations = {
         "uehara-mac" = nix-darwin.lib.darwinSystem {
-          specialArgs = { inherit self; };
+          specialArgs = { inherit self username; };
           modules = [
             ./config/nix-darwin/configuration.nix
           ];

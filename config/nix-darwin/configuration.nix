@@ -1,4 +1,4 @@
-{ self, pkgs, ... }:
+{ self, pkgs, username, ... }:
 let
   shellPath = "/bin/zsh";
 in
@@ -12,7 +12,7 @@ in
 
   system = {
     stateVersion = "5.0";
-    primaryUser = "naoki"; # darwin-rebuild を実行するユーザー
+    primaryUser = username; # darwin-rebuild を実行するユーザー
     configurationRevision = self.rev or self.dirtyRev or null;
 
     defaults = {
@@ -111,8 +111,8 @@ in
   system.activationScripts.postActivation.text = ''
     echo "setting default shell to zsh..." >&2
     SHELL_PATH="${shellPath}"
-    if [ "$(dscl . -read /Users/naoki UserShell | awk '{print $2}')" != "$SHELL_PATH" ]; then
-      chsh -s "$SHELL_PATH" naoki
+    if [ "$(dscl . -read /Users/${username} UserShell | awk '{print $2}')" != "$SHELL_PATH" ]; then
+      chsh -s "$SHELL_PATH" ${username}
     fi
   '';
   environment.shells = [ shellPath ];
