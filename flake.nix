@@ -43,6 +43,7 @@
         overlays = [
           nix-vscode-extensions.overlays.default
           rust-overlay.overlays.default
+          (import ./pkgs).overlays.default
         ];
       };
     in
