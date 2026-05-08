@@ -205,11 +205,11 @@ in
 
   ".tmux.conf".source = pkgs.replaceVars ../tmux/.tmux.conf {
       TMUX_PLUGIN_YANK             = "${pkgs.tmuxPlugins.yank.rtp}";
-      TMUX_PLUGIN_OPEN             = "${tmuxPluginOpen.rtp}";
-      TMUX_PLUGIN_PAIN_CONTROL     = "${tmuxPluginPainControl.rtp}";
-      TMUX_PLUGIN_RESURRECT        = "${tmuxPluginResurrect.rtp}";
-      TMUX_PLUGIN_BATTERY          = "${tmuxPluginBattery.rtp}";
-      TMUX_PLUGIN_POWERLINE        = "${tmuxPluginPowerline.rtp}";
+      TMUX_PLUGIN_OPEN             = "${pkgs.tmuxPluginOpen.rtp}";
+      TMUX_PLUGIN_PAIN_CONTROL     = "${pkgs.tmuxPluginPainControl.rtp}";
+      TMUX_PLUGIN_RESURRECT        = "${pkgs.tmuxPluginResurrect.rtp}";
+      TMUX_PLUGIN_BATTERY          = "${pkgs.tmuxPluginBattery.rtp}";
+      TMUX_PLUGIN_POWERLINE        = "${pkgs.tmuxPluginPowerline.rtp}";
     };
 
     ".hyper.js".source = ../hyper/.hyper.js;
@@ -243,11 +243,11 @@ in
 
       "nvim/lua/core/lazy/ui.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/ui.lua {
         fernVim              = pkgs.vimPlugins.vim-fern;
-        fernRendererNerdfont = nvimFernRendererNerdfont;
-        fernGitStatus        = nvimFernGitStatus;
-        nerdfont             = nvimNerdfont;
+        fernRendererNerdfont = pkgs.nvimFernRendererNerdfont;
+        fernGitStatus        = pkgs.nvimFernGitStatus;
+        nerdfont             = pkgs.nvimNerdfont;
         nvimWebDevicons      = pkgs.vimPlugins.nvim-web-devicons;
-        glyphPalette         = nvimGlyphPalette;
+        glyphPalette         = pkgs.nvimGlyphPalette;
         vimDevicons          = pkgs.vimPlugins.vim-devicons;
         bufferlineNvim       = pkgs.vimPlugins.bufferline-nvim;
         undotree             = pkgs.vimPlugins.undotree;
@@ -300,7 +300,7 @@ in
       };
 
       "nvim/lua/core/lazy/git.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/git.lua {
-        tigExplorer  = nvimTigExplorer;
+        tigExplorer  = pkgs.nvimTigExplorer;
         gitsignsNvim = pkgs.vimPlugins.gitsigns-nvim;
       };
 
@@ -308,7 +308,7 @@ in
         fzfWrapper        = pkgs.vimPlugins.fzf-wrapper;
         telescopeNvim     = pkgs.vimPlugins.telescope-nvim;
         plenaryNvim       = pkgs.vimPlugins.plenary-nvim;
-        telescopeCoAuthor = nvimTelescopeCoAuthor;
+        telescopeCoAuthor = pkgs.nvimTelescopeCoAuthor;
       };
 
       "nvim/lua/core/lazy/utils.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/utils.lua {
@@ -326,10 +326,10 @@ in
         plantumlSyntax = pkgs.vimPlugins.plantuml-syntax;
       };
       "nvim/lua/core/lazy/ft/rest.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/ft/rest.lua {
-        vimRestConsole = nvimVimRestConsole;
+        vimRestConsole = pkgs.nvimVimRestConsole;
       };
       "nvim/lua/core/lazy/ft/swagger.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/ft/swagger.lua {
-        swaggerPreview = nvimSwaggerPreview;
+        swaggerPreview = pkgs.nvimSwaggerPreview;
       };
       "nvim/lua/core/lazy/ft/terraform.lua".source = pkgs.replaceVars ../nvim/lua/core/lazy/ft/terraform.lua {
         vimTerraform = pkgs.vimPlugins.vim-terraform;
