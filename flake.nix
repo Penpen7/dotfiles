@@ -49,18 +49,28 @@
       };
     in
     {
-      homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = { inherit username; };
-        modules = [ ./config/home-manager/home.nix ];
-      };
-      darwinConfigurations = {
-        "uehara-mac" = nix-darwin.lib.darwinSystem {
-          specialArgs = { inherit self username; };
-          modules = [
-            ./config/nix-darwin/configuration.nix
-          ];
+      homeConfigurations = {
+        work = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = { inherit username; };
+          modules = [ ./config/home-manager/profile/work ];
+        };
+        personal = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = { inherit username; };
+          modules = [ ./config/home-manager/profile/personal ];
         };
       };
+      darwinConfigurations = {
+        work = nix-darwin.lib.darwinSystem {
+          specialArgs = { inherit self username; };
+          modules = [ ./config/nix-darwin/profile/work ];
+        };
+        personal = nix-darwin.lib.darwinSystem {
+          specialArgs = { inherit self username; };
+          modules = [ ./config/nix-darwin/profile/personal ];
+        };
+      };
+      formatter.aarch64-darwin = pkgs.nixfmt-rfc-style;
     };
 }

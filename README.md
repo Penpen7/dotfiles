@@ -30,19 +30,19 @@ cd ~/dotfiles
 ### 3. Apply home-manager configuration
 
 ```sh
-nix run home-manager/master -- switch --flake .
+nix run home-manager/master -- switch --flake .#work
 ```
 
 ### 4. Apply nix-darwin configuration (optional)
 
 ```sh
-nix run nix-darwin -- switch --flake .
+nix run nix-darwin -- switch --flake .#work
 ```
 
 ## Update
 
 ```sh
-home-manager switch --flake .
+home-manager switch --flake .#work
 ```
 
 ## Manually Managed Apps

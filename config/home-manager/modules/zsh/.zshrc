@@ -26,22 +26,23 @@ zinit ice wait lucid
 zinit light @zshCompletions@
 
 DOTFILE=~/dotfiles/config
+HOME_MANAGER_MODULES=$DOTFILE/home-manager/modules
 if [ ~/.zshrc -nt ~/.zshrc.zwc ]; then
   zcompile ~/.zshrc
 fi
 shells=(
-  $DOTFILE/zsh/dircolor.zsh
-  $DOTFILE/powerlevel/.p10k.zsh
-  $DOTFILE/zsh/alias.zsh
-  $DOTFILE/zsh/option.zsh
-  $DOTFILE/zsh/shortcut.zsh
-  $DOTFILE/zsh/completions.zsh
+  $HOME_MANAGER_MODULES/zsh/dircolor.zsh
+  $HOME_MANAGER_MODULES/powerlevel/.p10k.zsh
+  $HOME_MANAGER_MODULES/zsh/alias.zsh
+  $HOME_MANAGER_MODULES/zsh/option.zsh
+  $HOME_MANAGER_MODULES/zsh/shortcut.zsh
+  $HOME_MANAGER_MODULES/zsh/completions.zsh
   $DOTFILE/fzf/zsh.zsh
   $DOTFILE/fzf/ghq.zsh
   $DOTFILE/fzf/docker.zsh
-  $DOTFILE/tmux/split.zsh
-  $DOTFILE/tmux/tmux.zsh
-  $DOTFILE/zsh/keybind.zsh
+  $HOME_MANAGER_MODULES/tmux/split.zsh
+  $HOME_MANAGER_MODULES/tmux/tmux.zsh
+  $HOME_MANAGER_MODULES/zsh/keybind.zsh
 )
 
 for shell in ${shells[@]}; do
