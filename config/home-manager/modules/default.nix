@@ -4,6 +4,8 @@
   home.homeDirectory = "/Users/${username}";
   home.stateVersion = "25.11";
   nixpkgs.config.allowUnfree = true;
+  manual.manpages.enable = false;
+  manual.json.enable = false;
 
   programs.home-manager.enable = true;
 
