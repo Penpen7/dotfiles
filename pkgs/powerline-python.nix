@@ -9,7 +9,10 @@ let
       hash = "sha256-KcZr7pxHkk6mL97c2hxeNoZzG2vKFMzamT8R8g7/BxQ=";
     };
     build-system = [ pkgs.python3Packages.setuptools ];
-    propagatedBuildInputs = with pkgs.python3Packages; [ powerline psutil ];
+    propagatedBuildInputs = with pkgs.python3Packages; [
+      powerline
+      psutil
+    ];
     doCheck = false;
   };
 
@@ -21,7 +24,10 @@ let
       url = "https://files.pythonhosted.org/packages/e9/23/2f3a2500d2a3df5bd6c9750a175379f4f65b0edd63173c89e69dfa35781d/powerline_wttr-0.1-py3-none-any.whl";
       hash = "sha256-qSt/RTgzM+ISamiyXsuOrCXtEB9emg39itCMIpTKoTI=";
     };
-    propagatedBuildInputs = with pkgs.python3Packages; [ powerline requests ];
+    propagatedBuildInputs = with pkgs.python3Packages; [
+      powerline
+      requests
+    ];
     doCheck = false;
   };
 in

@@ -1,4 +1,9 @@
-{ self, pkgs, username, ... }:
+{
+  self,
+  pkgs,
+  username,
+  ...
+}:
 let
   shellPath = "/bin/zsh";
 in

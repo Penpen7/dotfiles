@@ -1,8 +1,11 @@
 { pkgs, ... }:
 let
-  tsParserDirs = pkgs.lib.pipe
-    (pkgs.vimPlugins.nvim-treesitter.withPlugins (p: builtins.attrValues p)).dependencies
-    [ (map toString) (builtins.concatStringsSep ",") ];
+  tsParserDirs =
+    pkgs.lib.pipe (pkgs.vimPlugins.nvim-treesitter.withPlugins (p: builtins.attrValues p)).dependencies
+      [
+        (map toString)
+        (builtins.concatStringsSep ",")
+      ];
 in
 {
   home.packages = with pkgs; [
