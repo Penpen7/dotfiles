@@ -71,6 +71,6 @@
           modules = [ ./config/nix-darwin/profile/personal ];
         };
       };
-      formatter.aarch64-darwin = pkgs.nixfmt-rfc-style;
+      formatter.aarch64-darwin = pkgs.nixfmt;
     };
 }
