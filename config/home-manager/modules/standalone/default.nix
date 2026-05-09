@@ -1,90 +1,121 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    nixfmt
-    yazi
-    emacs
-    helix
-    cmake
-    gcc
-    zig
-    protobuf
-    deno
-    uv
-    lua
-    nodejs_24
+    # Nix
+    nixfmt # Nix コードのフォーマッタ
+
+    # シェル・ファイラ (zsh / zellij / tmux は各モジュールで管理)
+    yazi # Rust 製の高速ターミナルファイルマネージャ
+
+    # エディタ (neovim は nvim/ で管理)
+    emacs # 高度に拡張可能なテキストエディタ
+    helix # モダンなターミナルテキストエディタ (Vim 系)
+
+    # ビルド・コンパイル (rust / go / flutter は各モジュールで管理)
+    cmake # クロスプラットフォームのビルドシステム生成ツール
+    gcc # GNU Cコンパイラコレクション
+    zig # Zig 言語のコンパイラ・ビルドツール
+    protobuf # Protocol Buffers コードジェネレータ (protoc)
+
+    # 言語・インタープリタ (go / rust / flutter は各モジュールで管理)
+    deno # セキュアな JavaScript / TypeScript ランタイム
+    uv # 高速な Python パッケージマネージャ
+    lua # Lua 言語インタープリタ
+    nodejs_24 # Node.js JavaScript ランタイム (バージョン 24)
     llvm
     bash-language-server
-    terraform
-    terraform-ls
-    terraformer
-    awscli2
-    cloudflared
-    supabase-cli
-    ansible
-    atlas
-    gnupg
-    nmap
-    sshuttle
-    rclone
-    arp-scan
-    dsq
-    sqlite
-    jq
-    jo
-    pandoc
-    ghostscript
-    qpdf
-    tesseract
-    typst
-    imagemagick
-    ffmpeg
-    shellcheck
-    shfmt
-    yamlfmt
-    actionlint
-    fastfetch
-    pv
-    procps
-    watchman
-    ripgrep
-    bat
-    eza
-    fzf
-    tree
-    coreutils
-    wget
-    nkf
-    gnuplot
-    graphviz
-    grex
-    lz4
-    xz
-    zstd
+
+    # インフラ
+    terraform # インフラのコードによる定義・プロビジョニング (unfree)
+    terraform-ls # Terraform 用 Language Server
+    terraformer # 既存インフラから Terraform コードを逆生成
+    awscli2 # AWS CLI v2
+    cloudflared # Cloudflare Tunnel クライアント
+    supabase-cli # Supabase CLI
+    ansible # サーバー構成管理・自動化ツール
+    atlas # DBスキーマ管理ツール (バイナリ配布のため別途インストール推奨)
+
+    # ネットワーク・セキュリティ
+    gnupg # GPG 暗号化・署名ツール
+    nmap # ネットワークスキャン・ポート探索
+    sshuttle # SSH 経由の透過的プロキシ (VPN 代替)
+    rclone # クラウドストレージとのファイル同期
+    arp-scan # ARP を使ったネットワークスキャン
+
+    # データ処理・変換
+    dsq # CSV / JSON 等のファイルに SQL クエリを実行
+    sqlite # 軽量組み込み SQL データベース (sqlite3 CLI)
+    jq # JSON の加工・フィルタリング
+    jo # JSON オブジェクトをコマンドラインから生成
+    pandoc # ドキュメント形式の相互変換 (Markdown, PDF, Word 等)
+    ghostscript # PostScript / PDF の変換・レンダリング
+    qpdf # PDF の変換・分割・結合・検査
+    tesseract # OCR エンジン（画像からテキスト抽出）
+    typst # マークアップベースの組版・PDF 生成
+    imagemagick # 画像の変換・編集・加工
+    ffmpeg # 動画・音声のエンコード・変換
+
+    # フォーマット・Lint (Go 系は go/ で管理)
+    shellcheck # シェルスクリプトの静的解析・Lint
+    shfmt # シェルスクリプトのフォーマッタ
+    yamlfmt # YAML ファイルのフォーマッタ
+    actionlint # GitHub Actions ワークフローの Lint
+
+    # システム情報・監視
+    fastfetch # システム情報をターミナルに高速表示
+    pv # パイプのデータ転送量・速度を可視化
+    procps # watch コマンドを含むプロセス管理ツール群
+    watchman # ファイル変更を監視してアクションをトリガー
+
+    # ファイル・テキスト操作
+    ripgrep # 高速な grep 代替ツール (rg)
+    bat # シンタックスハイライト付き cat 代替
+    eza # モダンな ls 代替 (カラー表示・アイコン対応)
+    fzf # コマンドラインのファジーファインダー
+    tree # ディレクトリ構造をツリー表示
+    coreutils # GNU コアユーティリティ群
+    wget # HTTP / FTP ファイルダウンロード
+    nkf # 日本語文字コード変換ツール
+    gnuplot # グラフ描画ツール
+    graphviz # DOT 言語からグラフを描画・出力
+    grex # サンプル文字列から正規表現を自動生成
+
+    # 圧縮・展開
+    lz4 # 高速な圧縮・展開ツール
+    xz # xz / LZMA 形式の圧縮・展開
+    zstd # Zstandard 高速圧縮・展開
     _7zz
-    mdcat
-    viu
-    mp3val
-    z3
+
+    # ターミナル表示・ユーティリティ (tree-sitter は nvim/ で管理)
+    mdcat # Markdown をターミナルにレンダリング表示
+    viu # ターミナルで画像を表示
+    mp3val # MP3 ファイルの検証・修復
+    z3 # Microsoft 製オープンソース定理証明器
     bottom
-    go-task
-    mas
-    terminal-notifier
-    alacritty
-    audacity
-    cool-retro-term
-    geogebra
-    iterm2
-    keycastr
-    kitty
-    slack
-    synology-drive-client
-    vagrant
-    skimpdf
-    realvnc-vnc-viewer
-    wireshark
-    zoom-us
-    github-copilot-cli
-    asciinema
+
+    # タスク・自動化
+    go-task # Makefile 代替のタスクランナー (task コマンド)
+    asciinema # ターミナル操作の録画・共有ツール
+
+    # macOS 連携
+    mas # Mac App Store を CLI から操作 (macOS 専用)
+    terminal-notifier # macOS の通知センターに CLI から通知送信 (macOS 専用)
+
+    # GUI アプリ (flutter/chromedriver, discord は各モジュールで管理)
+    alacritty # GPU アクセラレーション対応のターミナルエミュレータ
+    audacity # オーディオ編集・録音ツール
+    cool-retro-term # レトロ風ターミナルエミュレータ
+    geogebra # 数学教育用動的グラフィクスソフト
+    iterm2 # macOS 専用の高機能ターミナルエミュレータ (unfree) ← cask: iterm2
+    keycastr # キー入力を画面に表示するツール ← cask: keycastr
+    kitty # GPU アクセラレーション対応のターミナルエミュレータ
+    slack # チームコミュニケーションツール (unfree)
+    synology-drive-client # Synology Drive ファイル同期クライアント (unfree)
+    vagrant # 仮想開発環境の構築・管理ツール
+    skimpdf # PDF ビューア・注釈ツール (unfree)
+    realvnc-vnc-viewer # RealVNC リモートデスクトップクライアント (unfree)
+    wireshark # ネットワークプロトコルアナライザ (Qt GUI) ← cask: wireshark
+    zoom-us # ビデオ会議ツール (unfree)
+    github-copilot-cli # GitHub Copilot CLI ← cask: copilot-cli
   ];
 }
