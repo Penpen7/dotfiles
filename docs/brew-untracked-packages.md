@@ -15,7 +15,6 @@ dotfiles の `homebrew.casks` および home-manager の nixpkgs に存在しな
 | `font-jetbrains-mono-nerd-font` | `pkgs.nerd-fonts.jetbrains-mono` | `hackgen` 系は管理済み |
 | `gstreamer-runtime` | `pkgs.gst_all_1.gstreamer` | |
 | `handbrake-app` | `pkgs.handbrake` | formula の `handbrake` も依存として入っている |
-| `logi-options-plus` | - | nixpkgs 未収録、`logi-options+` と重複の可能性 |
 | `losslesscut` | `pkgs.losslesscut-bin` | |
 | `mactex` | `pkgs.texlive`（attrset） | スキーム指定が必要（例: `texlive.combined.scheme-medium`） |
 | `ngrok` | `pkgs.ngrok` | `cloudflared` は管理済み |
@@ -54,7 +53,6 @@ dotfiles の `homebrew.casks` および home-manager の nixpkgs に存在しな
 以下は nixpkgs に存在しないため、引き続き brew cask / formula か別の方法で管理する必要がある。
 
 - `cursor`
-- `logi-options-plus`
 - `openemu`
 - `pict`
 - `ytop`
