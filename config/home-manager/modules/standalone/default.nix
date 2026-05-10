@@ -3,6 +3,7 @@
   home.packages = with pkgs; [
     # Nix
     nixfmt # Nix コードのフォーマッタ
+    nixd # Nix Language Server
 
     # シェル・ファイラ (zsh / zellij / tmux は各モジュールで管理)
     yazi # Rust 製の高速ターミナルファイルマネージャ

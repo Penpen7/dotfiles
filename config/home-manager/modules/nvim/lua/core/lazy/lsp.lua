@@ -23,6 +23,15 @@ return {
           },
         },
       })
+      vim.lsp.config("nixd", {
+        settings = {
+          nixd = {
+            formatting = {
+              command = { "nixfmt" },
+            },
+          },
+        },
+      })
       vim.lsp.config("golangci_lint_ls", {
         init_options = {
           command = {
@@ -52,6 +61,7 @@ return {
         "terraformls",
         "bashls",
         "lua_ls",
+        "nixd",
       })
 
       -- LspAttach で共通のキーマップを設定
