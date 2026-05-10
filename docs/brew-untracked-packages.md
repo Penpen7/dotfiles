@@ -41,8 +41,6 @@ dotfiles の `homebrew.casks` および home-manager の nixpkgs に存在しな
 | `typos-cli` | `pkgs.typos` | スペルチェッカー |
 | `agg` | `pkgs.agg` | asciinema → GIF 変換 |
 | `asciinema-trim` | - | asciinema 録画トリム（nixpkgs 未収録） |
-| `ghq` | `pkgs.ghq` | git リポジトリ管理 |
-| `hub` | `pkgs.hub` | GitHub CLI 旧世代（`gh` は Nix で管理可能） |
 | `alp` | `pkgs.alp` | アクセスログプロファイラ |
 | `workq` | - | nixpkgs 未収録 |
 | `colima` | `pkgs.colima` | macOS 向けコンテナランタイム |
