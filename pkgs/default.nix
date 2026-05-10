@@ -1,6 +1,5 @@
 {
   overlays.default = final: prev: {
-    powerlinePython = import ./powerline-python.nix { pkgs = final; };
     tmuxPluginOpen = import ./tmux-plugin-open.nix { pkgs = final; };
     tmuxPluginResurrect = import ./tmux-plugin-resurrect.nix { pkgs = final; };
     tmuxPluginBattery = import ./tmux-plugin-battery.nix { pkgs = final; };
