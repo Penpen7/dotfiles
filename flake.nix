@@ -39,36 +39,57 @@
     let
       system = "aarch64-darwin";
       username = "naoki";
+      overlays = [
+        nix-vscode-extensions.overlays.default
+        rust-overlay.overlays.default
+        (import ./pkgs).overlays.default
+      ];
       pkgs = import nixpkgs {
         inherit system;
-        overlays = [
-          nix-vscode-extensions.overlays.default
-          rust-overlay.overlays.default
-          (import ./pkgs).overlays.default
-        ];
+        inherit overlays;
       };
     in
     {
-      homeConfigurations = {
-        work = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          extraSpecialArgs = { inherit username; };
-          modules = [ ./config/home-manager/profile/work ];
-        };
-        personal = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          extraSpecialArgs = { inherit username; };
-          modules = [ ./config/home-manager/profile/personal ];
-        };
-      };
       darwinConfigurations = {
         work = nix-darwin.lib.darwinSystem {
           specialArgs = { inherit self username; };
-          modules = [ ./config/nix-darwin/profile/work ];
+          modules = [
+            home-manager.darwinModules.home-manager
+            ./config/nix-darwin/profile/work
+            {
+              nixpkgs.overlays = overlays;
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = { inherit username; };
+                users = {
+                  "${username}" = {
+                    imports = [ ./config/home-manager/profile/work ];
+                  };
+                };
+              };
+            }
+          ];
         };
         personal = nix-darwin.lib.darwinSystem {
           specialArgs = { inherit self username; };
-          modules = [ ./config/nix-darwin/profile/personal ];
+          modules = [
+            home-manager.darwinModules.home-manager
+            ./config/nix-darwin/profile/personal
+            {
+              nixpkgs.overlays = overlays;
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = { inherit username; };
+                users = {
+                  "${username}" = {
+                    imports = [ ./config/home-manager/profile/personal ];
+                  };
+                };
+              };
+            }
+          ];
         };
       };
       formatter.aarch64-darwin = pkgs.nixfmt;

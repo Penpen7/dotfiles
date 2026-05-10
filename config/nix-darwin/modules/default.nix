@@ -97,6 +97,7 @@ in
   };
 
   nixpkgs.hostPlatform = "aarch64-darwin";
+  users.users.${username}.home = "/Users/${username}";
   nix.enable = false;
   security.pam.services.sudo_local.touchIdAuth = true;
   system.activationScripts.postActivation.text = ''

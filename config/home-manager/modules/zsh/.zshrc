@@ -11,7 +11,7 @@ export PATH="$HOME/.bun/bin:$PATH"
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
   source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
-. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+. "/etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh"
 
 source @zinit@/zinit.zsh
 autoload -Uz _zinit
@@ -56,7 +56,7 @@ for shell in ${shells[@]}; do
   source $shell
 done
 
-if (which zprof >/dev/null 2>&1); then
+if (which zprof > /dev/null 2>&1); then
   zprof
 fi
 
