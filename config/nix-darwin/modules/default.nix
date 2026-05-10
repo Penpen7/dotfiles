@@ -86,6 +86,7 @@ in
     casks = [
       "adobe-acrobat-reader"
       "claude"
+      "cursor"
       "docker-desktop"
       "kap"
       "logi-options+"

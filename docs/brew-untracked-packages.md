@@ -17,6 +17,7 @@ brew list に存在し、dotfiles で管理されているもの。
 | `brave-browser` | home-manager `programs.brave` | `modules/brave/` |
 | `chromedriver` | home-manager nixpkg | `modules/flutter/` |
 | `claude` | nix-darwin cask | `modules/default.nix` |
+| `cursor` | nix-darwin cask | `modules/default.nix` |
 | `cool-retro-term` | home-manager nixpkg | `standalone/default.nix` |
 | `discord` | home-manager nixpkg | `modules/discord/`（personal のみ） |
 | `docker-desktop` | nix-darwin cask | `modules/default.nix` |
@@ -43,7 +44,6 @@ dotfiles に記述がなく、nixpkgs にも存在しないもの。
 | cask | nixpkgs 属性 | 備考 |
 |------|-------------|------|
 | `betterdisplay` | `pkgs.betterdisplay` | |
-| `cursor` | — | nixpkgs 未収録 |
 | `docker` | `pkgs.docker` | `docker-desktop` は管理済みだが `docker` cask は別 |
 | `font-jetbrains-mono-nerd-font` | `pkgs.nerd-fonts.jetbrains-mono` | `hackgen` 系は管理済み |
 | `gstreamer-runtime` | `pkgs.gst_all_1.gstreamer` | |
@@ -70,7 +70,6 @@ dotfiles に記述がなく、nixpkgs にも存在しないもの。
 | `tbls` | `pkgs.tbls` | DB スキーマドキュメント生成 |
 | `pict` | — | 組み合わせテストツール（nixpkgs 未収録） |
 | `lsix` | `pkgs.lsix` | ターミナルで画像一覧表示 |
-| `ytop` | — | システムモニター（nixpkgs 未収録、`bottom` は管理済み） |
 | `presenterm` | `pkgs.presenterm` | ターミナルプレゼンツール |
 | `typos-cli` | `pkgs.typos` | スペルチェッカー |
 | `agg` | `pkgs.agg` | asciinema → GIF 変換 |
@@ -79,7 +78,6 @@ dotfiles に記述がなく、nixpkgs にも存在しないもの。
 | `workq` | — | nixpkgs 未収録 |
 | `colima` | `pkgs.colima` | macOS 向けコンテナランタイム |
 | `lazygit` | `pkgs.lazygit` | git TUI |
-| `nodebrew` | — | Node バージョン管理（dotfiles は `nodejs_24` 固定のため不要） |
 | `htop` | `pkgs.htop` | プロセスモニター（`bottom` は管理済みだが別ツール） |
 | `watchexec` | `pkgs.watchexec` | ファイル変更監視（`watchman` は管理済みだが別ツール） |
 
@@ -89,7 +87,6 @@ dotfiles に記述がなく、nixpkgs にも存在しないもの。
 
 nixpkgs に存在しないため、引き続き brew か別の方法で管理する必要がある。
 
-- `cursor`
 - `openemu`
 - `pict`
 - `ytop`
