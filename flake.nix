@@ -38,7 +38,10 @@
     }:
     let
       system = "aarch64-darwin";
-      username = "naoki";
+      usernames = {
+        work = "naoki";
+        personal = "naoki";
+      };
       overlays = [
         nix-vscode-extensions.overlays.default
         rust-overlay.overlays.default
@@ -52,7 +55,10 @@
     {
       darwinConfigurations = {
         work = nix-darwin.lib.darwinSystem {
-          specialArgs = { inherit self username; };
+          specialArgs = {
+            inherit self;
+            username = usernames.work;
+          };
           modules = [
             home-manager.darwinModules.home-manager
             ./config/nix-darwin/profile/work
@@ -61,9 +67,11 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                extraSpecialArgs = { inherit username; };
+                extraSpecialArgs = {
+                  username = usernames.work;
+                };
                 users = {
-                  "${username}" = {
+                  "${usernames.work}" = {
                     imports = [ ./config/home-manager/profile/work ];
                   };
                 };
@@ -72,7 +80,10 @@
           ];
         };
         personal = nix-darwin.lib.darwinSystem {
-          specialArgs = { inherit self username; };
+          specialArgs = {
+            inherit self;
+            username = usernames.personal;
+          };
           modules = [
             home-manager.darwinModules.home-manager
             ./config/nix-darwin/profile/personal
@@ -81,9 +92,11 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                extraSpecialArgs = { inherit username; };
+                extraSpecialArgs = {
+                  username = usernames.personal;
+                };
                 users = {
-                  "${username}" = {
+                  "${usernames.personal}" = {
                     imports = [ ./config/home-manager/profile/personal ];
                   };
                 };
