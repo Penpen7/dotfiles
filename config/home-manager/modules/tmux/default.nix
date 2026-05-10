@@ -1,18 +1,8 @@
 { pkgs, ... }:
-let
-  powerlineMemSegment = import ../../../../pkgs/powerline-mem-segment.nix { inherit pkgs; };
-  powerlineWttr = import ../../../../pkgs/powerline-wttr.nix { inherit pkgs; };
-  powerlinePython = pkgs.python3.withPackages (ps: [
-    ps.powerline
-    powerlineMemSegment
-    powerlineWttr
-  ]);
-in
 {
   home.packages = with pkgs; [
     tmux
     tmux-mem-cpu-load
-    powerlinePython
   ];
 
   home.file = {
