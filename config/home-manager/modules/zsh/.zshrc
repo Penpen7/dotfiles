@@ -11,6 +11,9 @@ export PATH="$HOME/.bun/bin:$PATH"
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
   source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
+if [ -d "/etc/profiles/per-user/$USER/bin" ]; then
+  export PATH="/etc/profiles/per-user/$USER/bin:$PATH"
+fi
 . "/etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh"
 
 source @zinit@/zinit.zsh
@@ -78,7 +81,7 @@ function download_info() {
 download_info
 
 function precmd() {
-  if [ -n "$TMUX" ]; then
+  if [ -n "$TMUX" ] && command -v tmux >/dev/null 2>&1; then
     tmux refresh-client -S
   fi
 }
