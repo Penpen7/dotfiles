@@ -44,16 +44,11 @@ dotfiles に記述がなく、nixpkgs にも存在しないもの。
 | cask | nixpkgs 属性 | 備考 |
 |------|-------------|------|
 | `betterdisplay` | `pkgs.betterdisplay` | |
-| `docker` | `pkgs.docker` | `docker-desktop` は管理済みだが `docker` cask は別 |
 | `font-jetbrains-mono-nerd-font` | `pkgs.nerd-fonts.jetbrains-mono` | `hackgen` 系は管理済み |
 | `gstreamer-runtime` | `pkgs.gst_all_1.gstreamer` | |
 | `handbrake-app` | `pkgs.handbrake` | formula の `handbrake` も依存として入っている |
 | `losslesscut` | `pkgs.losslesscut-bin` | |
-| `mactex` | `pkgs.texlive`（attrset） | スキーム指定が必要（例: `texlive.combined.scheme-medium`） |
-| `ngrok` | `pkgs.ngrok` | `cloudflared` は管理済み |
 | `obs` | `pkgs.obs-studio` | |
-| `openemu` | — | nixpkgs 未収録 |
-| `raspberry-pi-imager` | `pkgs.rpi-imager` | |
 | `rectangle` | `pkgs.rectangle` | |
 
 ---
@@ -68,14 +63,11 @@ dotfiles に記述がなく、nixpkgs にも存在しないもの。
 | `fastly` | `pkgs.fastly` | Fastly CDN CLI |
 | `infracost` | `pkgs.infracost` | インフラコスト見積もり |
 | `tbls` | `pkgs.tbls` | DB スキーマドキュメント生成 |
-| `pict` | — | 組み合わせテストツール（nixpkgs 未収録） |
 | `lsix` | `pkgs.lsix` | ターミナルで画像一覧表示 |
 | `presenterm` | `pkgs.presenterm` | ターミナルプレゼンツール |
 | `typos-cli` | `pkgs.typos` | スペルチェッカー |
 | `agg` | `pkgs.agg` | asciinema → GIF 変換 |
-| `asciinema-trim` | — | asciinema 録画トリム（nixpkgs 未収録） |
 | `alp` | `pkgs.alp` | アクセスログプロファイラ |
-| `workq` | — | nixpkgs 未収録 |
 | `colima` | `pkgs.colima` | macOS 向けコンテナランタイム |
 | `lazygit` | `pkgs.lazygit` | git TUI |
 | `htop` | `pkgs.htop` | プロセスモニター（`bottom` は管理済みだが別ツール） |
@@ -83,16 +75,22 @@ dotfiles に記述がなく、nixpkgs にも存在しないもの。
 
 ---
 
-## nixpkgs 未収録まとめ
+## インストールしないと判断したもの
 
-nixpkgs に存在しないため、引き続き brew か別の方法で管理する必要がある。
+brew にインストール済みだが、dotfiles には追加せずアンインストール予定。
 
-- `openemu`
-- `pict`
-- `ytop`
-- `asciinema-trim`
-- `workq`
-- `nodebrew`（Nix で直接バージョン指定するため不要）
+| パッケージ | 種別 | 理由 |
+|-----------|------|------|
+| `docker` | cask | `docker-desktop` で十分 |
+| `mactex` | cask | 不要 |
+| `ngrok` | cask | `cloudflared` で代替 |
+| `openemu` | cask | 不要 |
+| `raspberry-pi-imager` | cask | 不要 |
+| `pict` | formula | 不要 |
+| `asciinema-trim` | formula | 不要 |
+| `workq` | formula | 不要 |
+| `ytop` | formula | `bottom` で代替 |
+| `nodebrew` | formula | `nodejs_24` で固定管理のため不要 |
 
 ---
 
