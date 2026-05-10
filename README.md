@@ -9,7 +9,6 @@ Nix flake based dotfiles for macOS (Apple Silicon).
 ## Dependencies
 
 - [Nix](https://nixos.org/download/)
-- [home-manager](https://github.com/nix-community/home-manager)
 - [nix-darwin](https://github.com/LnL7/nix-darwin)
 
 ## Getting Started
@@ -27,13 +26,7 @@ git clone https://github.com/Penpen7/dotfiles ~/dotfiles
 cd ~/dotfiles
 ```
 
-### 3. Apply home-manager configuration
-
-```sh
-nix run home-manager/master -- switch --flake .#work
-```
-
-### 4. Apply nix-darwin configuration (optional)
+### 3. Apply configuration
 
 ```sh
 nix run nix-darwin -- switch --flake .#work
@@ -42,7 +35,7 @@ nix run nix-darwin -- switch --flake .#work
 ## Update
 
 ```sh
-home-manager switch --flake .#work
+sudo darwin-rebuild switch --flake .#work
 ```
 
 ## Manually Managed Apps
