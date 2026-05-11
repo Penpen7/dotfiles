@@ -87,7 +87,7 @@ in
       "adobe-acrobat-reader"
       "claude"
       "docker-desktop"
-      "handbrake"
+      "handbrake-app"
       "obs"
       "kap"
       "logi-options+"
