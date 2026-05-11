@@ -35,6 +35,10 @@
     supabase-cli # Supabase CLI
     ansible # サーバー構成管理・自動化ツール
     atlas # DBスキーマ管理ツール (バイナリ配布のため別途インストール推奨)
+    colima # macOS 向けコンテナランタイム
+    fastly # Fastly CDN CLI
+    infracost # インフラコスト見積もり
+    tbls # DB スキーマドキュメント生成
 
     # ネットワーク・セキュリティ
     gnupg # GPG 暗号化・署名ツール
@@ -67,6 +71,8 @@
     pv # パイプのデータ転送量・速度を可視化
     procps # watch コマンドを含むプロセス管理ツール群
     watchman # ファイル変更を監視してアクションをトリガー
+    htop # インタラクティブなプロセスモニター
+    watchexec # ファイル変更を監視してコマンドを実行
 
     # ファイル・テキスト操作
     ripgrep # 高速な grep 代替ツール (rg)
@@ -80,6 +86,10 @@
     gnuplot # グラフ描画ツール
     graphviz # DOT 言語からグラフを描画・出力
     grex # サンプル文字列から正規表現を自動生成
+    lsix # ターミナルで画像をサムネイル表示
+    typos # コードのスペルチェッカー
+    alp # アクセスログプロファイラ
+    presenterm # ターミナルプレゼンツール
 
     # 圧縮・展開
     lz4 # 高速な圧縮・展開ツール
@@ -97,6 +107,7 @@
     # タスク・自動化
     go-task # Makefile 代替のタスクランナー (task コマンド)
     asciinema # ターミナル操作の録画・共有ツール
+    agg # asciinema 録画を GIF に変換
 
     # macOS 連携
     mas # Mac App Store を CLI から操作 (macOS 専用)
@@ -118,5 +129,11 @@
     wireshark # ネットワークプロトコルアナライザ (Qt GUI) ← cask: wireshark
     zoom-us # ビデオ会議ツール (unfree)
     github-copilot-cli # GitHub Copilot CLI ← cask: copilot-cli
+    betterdisplay # ディスプレイ管理ツール (unfree)
+    gst_all_1.gstreamer # GStreamer マルチメディアフレームワーク
+    handbrake # 動画変換ツール
+    losslesscut-bin # 動画の無劣化カット・編集
+    obs-studio # 画面録画・配信ツール
+    rectangle # macOS ウィンドウ管理ツール
   ];
 }

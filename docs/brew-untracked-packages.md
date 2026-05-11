@@ -23,55 +23,45 @@ brew list に存在し、dotfiles で管理されているもの。
 | `docker-desktop` | nix-darwin cask | `modules/default.nix` |
 | `font-hackgen` | nix-darwin fonts | `modules/default.nix` |
 | `font-hackgen-nerd` | nix-darwin fonts | `modules/default.nix` |
+| `font-jetbrains-mono-nerd-font` | nix-darwin fonts (`nerd-fonts.jetbrains-mono`) | `modules/default.nix` |
 | `google-chrome` | home-manager `programs.google-chrome` | `modules/chrome/` |
+| `gstreamer-runtime` | home-manager nixpkg (`gst_all_1.gstreamer`) | `standalone/default.nix` |
+| `handbrake-app` | home-manager nixpkg (`handbrake`) | `standalone/default.nix` |
 | `hashicorp-vagrant` | home-manager nixpkg (`vagrant`) | `standalone/default.nix` |
 | `iterm2` | home-manager nixpkg | `standalone/default.nix` |
 | `keycastr` | home-manager nixpkg | `standalone/default.nix` |
 | `kitty` | home-manager nixpkg | `standalone/default.nix` |
 | `logi-options+` | nix-darwin cask | `modules/default.nix` |
+| `losslesscut` | home-manager nixpkg (`losslesscut-bin`) | `standalone/default.nix` |
 | `logi-options-plus` | `logi-options+` の別名のため不要 | — |
 | `slack` | home-manager nixpkg | `standalone/default.nix` |
 | `tableplus` | nix-darwin cask | `modules/default.nix` |
 | `visual-studio-code` | home-manager `programs.vscode` | `modules/vscode/` |
+| `obs` | home-manager nixpkg (`obs-studio`) | `standalone/default.nix` |
+| `rectangle` | home-manager nixpkg | `standalone/default.nix` |
 | `vnc-viewer` | home-manager nixpkg (`realvnc-vnc-viewer`) | `standalone/default.nix` |
+| `betterdisplay` | home-manager nixpkg | `standalone/default.nix` |
 
 ---
 
-## Casks — 未管理
-
-dotfiles に記述がなく、nixpkgs にも存在しないもの。
-
-| cask | nixpkgs 属性 | 備考 |
-|------|-------------|------|
-| `betterdisplay` | `pkgs.betterdisplay` | |
-| `font-jetbrains-mono-nerd-font` | `pkgs.nerd-fonts.jetbrains-mono` | `hackgen` 系は管理済み |
-| `gstreamer-runtime` | `pkgs.gst_all_1.gstreamer` | |
-| `handbrake-app` | `pkgs.handbrake` | formula の `handbrake` も依存として入っている |
-| `losslesscut` | `pkgs.losslesscut-bin` | |
-| `obs` | `pkgs.obs-studio` | |
-| `rectangle` | `pkgs.rectangle` | |
-
 ---
 
-## Formulae — 未管理（直接インストール相当）
+## Formulae — 管理済み（今回追加）
 
-`standalone/default.nix` で多くの formula 相当ツールは Nix で管理されているが、
-以下は Nix にも casks にも見当たらないもの（依存パッケージを除く）。
-
-| formula | nixpkgs 属性 | 用途 |
-|---------|-------------|------|
-| `fastly` | `pkgs.fastly` | Fastly CDN CLI |
-| `infracost` | `pkgs.infracost` | インフラコスト見積もり |
-| `tbls` | `pkgs.tbls` | DB スキーマドキュメント生成 |
-| `lsix` | `pkgs.lsix` | ターミナルで画像一覧表示 |
-| `presenterm` | `pkgs.presenterm` | ターミナルプレゼンツール |
-| `typos-cli` | `pkgs.typos` | スペルチェッカー |
-| `agg` | `pkgs.agg` | asciinema → GIF 変換 |
-| `alp` | `pkgs.alp` | アクセスログプロファイラ |
-| `colima` | `pkgs.colima` | macOS 向けコンテナランタイム |
-| `lazygit` | `pkgs.lazygit` | git TUI |
-| `htop` | `pkgs.htop` | プロセスモニター（`bottom` は管理済みだが別ツール） |
-| `watchexec` | `pkgs.watchexec` | ファイル変更監視（`watchman` は管理済みだが別ツール） |
+| formula | nixpkgs 属性 | dotfiles の記述箇所 |
+|---------|-------------|-------------------|
+| `fastly` | `pkgs.fastly` | `standalone/default.nix` |
+| `infracost` | `pkgs.infracost` | `standalone/default.nix` |
+| `tbls` | `pkgs.tbls` | `standalone/default.nix` |
+| `lsix` | `pkgs.lsix` | `standalone/default.nix` |
+| `presenterm` | `pkgs.presenterm` | `standalone/default.nix` |
+| `typos-cli` | `pkgs.typos` | `standalone/default.nix` |
+| `agg` | `pkgs.agg` | `standalone/default.nix` |
+| `alp` | `pkgs.alp` | `standalone/default.nix` |
+| `colima` | `pkgs.colima` | `standalone/default.nix` |
+| `lazygit` | `pkgs.lazygit` | `modules/git/default.nix` |
+| `htop` | `pkgs.htop` | `standalone/default.nix` |
+| `watchexec` | `pkgs.watchexec` | `standalone/default.nix` |
 
 ---
 

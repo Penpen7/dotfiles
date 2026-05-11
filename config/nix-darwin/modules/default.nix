@@ -13,6 +13,7 @@ in
   fonts.packages = with pkgs; [
     hackgen-font
     hackgen-nf-font
+    nerd-fonts.jetbrains-mono
   ];
 
   system = {

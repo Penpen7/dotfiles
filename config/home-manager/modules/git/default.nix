@@ -7,6 +7,7 @@
     gh
     ghq
     hub
+    lazygit # git の TUI クライアント
   ];
 
   home.file = {
