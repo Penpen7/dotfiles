@@ -129,6 +129,7 @@
     wireshark # ネットワークプロトコルアナライザ (Qt GUI) ← cask: wireshark
     zoom-us # ビデオ会議ツール (unfree)
     github-copilot-cli # GitHub Copilot CLI ← cask: copilot-cli
+    code-cursor # AI コードエディタ (unfree)
     betterdisplay # ディスプレイ管理ツール (unfree)
     gst_all_1.gstreamer # GStreamer マルチメディアフレームワーク
     handbrake # 動画変換ツール

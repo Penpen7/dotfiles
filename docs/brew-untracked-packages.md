@@ -17,7 +17,7 @@ brew list に存在し、dotfiles で管理されているもの。
 | `brave-browser` | home-manager `programs.brave` | `modules/brave/` |
 | `chromedriver` | home-manager nixpkg | `modules/flutter/` |
 | `claude` | nix-darwin cask | `modules/default.nix` |
-| `cursor` | nix-darwin cask | `modules/default.nix` |
+| `cursor` | home-manager nixpkg (`code-cursor`) | `standalone/default.nix` |
 | `cool-retro-term` | home-manager nixpkg | `standalone/default.nix` |
 | `discord` | home-manager nixpkg | `modules/discord/`（personal のみ） |
 | `docker-desktop` | nix-darwin cask | `modules/default.nix` |
