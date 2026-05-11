@@ -89,6 +89,7 @@ in
       "claude"
       "docker-desktop"
       "handbrake"
+      "obs"
       "kap"
       "logi-options+"
       "microsoft-auto-update"

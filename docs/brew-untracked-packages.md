@@ -37,7 +37,7 @@ brew list に存在し、dotfiles で管理されているもの。
 | `slack` | home-manager nixpkg | `standalone/default.nix` |
 | `tableplus` | nix-darwin cask | `modules/default.nix` |
 | `visual-studio-code` | home-manager `programs.vscode` | `modules/vscode/` |
-| `obs` | home-manager nixpkg (`obs-studio`) | `standalone/default.nix` |
+| `obs` | nix-darwin cask | `modules/default.nix` |
 | `rectangle` | home-manager nixpkg | `standalone/default.nix` |
 | `vnc-viewer` | home-manager nixpkg (`realvnc-vnc-viewer`) | `standalone/default.nix` |
 | `betterdisplay` | home-manager nixpkg | `standalone/default.nix` |
