@@ -88,6 +88,7 @@ in
       "adobe-acrobat-reader"
       "claude"
       "docker-desktop"
+      "handbrake"
       "kap"
       "logi-options+"
       "microsoft-auto-update"

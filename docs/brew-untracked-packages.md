@@ -26,7 +26,7 @@ brew list に存在し、dotfiles で管理されているもの。
 | `font-jetbrains-mono-nerd-font` | nix-darwin fonts (`nerd-fonts.jetbrains-mono`) | `modules/default.nix` |
 | `google-chrome` | home-manager `programs.google-chrome` | `modules/chrome/` |
 | `gstreamer-runtime` | home-manager nixpkg (`gst_all_1.gstreamer`) | `standalone/default.nix` |
-| `handbrake-app` | home-manager nixpkg (`handbrake`) | `standalone/default.nix` |
+| `handbrake-app` | nix-darwin cask (`handbrake`) | `modules/default.nix` |
 | `hashicorp-vagrant` | home-manager nixpkg (`vagrant`) | `standalone/default.nix` |
 | `iterm2` | home-manager nixpkg | `standalone/default.nix` |
 | `keycastr` | home-manager nixpkg | `standalone/default.nix` |
