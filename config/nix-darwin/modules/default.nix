@@ -74,7 +74,6 @@ in
       "Dropover" = 1355679052;
       "Elmedia Video Player" = 1044549675;
       "GeoGebra Classic 6" = 1182481622;
-      "HazeOver" = 430798620;
       "Keynote" = 409183694;
       "Magnet" = 441258766;
       "Numbers" = 409203825;
@@ -92,6 +91,7 @@ in
       "claude"
       "docker-desktop"
       "handbrake-app"
+      "hazeover"
       "obs"
       "kap"
       "logi-options+"
