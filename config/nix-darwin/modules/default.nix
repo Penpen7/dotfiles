@@ -28,6 +28,7 @@ in
         magnification = true;
         largesize = 79;
         autohide = false;
+        show-recents = false;
       };
 
       NSGlobalDomain = {

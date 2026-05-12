@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, username, config, ... }:
 {
   imports = [
     ../../modules
@@ -15,4 +15,21 @@
     ../../modules/windows-app.nix
   ];
 
+  system.defaults.dock.persistent-others = [
+    "${config.users.users.${username}.home}/Downloads"
+  ];
+
+  system.defaults.dock.persistent-apps = [
+    "/System/Applications/Launchpad.app"
+    "/System/Applications/Calendar.app"
+    "/System/Applications/Notes.app"
+    "${pkgs.google-chrome}/Applications/Google Chrome.app"
+    "${pkgs.brave}/Applications/Brave Browser.app"
+    "/System/Applications/Mail.app"
+    "${pkgs.slack}/Applications/Slack.app"
+    "${pkgs.discord}/Applications/Discord.app"
+    "${pkgs.iterm2}/Applications/iTerm2.app"
+    "/Applications/LINE.app"
+    "/System/Applications/System Settings.app"
+  ];
 }
