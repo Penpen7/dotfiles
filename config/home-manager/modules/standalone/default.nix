@@ -125,7 +125,6 @@
     keycastr # キー入力を画面に表示するツール ← cask: keycastr
     kitty # GPU アクセラレーション対応のターミナルエミュレータ
     slack # チームコミュニケーションツール (unfree)
-    synology-drive-client # Synology Drive ファイル同期クライアント (unfree)
     vagrant # 仮想開発環境の構築・管理ツール
     skimpdf # PDF ビューア・注釈ツール (unfree)
     realvnc-vnc-viewer # RealVNC リモートデスクトップクライアント (unfree)
