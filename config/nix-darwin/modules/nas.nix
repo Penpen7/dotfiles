@@ -1,7 +1,6 @@
 { ... }:
 {
   homebrew.casks = [
-    "synology-drive"
     "tailscale-app"
   ];
 
