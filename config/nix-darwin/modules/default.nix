@@ -74,7 +74,9 @@ in
       "Dropover" = 1355679052;
       "Elmedia Video Player" = 1044549675;
       "GeoGebra Classic 6" = 1182481622;
+      "HazeOver" = 430798620;
       "Keynote" = 409183694;
+      "Magnet" = 441258766;
       "Numbers" = 409203825;
       "Pages" = 409201541;
       "Parallels Desktop" = 1085114709;
@@ -85,6 +87,8 @@ in
     };
     casks = [
       "adobe-acrobat-reader"
+      "alfred"
+      "cleanshot"
       "claude"
       "docker-desktop"
       "handbrake-app"
@@ -93,6 +97,7 @@ in
       "logi-options+"
       "microsoft-auto-update"
       "microsoft-teams"
+      "rustrover"
       "tableplus"
       "virtualbox"
     ];
