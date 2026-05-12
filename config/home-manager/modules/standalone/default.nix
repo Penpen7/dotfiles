@@ -1,6 +1,9 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
+    # LLM
+    claude-code
+
     # Nix
     nixfmt # Nix コードのフォーマッタ
     nixd # Nix Language Server
