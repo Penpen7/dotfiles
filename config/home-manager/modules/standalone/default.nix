@@ -120,7 +120,6 @@
     alacritty # GPU アクセラレーション対応のターミナルエミュレータ
     audacity # オーディオ編集・録音ツール
     cool-retro-term # レトロ風ターミナルエミュレータ
-    geogebra # 数学教育用動的グラフィクスソフト
     iterm2 # macOS 専用の高機能ターミナルエミュレータ (unfree) ← cask: iterm2
     keycastr # キー入力を画面に表示するツール ← cask: keycastr
     kitty # GPU アクセラレーション対応のターミナルエミュレータ
