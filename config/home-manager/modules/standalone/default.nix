@@ -34,7 +34,6 @@
     terraform-ls # Terraform 用 Language Server
     terraformer # 既存インフラから Terraform コードを逆生成
     awscli2 # AWS CLI v2
-    cloudflared # Cloudflare Tunnel クライアント
     supabase-cli # Supabase CLI
     ansible # サーバー構成管理・自動化ツール
     atlas # DBスキーマ管理ツール (バイナリ配布のため別途インストール推奨)
