@@ -5,7 +5,7 @@
   ...
 }:
 let
-  shellPath = "/bin/zsh";
+  shellPath = "${pkgs.zsh}/bin/zsh";
 in
 {
   nixpkgs.config.allowUnfree = true;
@@ -110,5 +110,5 @@ in
       chsh -s "$SHELL_PATH" ${username}
     fi
   '';
-  environment.shells = [ shellPath ];
+  environment.shells = [ pkgs.zsh ];
 }
