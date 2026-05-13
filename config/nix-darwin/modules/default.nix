@@ -75,7 +75,7 @@ in
       "Dropover" = 1355679052;
       "Elmedia Video Player" = 1044549675;
       "GeoGebra Classic 6" = 1182481622;
-      "Keynote" = 409183694;
+      # "Keynote" = 361285480; todo: need to update osx
       "Numbers" = 409203825;
       "Pages" = 409201541;
       "Parallels Desktop" = 1085114709;
