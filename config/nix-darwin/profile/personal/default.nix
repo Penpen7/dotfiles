@@ -2,6 +2,10 @@
 {
   imports = [
     ../../modules
+    ../../modules/hazeover.nix
+    ../../modules/logi-options.nix
+    ../../modules/docker.nix
+    ../../modules/runcat.nix
     ../../modules/nas.nix
     ../../modules/monitor_wifi.nix
     ../../modules/line.nix

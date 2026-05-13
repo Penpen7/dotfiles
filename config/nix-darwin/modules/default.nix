@@ -80,7 +80,6 @@ in
       "Pages" = 409201541;
       "Parallels Desktop" = 1085114709;
       "PicGIF Lite" = 844918735;
-      "RunCat" = 1429033973;
       "Skitch" = 425955336;
       "Xcode" = 497799835;
     };
@@ -89,12 +88,9 @@ in
       "alfred"
       "cleanshot"
       "claude"
-      "docker-desktop"
       "handbrake-app"
-      "hazeover"
       "obs"
       "kap"
-      "logi-options+"
       "microsoft-auto-update"
       "microsoft-teams"
       "rustrover"

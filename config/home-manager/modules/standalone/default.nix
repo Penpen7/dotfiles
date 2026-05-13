@@ -133,6 +133,5 @@
     betterdisplay # ディスプレイ管理ツール (unfree)
     gst_all_1.gstreamer # GStreamer マルチメディアフレームワーク
     losslesscut-bin # 動画の無劣化カット・編集
-    rectangle # macOS ウィンドウ管理ツール
   ];
 }
