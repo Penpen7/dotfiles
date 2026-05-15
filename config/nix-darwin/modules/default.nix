@@ -100,6 +100,7 @@ in
   users.users.${username}.home = "/Users/${username}";
   nix.enable = false;
   security.pam.services.sudo_local.touchIdAuth = true;
+  security.pam.services.sudo_local.reattach = true;
   system.activationScripts.postActivation.text = ''
     echo "setting default shell to zsh..." >&2
     SHELL_PATH="${shellPath}"
