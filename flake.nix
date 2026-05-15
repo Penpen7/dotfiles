@@ -67,6 +67,7 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
+                backupFileExtension = "bak";
                 extraSpecialArgs = {
                   username = usernames.work;
                 };
@@ -92,6 +93,7 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
+                backupFileExtension = "bak";
                 extraSpecialArgs = {
                   username = usernames.personal;
                 };
