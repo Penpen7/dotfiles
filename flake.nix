@@ -39,7 +39,7 @@
     let
       system = "aarch64-darwin";
       usernames = {
-        work = "naoki";
+        work = "naoki.uehara";
         personal = "naoki";
       };
       overlays = [

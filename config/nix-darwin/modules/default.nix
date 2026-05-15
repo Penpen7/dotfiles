@@ -81,7 +81,6 @@ in
       "Parallels Desktop" = 1085114709;
       "PicGIF Lite" = 844918735;
       "Skitch" = 425955336;
-      "Xcode" = 497799835;
     };
     casks = [
       "adobe-acrobat-reader"
@@ -91,8 +90,6 @@ in
       "handbrake-app"
       "obs"
       "kap"
-      "microsoft-auto-update"
-      "microsoft-teams"
       "rustrover"
       "tableplus"
       "virtualbox"
