@@ -9,6 +9,7 @@
     ../../modules
     ../../modules/hazeover.nix
     ../../modules/docker.nix
+    ../../modules/gather.nix
     ../../modules/logi-options.nix
     ../../modules/runcat.nix
   ];

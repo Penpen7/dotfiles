@@ -3,6 +3,7 @@
   home.username = username;
   home.homeDirectory = "/Users/${username}";
   home.stateVersion = "25.11";
+  home.backupFileExtension = "bak";
   manual.manpages.enable = false;
   manual.json.enable = false;
 
