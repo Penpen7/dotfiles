@@ -6,7 +6,11 @@
 
   launchd.user.agents.runcat = {
     serviceConfig = {
-      ProgramArguments = [ "/usr/bin/open" "-a" "RunCat" ];
+      ProgramArguments = [
+        "/usr/bin/open"
+        "-a"
+        "RunCat"
+      ];
       RunAtLoad = true;
       KeepAlive = false;
     };

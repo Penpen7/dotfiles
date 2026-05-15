@@ -4,7 +4,11 @@
 
   launchd.user.agents.docker-desktop = {
     serviceConfig = {
-      ProgramArguments = [ "/usr/bin/open" "-a" "Docker" ];
+      ProgramArguments = [
+        "/usr/bin/open"
+        "-a"
+        "Docker"
+      ];
       RunAtLoad = true;
       KeepAlive = false;
     };

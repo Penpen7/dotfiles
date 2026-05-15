@@ -4,7 +4,11 @@
 
   launchd.user.agents.hazeover = {
     serviceConfig = {
-      ProgramArguments = [ "/usr/bin/open" "-a" "HazeOver" ];
+      ProgramArguments = [
+        "/usr/bin/open"
+        "-a"
+        "HazeOver"
+      ];
       RunAtLoad = true;
       KeepAlive = false;
     };

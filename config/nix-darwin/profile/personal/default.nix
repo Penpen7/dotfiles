@@ -1,4 +1,9 @@
-{ pkgs, username, config, ... }:
+{
+  pkgs,
+  username,
+  config,
+  ...
+}:
 {
   imports = [
     ../../modules
