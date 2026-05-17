@@ -1,10 +1,11 @@
 {
   self,
   pkgs,
-  username,
+  config,
   ...
 }:
 let
+  username = config.system.primaryUser;
   shellPath = "${pkgs.zsh}/bin/zsh";
 in
 {
@@ -18,7 +19,6 @@ in
 
   system = {
     stateVersion = "5.0";
-    primaryUser = username;
     configurationRevision = self.rev or self.dirtyRev or null;
 
     defaults = {

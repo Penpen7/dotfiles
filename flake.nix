@@ -38,74 +38,36 @@
     }:
     let
       system = "aarch64-darwin";
-      usernames = {
-        work = "naoki.uehara";
-        personal = "naoki";
-      };
       overlays = [
         nix-vscode-extensions.overlays.default
         rust-overlay.overlays.default
         (import ./pkgs).overlays.default
       ];
       pkgs = import nixpkgs {
-        inherit system;
-        inherit overlays;
+        inherit system overlays;
       };
+      mkDarwinSystem =
+        profile:
+        nix-darwin.lib.darwinSystem {
+          specialArgs = { inherit self; };
+          modules = [
+            home-manager.darwinModules.home-manager
+            ./config/nix-darwin/profile/${profile}
+            {
+              nixpkgs.overlays = overlays;
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                backupFileExtension = "bak";
+              };
+            }
+          ];
+        };
     in
     {
       darwinConfigurations = {
-        work = nix-darwin.lib.darwinSystem {
-          specialArgs = {
-            inherit self;
-            username = usernames.work;
-          };
-          modules = [
-            home-manager.darwinModules.home-manager
-            ./config/nix-darwin/profile/work
-            {
-              nixpkgs.overlays = overlays;
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                backupFileExtension = "bak";
-                extraSpecialArgs = {
-                  username = usernames.work;
-                };
-                users = {
-                  "${usernames.work}" = {
-                    imports = [ ./config/home-manager/profile/work ];
-                  };
-                };
-              };
-            }
-          ];
-        };
-        personal = nix-darwin.lib.darwinSystem {
-          specialArgs = {
-            inherit self;
-            username = usernames.personal;
-          };
-          modules = [
-            home-manager.darwinModules.home-manager
-            ./config/nix-darwin/profile/personal
-            {
-              nixpkgs.overlays = overlays;
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                backupFileExtension = "bak";
-                extraSpecialArgs = {
-                  username = usernames.personal;
-                };
-                users = {
-                  "${usernames.personal}" = {
-                    imports = [ ./config/home-manager/profile/personal ];
-                  };
-                };
-              };
-            }
-          ];
-        };
+        work = mkDarwinSystem "work";
+        personal = mkDarwinSystem "personal";
       };
       formatter.aarch64-darwin = pkgs.nixfmt;
     };

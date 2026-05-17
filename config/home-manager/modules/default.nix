@@ -1,7 +1,7 @@
-{ username, ... }:
+{ osConfig, ... }:
 {
-  home.username = username;
-  home.homeDirectory = "/Users/${username}";
+  home.username = osConfig.system.primaryUser;
+  home.homeDirectory = "/Users/${osConfig.system.primaryUser}";
   home.stateVersion = "25.11";
   manual.manpages.enable = false;
   manual.json.enable = false;

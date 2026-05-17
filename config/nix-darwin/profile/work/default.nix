@@ -1,9 +1,11 @@
 {
   pkgs,
-  username,
   config,
   ...
 }:
+let
+  username = "naoki.uehara";
+in
 {
   imports = [
     ../../modules
@@ -14,8 +16,12 @@
     ../../modules/runcat.nix
   ];
 
+  system.primaryUser = username;
+
+  home-manager.users.${username}.imports = [ ../../../home-manager/profile/work ];
+
   system.defaults.dock.persistent-others = [
-    "${config.users.users.${username}.home}/Downloads"
+    "/Users/${username}/Downloads"
   ];
 
   system.defaults.dock.persistent-apps = [

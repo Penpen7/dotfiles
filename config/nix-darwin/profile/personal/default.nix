@@ -1,9 +1,11 @@
 {
   pkgs,
-  username,
   config,
   ...
 }:
+let
+  username = "naoki";
+in
 {
   imports = [
     ../../modules
@@ -24,8 +26,12 @@
     ../../modules/windows-app.nix
   ];
 
+  system.primaryUser = username;
+
+  home-manager.users.${username}.imports = [ ../../../home-manager/profile/personal ];
+
   system.defaults.dock.persistent-others = [
-    "${config.users.users.${username}.home}/Downloads"
+    "/Users/${username}/Downloads"
   ];
 
   system.defaults.dock.persistent-apps = [
