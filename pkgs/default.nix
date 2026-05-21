@@ -13,5 +13,6 @@
     nvimTelescopeCoAuthor = import ./nvim-telescope-co-author.nix { pkgs = final; };
     nvimVimRestConsole = import ./nvim-vim-rest-console.nix { pkgs = final; };
     nvimSwaggerPreview = import ./nvim-swagger-preview.nix { pkgs = final; };
+    takt = import ./takt.nix { pkgs = final; };
   };
 }
