@@ -32,11 +32,11 @@ in
 
     "nvim/lua/core/lazy/ui.lua".source = pkgs.replaceVars ./lua/core/lazy/ui.lua {
       fernVim = pkgs.vimPlugins.vim-fern;
-      fernRendererNerdfont = pkgs.nvimFernRendererNerdfont;
-      fernGitStatus = pkgs.nvimFernGitStatus;
-      nerdfont = pkgs.nvimNerdfont;
+      fernRendererNerdfont = pkgs.vimPlugins.fern-renderer-nerdfont;
+      fernGitStatus = pkgs.vimPlugins.fern-git-status;
+      nerdfont = pkgs.vimPlugins.nerdfont-vim;
       nvimWebDevicons = pkgs.vimPlugins.nvim-web-devicons;
-      glyphPalette = pkgs.nvimGlyphPalette;
+      glyphPalette = pkgs.vimPlugins.glyph-palette;
       vimDevicons = pkgs.vimPlugins.vim-devicons;
       bufferlineNvim = pkgs.vimPlugins.bufferline-nvim;
       undotree = pkgs.vimPlugins.undotree;
@@ -89,7 +89,7 @@ in
     };
 
     "nvim/lua/core/lazy/git.lua".source = pkgs.replaceVars ./lua/core/lazy/git.lua {
-      tigExplorer = pkgs.nvimTigExplorer;
+      tigExplorer = pkgs.vimPlugins.tig-explorer;
       gitsignsNvim = pkgs.vimPlugins.gitsigns-nvim;
     };
 
@@ -97,7 +97,7 @@ in
       fzfWrapper = pkgs.vimPlugins.fzf-wrapper;
       telescopeNvim = pkgs.vimPlugins.telescope-nvim;
       plenaryNvim = pkgs.vimPlugins.plenary-nvim;
-      telescopeCoAuthor = pkgs.nvimTelescopeCoAuthor;
+      telescopeCoAuthor = pkgs.vimPlugins.telescope-co-author;
     };
 
     "nvim/lua/core/lazy/utils.lua".source = pkgs.replaceVars ./lua/core/lazy/utils.lua {
@@ -115,10 +115,10 @@ in
       plantumlSyntax = pkgs.vimPlugins.plantuml-syntax;
     };
     "nvim/lua/core/lazy/ft/rest.lua".source = pkgs.replaceVars ./lua/core/lazy/ft/rest.lua {
-      vimRestConsole = pkgs.nvimVimRestConsole;
+      vimRestConsole = pkgs.vimPlugins.vim-rest-console;
     };
     "nvim/lua/core/lazy/ft/swagger.lua".source = pkgs.replaceVars ./lua/core/lazy/ft/swagger.lua {
-      swaggerPreview = pkgs.nvimSwaggerPreview;
+      swaggerPreview = pkgs.vimPlugins.swagger-preview;
     };
     "nvim/lua/core/lazy/ft/terraform.lua".source = pkgs.replaceVars ./lua/core/lazy/ft/terraform.lua {
       vimTerraform = pkgs.vimPlugins.vim-terraform;
