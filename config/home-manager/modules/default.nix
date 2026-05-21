@@ -27,5 +27,6 @@
     ./rust
     ./flutter
     ./rectangle
+    ./mise
   ];
 }

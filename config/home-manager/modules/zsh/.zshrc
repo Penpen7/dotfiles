@@ -85,3 +85,5 @@ function precmd() {
     tmux refresh-client -S
   fi
 }
+
+eval "$(mise activate zsh)"
