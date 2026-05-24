@@ -69,6 +69,7 @@
         work = mkDarwinSystem "work";
         personal = mkDarwinSystem "personal";
       };
+      packages.aarch64-darwin.nvim = pkgs.nvim;
       formatter.aarch64-darwin = pkgs.nixfmt;
     };
 }
