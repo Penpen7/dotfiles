@@ -43,15 +43,17 @@
       nvim-config,
     }:
     let
-      system = "aarch64-darwin";
+      darwinSystem = "aarch64-darwin";
+      forEachSystem = nixpkgs.lib.genAttrs (builtins.attrNames nvim-config.packages);
       overlays = [
         nix-vscode-extensions.overlays.default
         rust-overlay.overlays.default
         (import ./pkgs).overlays.default
-        (_: _: { nvim = nvim-config.packages.${system}.nvim; })
+        (_: _: { nvim = nvim-config.packages.${darwinSystem}.nvim; })
       ];
       pkgs = import nixpkgs {
-        inherit system overlays;
+        system = darwinSystem;
+        inherit overlays;
       };
       mkDarwinSystem =
         profile:
@@ -76,7 +78,7 @@
         work = mkDarwinSystem "work";
         personal = mkDarwinSystem "personal";
       };
-      packages.aarch64-darwin.nvim = pkgs.nvim;
-      formatter.aarch64-darwin = pkgs.nixfmt;
+      packages = forEachSystem (system: { nvim = nvim-config.packages.${system}.nvim; });
+      formatter = forEachSystem (system: (import nixpkgs { inherit system; }).nixfmt);
     };
 }

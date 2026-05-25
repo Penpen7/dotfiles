@@ -6,17 +6,25 @@
   outputs =
     { nixpkgs, ... }:
     let
-      system = "aarch64-darwin";
-      overlays = [ (import ./plugins).overlays.default ];
-      pkgs = import nixpkgs {
-        inherit system overlays;
-        config.allowUnfree = true;
-      };
+      systems = [
+        "aarch64-darwin"
+        "x86_64-darwin"
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+      forEachSystem = nixpkgs.lib.genAttrs systems;
     in
     {
-      packages.${system} = {
-        nvim = pkgs.callPackage ./nvim.nix { };
-        default = pkgs.callPackage ./nvim.nix { };
-      };
+      packages = forEachSystem (system:
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [ (import ./plugins).overlays.default ];
+            config.allowUnfree = true;
+          };
+          nvim = pkgs.callPackage ./nvim.nix { };
+        in
+        { inherit nvim; default = nvim; }
+      );
     };
 }
