@@ -1,8 +1,8 @@
 {
   description = "Standalone neovim configuration";
-
-  inputs.nixpkgs.url = "github:nixos/nixpkgs?ref=nixpkgs-unstable";
-
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixpkgs-unstable";
+  };
   outputs =
     { nixpkgs, ... }:
     let
@@ -15,7 +15,8 @@
       forEachSystem = nixpkgs.lib.genAttrs systems;
     in
     {
-      packages = forEachSystem (system:
+      packages = forEachSystem (
+        system:
         let
           pkgs = import nixpkgs {
             inherit system;
@@ -24,7 +25,10 @@
           };
           nvim = pkgs.callPackage ./nvim.nix { };
         in
-        { inherit nvim; default = nvim; }
+        {
+          inherit nvim;
+          default = nvim;
+        }
       );
     };
 }
