@@ -134,6 +134,9 @@ pkgs.writeShellApplication {
   name = "nvim";
   runtimeInputs = [ pkgs.neovim pkgs.tree-sitter ];
   text = ''
-    XDG_CONFIG_HOME=${configDir} exec nvim "$@"
+    exec nvim \
+      --cmd "set rtp^=${configDir}/nvim" \
+      -u "${configDir}/nvim/init.lua" \
+      "$@"
   '';
 }
