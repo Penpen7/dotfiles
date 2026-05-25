@@ -8,5 +8,6 @@
       tmux-powerline = import ./tmux-plugin-powerline.nix { pkgs = prev; };
     };
     takt = import ./takt.nix { pkgs = final; };
+    ccstatusline = import ./ccstatusline.nix { pkgs = final; };
   };
 }
