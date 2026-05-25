@@ -76,12 +76,29 @@
         "type": "github"
       }
     },
+    "nvim-config": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "path": "./nvim-config",
+        "type": "path"
+      },
+      "original": {
+        "path": "./nvim-config",
+        "type": "path"
+      },
+      "parent": []
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",
         "nix-vscode-extensions": "nix-vscode-extensions",
         "nixpkgs": "nixpkgs",
+        "nvim-config": "nvim-config",
         "rust-overlay": "rust-overlay"
       }
     },

@@ -7,7 +7,7 @@ let
     (vp.nvim-treesitter.withPlugins (p: builtins.attrValues p)).dependencies
     [ (map toString) (builtins.concatStringsSep ",") ];
 
-  configDir = pkgs.runCommandNoCC "nvim-standalone-config" { } ''
+  configDir = pkgs.runCommand "nvim-standalone-config" { } ''
     mkdir -p $out/nvim/lua/core/lazy/ft
 
     install -m644 ${src}/init.lua                 $out/nvim/init.lua

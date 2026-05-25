@@ -25,6 +25,11 @@
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nvim-config = {
+      url = "path:./nvim-config";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -35,6 +40,7 @@
       nix-darwin,
       nix-vscode-extensions,
       rust-overlay,
+      nvim-config,
     }:
     let
       system = "aarch64-darwin";
@@ -42,6 +48,7 @@
         nix-vscode-extensions.overlays.default
         rust-overlay.overlays.default
         (import ./pkgs).overlays.default
+        (_: _: { nvim = nvim-config.packages.${system}.nvim; })
       ];
       pkgs = import nixpkgs {
         inherit system overlays;
