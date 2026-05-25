@@ -2,7 +2,7 @@
 {
   home.packages = [ pkgs.ccstatusline ];
 
-  xdg.configFile = {
-    "claude/settings.json".source = ./settings.json;
+  home.file = {
+    ".claude/settings.json".source = ./settings.json;
   };
 }
