@@ -69,6 +69,7 @@ in
       autoUpdate = true;
       upgrade = true;
       cleanup = "zap";
+      extraFlags = [ "--force-cleanup" ];
     };
     masApps = {
       "AmorphousDiskMark" = 1168254295;
