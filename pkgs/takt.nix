@@ -10,7 +10,7 @@ pkgs.buildNpmPackage {
     hash = "sha256-OchjoKpA0HlrMme/5WyfU+wuJpqE9web4STnnbqzT+g=";
   };
 
-  npmDepsHash = "sha256-fLbB77Q8AJ24qnS5+t2t0WTAG8hhjIubU4oTtK1+Uk8=";
+  npmDepsHash = "sha256-l2wuRIiY1kMMv5Js0ZHEmGrKEdBH856ybOQbA90ciyY=";
 
   meta = {
     description = "Agent orchestration framework";

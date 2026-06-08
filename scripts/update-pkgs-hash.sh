@@ -57,14 +57,24 @@ update_fetchFromGitHub() {
 
   echo "  ${owner}/${repo}: ${current_rev:0:8} -> ${new_rev:0:8} (${new_date})"
 
-  local base32 new_hash
-  base32=$(nix-prefetch-url --unpack --type sha256 \
+  local prefetch_out base32 store_path new_hash
+  prefetch_out=$(nix-prefetch-url --print-path --unpack --type sha256 \
     "https://github.com/${owner}/${repo}/archive/${new_rev}.tar.gz" 2>/dev/null)
+  base32=$(echo "$prefetch_out" | head -1)
+  store_path=$(echo "$prefetch_out" | tail -1)
   new_hash=$(sri_from_base32 "$base32")
 
   sed -i '' "s|rev = \"[^\"]*\"|rev = \"${new_rev}\"|" "$file"
   sed -i '' "s|version = \"unstable-[^\"]*\"|version = \"unstable-${new_date}\"|" "$file"
   write_hash "$file" "$new_hash"
+
+  if grep -q 'npmDepsHash' "$file"; then
+    echo "  ${owner}/${repo}: updating npmDepsHash..."
+    local npm_deps_hash
+    npm_deps_hash=$(nix run nixpkgs#prefetch-npm-deps -- "${store_path}/package-lock.json" 2>/dev/null)
+    validate "$npm_deps_hash" '^sha256-' "npmDepsHash"
+    sed -i '' "s|npmDepsHash = \"sha256-[^\"]*\"|npmDepsHash = \"${npm_deps_hash}\"|" "$file"
+  fi
 }
 
 # npm registry (fetchurl from registry.npmjs.org): update version and hash.
@@ -219,7 +229,7 @@ EOF
 }
 
 main() {
-  local npm_updated=false github_updated=false
+  local npm_updated=false
 
   for file in "$PKGS_DIR"/*.nix; do
     local name
@@ -242,9 +252,6 @@ main() {
     elif grep -q 'fetchFromGitHub' "$file"; then
       echo "github: $name"
       update_fetchFromGitHub "$file"
-      if grep -q 'npmDepsHash' "$file"; then
-        github_updated=true
-      fi
     else
       echo "warn: $name has no recognized fetch source; skipping" >&2
     fi
@@ -253,13 +260,6 @@ main() {
   echo ""
   echo "Done."
 
-  if $github_updated; then
-    echo ""
-    echo "Note: npmDepsHash in takt.nix was NOT updated. Manual steps:"
-    echo "  1. nix build .#takt  (fails; reveals the store path)"
-    echo "  2. nix run nixpkgs#prefetch-npm-deps -- <store-path>/package-lock.json"
-    echo "  3. copy the output hash into npmDepsHash in takt.nix"
-  fi
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
