@@ -9,5 +9,6 @@
     };
     takt = import ./takt.nix { pkgs = final; };
     ccstatusline = import ./ccstatusline.nix { pkgs = final; };
+    brave = import ./brave.nix { pkgs = prev; };
   };
 }
