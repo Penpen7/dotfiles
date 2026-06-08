@@ -103,6 +103,73 @@ update_npm() {
   write_hash "$file" "$new_hash"
 }
 
+update_chrome() {
+  local file="$1"
+
+  local current_version latest_version
+  current_version=$(grep -E '^\s+version = ' "$file" | sed -E 's/.*version = "([^"]*)".*/\1/')
+  latest_version=$(curl -fsSL \
+    "https://versionhistory.googleapis.com/v1/chrome/platforms/mac/channels/stable/versions/all/releases?filter=endtime=none,fraction%3E=0.5&order_by=version%20desc" \
+    | jq -r '.releases[0].version')
+
+  validate "$latest_version" '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$' "chrome version"
+
+  if [[ "$latest_version" == "$current_version" ]]; then
+    echo "  chrome: ${current_version} (latest, re-fetching hash)"
+  else
+    echo "  chrome: ${current_version} -> ${latest_version}"
+  fi
+
+  local uuid response url_base pkg_name
+  uuid=$(python3 -c "import uuid; print(str(uuid.uuid4()).upper())")
+  response=$(curl -fsSL -X POST -H "Content-Type: text/xml" \
+    --data "<?xml version='1.0' encoding='UTF-8'?>
+<request protocol='3.0' version='1.3.23.9' shell_version='1.3.21.103' ismachine='1'
+    sessionid='${uuid}' installsource='ondemandcheckforupdate'
+    requestid='${uuid}' dedup='cr'>
+    <hw sse='1' sse2='1' sse3='1' ssse3='1' sse41='1' sse42='1' avx='1' physmemory='12582912' />
+    <os platform='mac' version='${latest_version}' arch='arm64'/>
+    <app appid='com.google.Chrome' ap=' ' version=' ' nextversion=' ' lang=' ' brand='GGLS' client=' '>
+        <updatecheck/>
+    </app>
+</request>" "https://tools.google.com/service/update2")
+
+  url_base=$(echo "$response" | python3 -c "
+import sys, xml.etree.ElementTree as ET
+root = ET.fromstring(sys.stdin.read())
+for u in root.findall('.//url'):
+    cb = u.get('codebase', '')
+    if cb.startswith('https://dl.google.com/release2'):
+        print(cb); break
+")
+  pkg_name=$(echo "$response" | python3 -c "
+import sys, xml.etree.ElementTree as ET
+root = ET.fromstring(sys.stdin.read())
+for p in root.findall('.//package'):
+    print(p.get('name', '')); break
+")
+
+  validate "$url_base" '^https://dl\.google\.com/release2/chrome/' "chrome url base"
+  validate "$pkg_name" '^GoogleChrome-[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\.dmg$' "chrome pkg name"
+
+  local download_url="${url_base}${pkg_name}"
+  local new_hash
+  new_hash=$(nix store prefetch-file --hash-type sha256 --json "$download_url" | jq -r '.hash')
+
+  cat > "$file" << EOF
+{ pkgs }:
+let
+  version = "${latest_version}";
+  url = "${download_url}";
+  hash = "${new_hash}";
+in
+pkgs.google-chrome.overrideAttrs (_: {
+  inherit version;
+  src = pkgs.fetchurl { inherit url hash; };
+})
+EOF
+}
+
 update_brave() {
   local file="$1"
 
@@ -165,6 +232,9 @@ main() {
     if [[ "$name" == "brave.nix" ]]; then
       echo "brave:"
       update_brave "$file"
+    elif [[ "$name" == "chrome.nix" ]]; then
+      echo "chrome:"
+      update_chrome "$file"
     elif grep -q 'registry.npmjs.org' "$file"; then
       echo "npm: $name"
       update_npm "$file"
