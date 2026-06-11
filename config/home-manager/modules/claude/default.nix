@@ -1,6 +1,9 @@
 { pkgs, ... }:
 {
-  home.packages = [ pkgs.ccstatusline ];
+  home.packages = [
+    pkgs.ccstatusline
+    pkgs.llm-agents.claude-code
+  ];
 
   home.file = {
     ".claude/settings.json".source = ./settings.json;

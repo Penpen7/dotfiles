@@ -35,6 +35,10 @@
       url = "github:Penpen7/browser.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -47,6 +51,7 @@
       rust-overlay,
       nvim-config,
       browser-nix,
+      llm-agents,
     }:
     let
       darwinSystem = "aarch64-darwin";
@@ -57,6 +62,7 @@
         browser-nix.overlays.default
         (import ./pkgs).overlays.default
         (_: _: { nvim = nvim-config.packages.${darwinSystem}.nvim; })
+        llm-agents.overlays.default
       ];
       pkgs = import nixpkgs {
         system = darwinSystem;
@@ -85,7 +91,9 @@
         work = mkDarwinSystem "work";
         personal = mkDarwinSystem "personal";
       };
-      packages = forEachSystem (system: { nvim = nvim-config.packages.${system}.nvim; });
+      packages = forEachSystem (system: {
+        nvim = nvim-config.packages.${system}.nvim;
+      });
       formatter = forEachSystem (system: (import nixpkgs { inherit system; }).nixfmt);
     };
 }
