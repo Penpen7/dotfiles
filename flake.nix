@@ -30,6 +30,11 @@
       url = "path:./nvim-config";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    browser-nix = {
+      url = "github:Penpen7/browser.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -41,6 +46,7 @@
       nix-vscode-extensions,
       rust-overlay,
       nvim-config,
+      browser-nix,
     }:
     let
       darwinSystem = "aarch64-darwin";
@@ -48,6 +54,7 @@
       overlays = [
         nix-vscode-extensions.overlays.default
         rust-overlay.overlays.default
+        browser-nix.overlays.default
         (import ./pkgs).overlays.default
         (_: _: { nvim = nvim-config.packages.${darwinSystem}.nvim; })
       ];
