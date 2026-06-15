@@ -1,16 +1,16 @@
 { pkgs }:
 pkgs.buildNpmPackage {
   pname = "takt";
-  version = "unstable-2026-06-08";
+  version = "unstable-2026-06-15";
 
   src = pkgs.fetchFromGitHub {
     owner = "nrslib";
     repo = "takt";
-    rev = "9a927648e009833929370c53990b7ffc805092e5";
-    hash = "sha256-OchjoKpA0HlrMme/5WyfU+wuJpqE9web4STnnbqzT+g=";
+    rev = "73674951658660d901521f6724188131ef05fc04";
+    hash = "sha256-krLJ2AlPJdp0YN6yW5QvTuvVL4Trln3XIgzhhWySJBg=";
   };
 
-  npmDepsHash = "sha256-l2wuRIiY1kMMv5Js0ZHEmGrKEdBH856ybOQbA90ciyY=";
+  npmDepsHash = "sha256-JHyXH1zs8Acdsl5huU7jmkyQk0rbr1Fmj6IjOirqajs=";
 
   meta = {
     description = "Agent orchestration framework";
