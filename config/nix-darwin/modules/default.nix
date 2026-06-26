@@ -2,6 +2,8 @@
   self,
   pkgs,
   config,
+  homebrew-core,
+  homebrew-cask,
   ...
 }:
 let
@@ -10,6 +12,18 @@ let
 in
 {
   nixpkgs.config.allowUnfree = true;
+
+  nix-homebrew = {
+    enable = true;
+    enableRosetta = true;
+    user = username;
+    taps = {
+      "homebrew/homebrew-core" = homebrew-core;
+      "homebrew/homebrew-cask" = homebrew-cask;
+    };
+    mutableTaps = false;
+    autoMigrate = true;
+  };
 
   fonts.packages = with pkgs; [
     hackgen-font

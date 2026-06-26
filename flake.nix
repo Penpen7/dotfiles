@@ -16,6 +16,20 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-homebrew = {
+      url = "github:zhaofengli/nix-homebrew";
+    };
+
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
+
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -47,6 +61,9 @@
       nixpkgs,
       home-manager,
       nix-darwin,
+      nix-homebrew,
+      homebrew-core,
+      homebrew-cask,
       nix-vscode-extensions,
       rust-overlay,
       nvim-config,
@@ -71,9 +88,10 @@
       mkDarwinSystem =
         profile:
         nix-darwin.lib.darwinSystem {
-          specialArgs = { inherit self; };
+          specialArgs = { inherit self homebrew-core homebrew-cask; };
           modules = [
             home-manager.darwinModules.home-manager
+            nix-homebrew.darwinModules.nix-homebrew
             ./config/nix-darwin/profile/${profile}
             {
               nixpkgs.overlays = overlays;
