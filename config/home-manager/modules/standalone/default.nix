@@ -113,14 +113,13 @@
     mas # Mac App Store を CLI から操作 (macOS 専用)
     terminal-notifier # macOS の通知センターに CLI から通知送信 (macOS 専用)
 
-    # GUI アプリ (flutter/chromedriver, discord は各モジュールで管理)
+    # GUI アプリ 
     alacritty # GPU アクセラレーション対応のターミナルエミュレータ
     audacity # オーディオ編集・録音ツール
     cool-retro-term # レトロ風ターミナルエミュレータ
     iterm2 # macOS 専用の高機能ターミナルエミュレータ (unfree) ← cask: iterm2
     keycastr # キー入力を画面に表示するツール ← cask: keycastr
     kitty # GPU アクセラレーション対応のターミナルエミュレータ
-    slack # チームコミュニケーションツール (unfree)
     vagrant # 仮想開発環境の構築・管理ツール
     skimpdf # PDF ビューア・注釈ツール (unfree)
     realvnc-vnc-viewer # RealVNC リモートデスクトップクライアント (unfree)
