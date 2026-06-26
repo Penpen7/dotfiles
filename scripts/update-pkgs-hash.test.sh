@@ -5,7 +5,7 @@
 #
 # Test scope:
 #   Unit        - Parameter extraction patterns, URL construction, sed replacement
-#   Function    - update_fetchFromGitHub(), update_fetchurl() (require script to exist)
+#   Function    - update_fetchFromGitHub(), update_npm() (require script to exist)
 #   Integration - Full script run against temp pkgs dir (require script to exist)
 
 set -uo pipefail
@@ -384,17 +384,17 @@ test_default_nix_has_no_fetch_source() {
 test_default_nix_has_no_fetch_source
 
 # ==============================================================
-# [Function] update_fetchFromGitHub / update_fetchurl
+# [Function] update_fetchFromGitHub / update_npm
 # Requires the production script to be present.
 # ==============================================================
 echo ""
-echo "=== [Function] update_fetchFromGitHub and update_fetchurl ==="
+echo "=== [Function] update_fetchFromGitHub and update_npm ==="
 
 if [[ ! -f "$SCRIPT_PATH" ]]; then
     skip "update_fetchFromGitHub updates hash field (script not yet implemented)"
     skip "update_fetchFromGitHub passes --unpack to nix-prefetch-url"
-    skip "update_fetchurl updates hash field (script not yet implemented)"
-    skip "update_fetchurl does NOT pass --unpack to nix-prefetch-url"
+    skip "update_npm updates hash field (script not yet implemented)"
+    skip "update_npm does NOT pass --unpack to nix-prefetch-url"
     skip "update_fetchFromGitHub on takt.nix does not touch npmDepsHash"
 else
     # Source the script to load its functions.
@@ -402,6 +402,10 @@ else
     #   [[ "${BASH_SOURCE[0]}" == "${0}" ]] && main "$@"
     # shellcheck source=/dev/null
     source "$SCRIPT_PATH"
+    # The production script sets `set -euo pipefail`; sourcing it leaks errexit
+    # into this harness and would abort the whole suite on the first failing
+    # assertion. Restore the test harness's intended mode (no errexit).
+    set +e
 
     test_update_fetchFromGitHub_updates_hash() {
         # Given: a fetchFromGitHub file with old hash
@@ -432,34 +436,34 @@ else
     }
     test_update_fetchFromGitHub_uses_unpack_flag
 
-    test_update_fetchurl_updates_hash() {
+    test_update_npm_updates_hash() {
         # Given: a fetchurl file with old hash
         local file="$TMP/cc_func.nix"
         cp "$PKGS_FIXTURES/ccstatusline.nix" "$file"
-        # When: update_fetchurl is called
-        update_fetchurl "$file"
+        # When: update_npm is called
+        update_npm "$file"
         # Then: hash is updated to the mock hash value
         assert_file_contains \
             "sha256-MOCKHASH000000000000000000000000000000000000=" \
             "$file" \
-            "update_fetchurl writes new SRI hash to file"
+            "update_npm writes new SRI hash to file"
     }
-    test_update_fetchurl_updates_hash
+    test_update_npm_updates_hash
 
-    test_update_fetchurl_does_not_use_unpack_flag() {
+    test_update_npm_does_not_use_unpack_flag() {
         # Given: a fresh call log
         rm -f "$TMP/prefetch.calls"
         local file="$TMP/cc_nounpack.nix"
         cp "$PKGS_FIXTURES/ccstatusline.nix" "$file"
-        # When: update_fetchurl is called
-        update_fetchurl "$file"
+        # When: update_npm is called
+        update_npm "$file"
         # Then: nix-prefetch-url was called WITHOUT --unpack
         local calls
         calls=$(cat "$TMP/prefetch.calls" 2>/dev/null || echo "")
         assert_not_contains "\-\-unpack" "$calls" \
             "nix-prefetch-url called WITHOUT --unpack for plain fetchurl"
     }
-    test_update_fetchurl_does_not_use_unpack_flag
+    test_update_npm_does_not_use_unpack_flag
 
     test_update_fetchFromGitHub_preserves_npmDepsHash() {
         # Given: takt.nix which has both hash and npmDepsHash
@@ -573,6 +577,107 @@ NIX
             "unrecognized fetch source file is not modified by full run (warn+skip)"
     }
     test_full_run_skips_unrecognized_source
+fi
+
+# ==============================================================
+# [Function] update_github_releases (multi-platform SHASUMS256.txt)
+# Network is mocked via a dedicated curl stub on PATH.
+# ==============================================================
+echo ""
+echo "=== [Function] update_github_releases (GitHub Releases / SHASUMS) ==="
+
+if [[ ! -f "$SCRIPT_PATH" ]]; then
+    skip "update_github_releases bumps version (script not yet implemented)"
+    skip "update_github_releases updates per-platform sha256 hashes (script not yet implemented)"
+    skip "update_github_releases dispatched for releases/download files (script not yet implemented)"
+else
+    # Dedicated mock bin so the curl stub does not leak into other tests.
+    GH_MOCK_BIN="$TMP/gh-bin"
+    mkdir -p "$GH_MOCK_BIN"
+    cat > "$GH_MOCK_BIN/curl" << 'MOCK'
+#!/usr/bin/env bash
+url="${@: -1}"
+case "$url" in
+  *releases/latest)
+    printf '{"tag_name":"v9.9.9"}' ;;
+  *SHASUMS256.txt)
+    printf '%s\n' \
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa  ./tool-v9.9.9-macos-arm64.tar.gz" \
+      "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb  ./tool-v9.9.9-linux-x64.tar.gz" \
+      "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc  ./tool-v9.9.9-macos-arm64.tar.xz" ;;
+esac
+MOCK
+    chmod +x "$GH_MOCK_BIN/curl"
+
+    create_releases_fixture() {
+        cat > "$1" << 'NIX'
+{ pkgs }:
+let
+  version = "1.0.0";
+  plat =
+    {
+      aarch64-darwin = {
+        asset = "macos-arm64";
+        sha256 = "0000000000000000000000000000000000000000000000000000000000000000";
+      };
+      x86_64-linux = {
+        asset = "linux-x64";
+        sha256 = "1111111111111111111111111111111111111111111111111111111111111111";
+      };
+    }
+    .${pkgs.stdenv.hostPlatform.system};
+in
+pkgs.stdenvNoCC.mkDerivation {
+  pname = "tool";
+  inherit version;
+  src = pkgs.fetchurl {
+    url = "https://github.com/acme/tool/releases/download/v${version}/tool-v${version}-${plat.asset}.tar.gz";
+    inherit (plat) sha256;
+  };
+}
+NIX
+    }
+
+    test_update_github_releases_bumps_version() {
+        local file="$TMP/releases_version.nix"
+        create_releases_fixture "$file"
+        ( PATH="$GH_MOCK_BIN:$PATH"; update_github_releases "$file" )
+        assert_file_contains 'version = "9.9.9"' "$file" \
+            "update_github_releases bumps version to latest release tag"
+    }
+    test_update_github_releases_bumps_version
+
+    test_update_github_releases_updates_hashes() {
+        local file="$TMP/releases_hashes.nix"
+        create_releases_fixture "$file"
+        ( PATH="$GH_MOCK_BIN:$PATH"; update_github_releases "$file" )
+        # macos-arm64 .tar.gz hash (must pick .tar.gz, not the .tar.xz line)
+        assert_file_contains \
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" \
+            "$file" "macos-arm64 sha256 updated from SHASUMS256.txt (.tar.gz only)"
+        # linux-x64 .tar.gz hash
+        assert_file_contains \
+            "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" \
+            "$file" "linux-x64 sha256 updated from SHASUMS256.txt"
+        # old hashes gone
+        assert_file_not_contains \
+            "0000000000000000000000000000000000000000000000000000000000000000" \
+            "$file" "stale macos-arm64 sha256 replaced"
+        # .tar.xz line must NOT be selected
+        assert_file_not_contains \
+            "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" \
+            "$file" ".tar.xz checksum is not used"
+    }
+    test_update_github_releases_updates_hashes
+
+    test_releases_download_is_recognized_dispatch() {
+        # A releases/download file must not fall through to the warn+skip branch.
+        local file="$TMP/releases_dispatch.nix"
+        create_releases_fixture "$file"
+        assert_file_contains 'releases/download' "$file" \
+            "fixture uses releases/download URL (recognized by dispatch)"
+    }
+    test_releases_download_is_recognized_dispatch
 fi
 
 # ---------- summary ----------

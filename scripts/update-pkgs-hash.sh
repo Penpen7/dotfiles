@@ -113,6 +113,60 @@ update_npm() {
   write_hash "$file" "$new_hash"
 }
 
+# GitHub Releases (multi-platform prebuilt binary, SHASUMS256.txt based):
+# update version and every per-platform sha256 hex hash.
+# owner/repo are parsed from the releases download URL, asset filenames from
+# the url template, and each asset's checksum from the release's SHASUMS256.txt.
+update_github_releases() {
+  local file="$1"
+  local owner repo current_version url_raw fname_template
+
+  url_raw=$(grep -E '^\s+url = ' "$file" | head -1 | sed -E 's/.*url = "([^"]*)".*/\1/')
+  owner=$(echo "$url_raw" | sed -E 's#.*github.com/([^/]+)/([^/]+)/releases.*#\1#')
+  repo=$(echo "$url_raw"  | sed -E 's#.*github.com/([^/]+)/([^/]+)/releases.*#\2#')
+  fname_template=$(basename "$url_raw")
+
+  validate "$owner" '^[a-zA-Z0-9_.-]+$' "owner"
+  validate "$repo"  '^[a-zA-Z0-9_.-]+$' "repo"
+
+  current_version=$(grep -E '^\s+version = ' "$file" | sed -E 's/.*version = "([^"]*)".*/\1/')
+
+  local new_version
+  new_version=$(curl "${GITHUB_API_OPTS[@]}" \
+    "https://api.github.com/repos/${owner}/${repo}/releases/latest" \
+    | jq -r '.tag_name' | sed 's/^v//')
+
+  validate "$new_version" '^[0-9]+\.[0-9]+\.[0-9]+' "${repo} version"
+
+  if [[ "$new_version" == "$current_version" ]]; then
+    echo "  ${repo}: ${current_version} (latest, re-fetching hashes)"
+  else
+    echo "  ${repo}: ${current_version} -> ${new_version}"
+  fi
+
+  local shasums
+  shasums=$(curl "${GITHUB_API_OPTS[@]}" \
+    "https://github.com/${owner}/${repo}/releases/download/v${new_version}/SHASUMS256.txt")
+
+  sed -i '' "s|version = \"${current_version}\"|version = \"${new_version}\"|" "$file"
+
+  # Replace the sha256 hex on the line following each `asset = "..."` line.
+  local assets asset fname sha
+  assets=$(grep -E '^\s+asset = ' "$file" | sed -E 's/.*asset = "([^"]*)".*/\1/')
+  while IFS= read -r asset; do
+    [[ -z "$asset" ]] && continue
+    fname=$(echo "$fname_template" \
+      | sed "s/\${version}/${new_version}/g; s/\${plat.asset}/${asset}/g")
+    sha=$(echo "$shasums" | awk -v f="./${fname}" '$2 == f { print $1 }')
+    validate "$sha" '^[0-9a-f]{64}$' "${asset} sha256"
+    awk -v asset="$asset" -v sha="$sha" '
+      $0 ~ ("asset = \"" asset "\"") { print; found = 1; next }
+      found && /sha256 = / { sub(/sha256 = "[0-9a-f]*"/, "sha256 = \"" sha "\""); found = 0 }
+      { print }
+    ' "$file" > "${file}.tmp" && mv "${file}.tmp" "$file"
+  done <<< "$assets"
+}
+
 update_chrome() {
   local file="$1"
 
@@ -245,6 +299,9 @@ main() {
     elif [[ "$name" == "chrome.nix" ]]; then
       echo "chrome:"
       update_chrome "$file"
+    elif grep -q 'releases/download' "$file"; then
+      echo "github-releases: $name"
+      update_github_releases "$file"
     elif grep -q 'registry.npmjs.org' "$file"; then
       echo "npm: $name"
       update_npm "$file"
