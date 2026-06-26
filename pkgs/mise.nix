@@ -38,10 +38,13 @@ pkgs.stdenvNoCC.mkDerivation {
   # Linux ではダウンロードしたバイナリの interpreter を修正する。
   nativeBuildInputs = pkgs.lib.optionals pkgs.stdenv.isLinux [ pkgs.autoPatchelfHook ];
 
+  # ルートに LICENSE / README.md を置くと buildEnv で他パッケージと衝突するため、
+  # bin と share のみ展開し、LICENSE は share/doc 配下へ移す。
   installPhase = ''
     runHook preInstall
     mkdir -p $out
-    cp -r ./* $out/
+    cp -r ./bin ./share $out/
+    install -Dm644 ./LICENSE $out/share/doc/mise/LICENSE
     runHook postInstall
   '';
 
