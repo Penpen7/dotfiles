@@ -79,6 +79,9 @@ in
 
   homebrew = {
     enable = true;
+    # Declare the nix-homebrew managed taps in the Brewfile so the `zap`
+    # cleanup below does not try to untap them.
+    taps = builtins.attrNames config.nix-homebrew.taps;
     onActivation = {
       autoUpdate = true;
       upgrade = true;
