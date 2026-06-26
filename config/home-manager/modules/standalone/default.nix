@@ -125,7 +125,6 @@
     skimpdf # PDF ビューア・注釈ツール (unfree)
     realvnc-vnc-viewer # RealVNC リモートデスクトップクライアント (unfree)
     wireshark # ネットワークプロトコルアナライザ (Qt GUI) ← cask: wireshark
-    zoom-us # ビデオ会議ツール (unfree)
     github-copilot-cli # GitHub Copilot CLI ← cask: copilot-cli
     code-cursor # AI コードエディタ (unfree)
     betterdisplay # ディスプレイ管理ツール (unfree)

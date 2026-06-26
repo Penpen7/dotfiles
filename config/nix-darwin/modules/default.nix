@@ -94,6 +94,7 @@ in
       "rustrover"
       "tableplus"
       "virtualbox"
+      "zoom"
     ];
   };
 
