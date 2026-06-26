@@ -13,6 +13,8 @@
     package = pkgs.llm-agents.claude-code;
 
     settings = {
+      model = "opus";
+
       statusLine = {
         type = "command";
         command = "ccstatusline";
