@@ -32,11 +32,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782261303,
-        "narHash": "sha256-Ah7/oeR8t+riVy3jTq8y6rpVU9bpvKM8ljvGcLvz5EQ=",
+        "lastModified": 1782479411,
+        "narHash": "sha256-/Pro3brgtLRENnO51CZky0J13iGyHKDp1C0hnpmJXy4=",
         "owner": "Penpen7",
         "repo": "browser.nix",
-        "rev": "42c8da0b1dafd8a5a948d2cbbc4549702137dfae",
+        "rev": "f9fed1568e91d14503fcd122a9c6cfcb40cd8859",
         "type": "github"
       },
       "original": {
