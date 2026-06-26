@@ -2,11 +2,92 @@
 {
   home.packages = [
     pkgs.ccstatusline
-    pkgs.llm-agents.claude-code
   ];
 
   home.file = {
-    ".claude/settings.json".source = ./settings.json;
     ".config/ccstatusline/settings.json".source = ./ccstatusline-settings.json;
+  };
+
+  programs.claude-code = {
+    enable = true;
+    package = pkgs.llm-agents.claude-code;
+
+    settings = {
+      statusLine = {
+        type = "command";
+        command = "ccstatusline";
+      };
+
+      env = {
+        DISABLE_AUTOUPDATER = "1";
+        CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
+      };
+
+      permissions = {
+        allow = [
+          "Bash(git status:*)"
+          "Bash(git log:*)"
+          "Bash(git branch:*)"
+          "Bash(git checkout:*)"
+          "Bash(git diff:*)"
+          "Bash(git merge:*)"
+          "Bash(git switch:*)"
+          "Bash(git commit:*)"
+          "Bash(git add:*)"
+          "Bash(git fetch:*)"
+          "Bash(git pull:*)"
+          "Bash(ls:*)"
+          "Bash(pwd:*)"
+          "Bash(cd:*)"
+          "Bash(find:*)"
+          "Bash(grep:*)"
+          "Bash(rg:*)"
+          "Bash(jq:*)"
+          "Bash(echo:*)"
+          "Bash(gh pr:*)"
+          "Bash(cat:*)"
+          "Bash(head:*)"
+          "Bash(tail:*)"
+          "Bash(xargs:*)"
+          "WebFetch(domain:github.com)"
+          "WebFetch(domain:docs.anthropic.com)"
+          "WebFetch(domain:stackoverflow.com)"
+          "WebFetch(domain:developer.mozilla.org)"
+          "mcp__serena"
+        ];
+        deny = [
+          "Bash(git add --all)"
+          "Bash(git add -A)"
+          "Bash(git add .)"
+        ];
+      };
+
+      hooks = {
+        Notification = [
+          {
+            hooks = [
+              {
+                type = "command";
+                command = ''terminal-notifier -title 'Claude Code sent notification' -message "''${CLAUDE_PROJECT_DIR}" -sound default'';
+              }
+            ];
+          }
+        ];
+        Stop = [
+          {
+            hooks = [
+              {
+                type = "command";
+                command = ''terminal-notifier -title 'Claude Code stopped' -message "''${CLAUDE_PROJECT_DIR}" -sound default'';
+              }
+            ];
+          }
+        ];
+      };
+    };
+
+    commands = {
+      count-chars = ./count-chars.md;
+    };
   };
 }
