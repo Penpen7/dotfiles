@@ -114,6 +114,7 @@ in
       "virtualbox"
       "vnc-viewer"
       "zoom"
+      "iterm2"
     ];
   };
 

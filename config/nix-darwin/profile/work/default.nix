@@ -31,9 +31,9 @@ in
     "/Applications/Gather.app"
     "/Applications/Slack.app"
     "/Applications/Microsoft Outlook.app"
-    "${pkgs.iterm2}/Applications/iTerm2.app"
+    "/Applications/iTerm.app"
     "/Applications/TablePlus.app"
-    "${pkgs.zoom-us}/Applications/zoom.us.app"
+    "/Applications/zoom.us.app"
     "/Applications/Microsoft Excel.app"
     "/System/Applications/System Settings.app"
   ];

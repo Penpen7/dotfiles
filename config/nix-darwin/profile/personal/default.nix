@@ -44,7 +44,7 @@ in
     "${pkgs.brave}/Applications/Brave Browser.app"
     "/Applications/Slack.app"
     "/Applications/Discord.app"
-    "${pkgs.iterm2}/Applications/iTerm2.app"
+    "/Applications/iTerm.app"
     "/Applications/LINE.app"
     "/System/Applications/System Settings.app"
   ];
