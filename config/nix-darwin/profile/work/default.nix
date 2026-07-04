@@ -14,6 +14,7 @@ in
     ../../modules/gather.nix
     ../../modules/logi-options.nix
     ../../modules/runcat.nix
+    ../../modules/rectangle.nix
   ];
 
   system.primaryUser = username;

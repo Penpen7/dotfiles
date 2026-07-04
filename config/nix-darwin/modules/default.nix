@@ -112,6 +112,7 @@ in
       "rustrover"
       "slack"
       "virtualbox"
+      "vnc-viewer"
       "zoom"
     ];
   };

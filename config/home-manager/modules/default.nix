@@ -26,7 +26,6 @@
     ./go
     ./rust
     ./flutter
-    ./rectangle
     ./mise
   ];
 }

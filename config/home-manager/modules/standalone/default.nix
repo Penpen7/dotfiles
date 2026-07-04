@@ -113,7 +113,7 @@
     mas # Mac App Store を CLI から操作 (macOS 専用)
     terminal-notifier # macOS の通知センターに CLI から通知送信 (macOS 専用)
 
-    # GUI アプリ 
+    # GUI アプリ
     alacritty # GPU アクセラレーション対応のターミナルエミュレータ
     audacity # オーディオ編集・録音ツール
     cool-retro-term # レトロ風ターミナルエミュレータ
@@ -122,7 +122,6 @@
     kitty # GPU アクセラレーション対応のターミナルエミュレータ
     vagrant # 仮想開発環境の構築・管理ツール
     skimpdf # PDF ビューア・注釈ツール (unfree)
-    realvnc-vnc-viewer # RealVNC リモートデスクトップクライアント (unfree)
     wireshark # ネットワークプロトコルアナライザ (Qt GUI) ← cask: wireshark
     github-copilot-cli # GitHub Copilot CLI ← cask: copilot-cli
     code-cursor # AI コードエディタ (unfree)
