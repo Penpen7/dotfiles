@@ -14,16 +14,25 @@ pkgs.stdenvNoCC.mkDerivation {
     hash = "sha256-VR0sSTZfRjjv+p4DcYciKBJG5DHIwj4KLhTHPGRsSX0=";
   };
 
-  nativeBuildInputs = [ pkgs.undmg ];
+  nativeBuildInputs = [ pkgs._7zz ];
 
-  # undmg で展開すると TablePlus.app がカレントに現れるので、その中身を
-  # $out/Applications/TablePlus.app へ配置する。
-  sourceRoot = "TablePlus.app";
+  # 最近の TablePlus.dmg は APFS 形式のため undmg では展開できない。
+  # _7zz なら APFS DMG も扱えるので、これで展開して TablePlus.app を取り出す。
+  unpackPhase = ''
+    runHook preUnpack
+    7zz x "$src" -o_dmg
+    runHook postUnpack
+  '';
 
   installPhase = ''
     runHook preInstall
+    app=$(find _dmg -maxdepth 3 -name 'TablePlus.app' -type d | head -n1)
+    if [ -z "$app" ]; then
+      echo "TablePlus.app not found in extracted DMG" >&2
+      exit 1
+    fi
     mkdir -p "$out/Applications/TablePlus.app"
-    cp -R . "$out/Applications/TablePlus.app"
+    cp -R "$app/." "$out/Applications/TablePlus.app"
     runHook postInstall
   '';
 

@@ -116,10 +116,6 @@ in
     ];
   };
 
-  # tableplus は Homebrew cask だと最新ビルドに追従してしまうため、
-  # pkgs/tableplus.nix でビルド番号を固定して直接ダウンロードする。
-  environment.systemPackages = [ pkgs.tableplus ];
-
   security.pam.services.sudo_local = {
     touchIdAuth = true;
     reattach = true;
