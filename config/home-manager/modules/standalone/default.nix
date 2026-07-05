@@ -108,6 +108,7 @@
     asciinema # ターミナル操作の録画・共有ツール
     agg # asciinema 録画を GIF に変換
     takt # エージェントオーケストレーションフレームワーク
+    difit # GitHub 風インターフェースの軽量 Git diff ビューア
 
     # macOS 連携
     mas # Mac App Store を CLI から操作 (macOS 専用)
