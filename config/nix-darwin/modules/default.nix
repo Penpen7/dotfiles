@@ -112,7 +112,7 @@ in
       "rustrover"
       "slack"
       "virtualbox"
-      "vnc-viewer"
+      # "vnc-viewer"
       "zoom"
       "iterm2"
     ];
