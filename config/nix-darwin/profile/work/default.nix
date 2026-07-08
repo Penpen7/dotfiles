@@ -27,7 +27,7 @@ in
 
   system.defaults.dock.persistent-apps = [
     "/System/Applications/Launchpad.app"
-    "${pkgs.google-chrome}/Applications/Google Chrome.app"
+    "/Users/${username}/Applications/Home Manager Apps/Google Chrome.app"
     "/Applications/Gather.app"
     "/Applications/Slack.app"
     "/Applications/Microsoft Outlook.app"
