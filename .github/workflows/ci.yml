@@ -1,0 +1,46 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  flake-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: cachix/install-nix-action@630ae543ea3a38a9a4166f03376c02c50f408342 # v31.11.0
+      - name: nix flake check
+        run: nix flake check --all-systems
+
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: cachix/install-nix-action@630ae543ea3a38a9a4166f03376c02c50f408342 # v31.11.0
+      - name: nix fmt
+        run: nix fmt
+      - name: Check formatting diff
+        run: git diff --exit-code
+
+  build-darwin:
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        profile:
+          - work
+          - personal
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: cachix/install-nix-action@630ae543ea3a38a9a4166f03376c02c50f408342 # v31.11.0
+      - name: Build darwin system (${{ matrix.profile }})
+        run: nix build --no-link .#darwinConfigurations.${{ matrix.profile }}.system
+
+  test-scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - name: Run script tests
+        run: bash scripts/update-pkgs-hash.test.sh

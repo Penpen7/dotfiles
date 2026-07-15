@@ -1,0 +1,19 @@
+name: update-flake-lock
+on:
+  workflow_dispatch:
+  schedule:
+    # 毎日 00:00 UTC
+    - cron: '0 0 * * *'
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: cachix/install-nix-action@630ae543ea3a38a9a4166f03376c02c50f408342 # v31.11.0
+      - uses: DeterminateSystems/update-flake-lock@fd9359ac79d0e912f1b4b947a48470b3e2799b56
+        with:
+          pr-title: 'chore: update flake.lock'
