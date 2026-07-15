@@ -1,11 +1,11 @@
 { pkgs }:
 pkgs.stdenv.mkDerivation rec {
   pname = "ccstatusline";
-  version = "2.2.22";
+  version = "2.2.23";
 
   src = pkgs.fetchurl {
     url = "https://registry.npmjs.org/ccstatusline/-/ccstatusline-${version}.tgz";
-    hash = "sha256-FKDBeocIjiP4xXxNycTAJFlr7s+I8zm+gNv9IchcsQA=";
+    hash = "sha256-aW+11fg8j1ocp5nSmwocTcSkjt3ntJvjlaSh87i3PiU=";
   };
 
   nativeBuildInputs = [ pkgs.makeWrapper ];

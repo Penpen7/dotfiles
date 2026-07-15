@@ -79,7 +79,7 @@
         browser-nix.overlays.default
         (import ./pkgs).overlays.default
         (_: _: { nvim = nvim-config.packages.${darwinSystem}.nvim; })
-        llm-agents.overlays.default
+        llm-agents.overlays.shared-nixpkgs
       ];
       pkgs = import nixpkgs {
         system = darwinSystem;
