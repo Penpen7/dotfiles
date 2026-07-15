@@ -17,9 +17,28 @@ validate() {
   fi
 }
 
+# Global replacement: only safe when the file has exactly one hash field.
+# Multi-hash files (e.g. difit.nix) must use write_hash_in_block instead.
 write_hash() {
   local file="$1" new_hash="$2"
+  local count
+  count=$(grep -c 'hash = "sha256-' "$file" || true)
+  if [[ "$count" != "1" ]]; then
+    echo "error: ${file} has ${count} 'hash = \"sha256-...\"' fields; write_hash expects exactly 1" >&2
+    exit 1
+  fi
   sed -i '' "s|hash = \"sha256-[^\"]*\"|hash = \"${new_hash}\"|" "$file"
+}
+
+# Replace only the first `hash = "sha256-..."` line after the line matching
+# the context pattern (e.g. 'fetchFromGitHub', 'fetchPnpmDeps').
+write_hash_in_block() {
+  local file="$1" context="$2" new_hash="$3"
+  awk -v ctx="$context" -v h="$new_hash" '
+    $0 ~ ctx { found = 1; print; next }
+    found && /hash = "sha256-/ { sub(/hash = "sha256-[^"]*"/, "hash = \"" h "\""); found = 0 }
+    { print }
+  ' "$file" > "${file}.tmp" && mv "${file}.tmp" "$file"
 }
 
 sri_from_base32() {
@@ -111,6 +130,73 @@ update_npm() {
 
   sed -i '' "s|version = \"${current_version}\"|version = \"${new_version}\"|" "$file"
   write_hash "$file" "$new_hash"
+}
+
+# npm version + fetchFromGitHub src (tag = "v${version}") + npm dist tarball
+# + fetchPnpmDeps (difit-style). The file has three hash fields, so each one
+# is written into its own block. pnpmDeps is a fixed-output derivation whose
+# hash can only be obtained by actually building it: write a fake hash, build,
+# and parse the real hash from the mismatch error.
+FAKE_HASH="sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+
+prefetch_pnpm_deps_hash() {
+  local file="$1"
+  local file_abs flake_dir
+  file_abs="$(cd "$(dirname "$file")" && pwd)/$(basename "$file")"
+  flake_dir="$(cd "${SCRIPT_DIR}/.." && pwd)"
+  { nix build --impure --no-link --expr "
+      let
+        flake = builtins.getFlake \"path:${flake_dir}\";
+        pkgs = import flake.inputs.nixpkgs { system = builtins.currentSystem; };
+      in
+      (import ${file_abs} { inherit pkgs; }).pnpmDeps
+    " 2>&1 || true
+  } | awk '$1 == "got:" { print $2; exit }'
+}
+
+update_pnpm_pkg() {
+  local file="$1"
+  local pname current_version owner repo
+
+  pname=$(grep -E '^\s+pname = ' "$file" | sed -E 's/.*pname = "([^"]*)".*/\1/')
+  current_version=$(grep -E '^\s+version = ' "$file" | sed -E 's/.*version = "([^"]*)".*/\1/')
+  owner=$(grep -E '^\s+owner = ' "$file" | sed -E 's/.*owner = "([^"]*)".*/\1/')
+  repo=$(grep -E '^\s+repo = ' "$file" | sed -E 's/.*repo = "([^"]*)".*/\1/')
+
+  validate "$pname" '^[a-zA-Z0-9_.-]+$' "pname"
+  validate "$owner" '^[a-zA-Z0-9_.-]+$' "owner"
+  validate "$repo"  '^[a-zA-Z0-9_.-]+$' "repo"
+
+  local new_version
+  new_version=$(curl -fsSL "https://registry.npmjs.org/${pname}/latest" | jq -r '.version')
+  validate "$new_version" '^[0-9]+\.[0-9]+\.[0-9]+' "npm version"
+
+  if [[ "$new_version" == "$current_version" ]]; then
+    echo "  ${pname}: already up to date (${current_version})"
+    return
+  fi
+
+  echo "  ${pname}: ${current_version} -> ${new_version}"
+
+  local base32 src_hash dist_hash
+  base32=$(nix-prefetch-url --unpack --type sha256 \
+    "https://github.com/${owner}/${repo}/archive/refs/tags/v${new_version}.tar.gz" 2>/dev/null)
+  src_hash=$(sri_from_base32 "$base32")
+
+  base32=$(nix-prefetch-url --type sha256 \
+    "https://registry.npmjs.org/${pname}/-/${pname}-${new_version}.tgz" 2>/dev/null)
+  dist_hash=$(sri_from_base32 "$base32")
+
+  sed -i '' "s|version = \"${current_version}\"|version = \"${new_version}\"|" "$file"
+  write_hash_in_block "$file" 'fetchFromGitHub' "$src_hash"
+  write_hash_in_block "$file" 'fetchurl' "$dist_hash"
+
+  echo "  ${pname}: building pnpmDeps to obtain its hash (this may take a while)..."
+  write_hash_in_block "$file" 'fetchPnpmDeps' "$FAKE_HASH"
+  local pnpm_deps_hash
+  pnpm_deps_hash=$(prefetch_pnpm_deps_hash "$file")
+  validate "$pnpm_deps_hash" '^sha256-' "pnpmDeps hash"
+  write_hash_in_block "$file" 'fetchPnpmDeps' "$pnpm_deps_hash"
 }
 
 # GitHub Releases (multi-platform prebuilt binary, SHASUMS256.txt based):
@@ -302,6 +388,9 @@ main() {
     elif grep -q 'releases/download' "$file"; then
       echo "github-releases: $name"
       update_github_releases "$file"
+    elif grep -q 'fetchPnpmDeps' "$file"; then
+      echo "pnpm: $name"
+      update_pnpm_pkg "$file"
     elif grep -q 'registry.npmjs.org' "$file"; then
       echo "npm: $name"
       update_npm "$file"
