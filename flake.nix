@@ -112,6 +112,6 @@
       packages = forEachSystem (system: {
         nvim = nvim-config.packages.${system}.nvim;
       });
-      formatter = forEachSystem (system: (import nixpkgs { inherit system; }).nixfmt);
+      formatter = forEachSystem (system: (import nixpkgs { inherit system; }).nixfmt-tree);
     };
 }

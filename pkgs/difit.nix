@@ -27,7 +27,12 @@ pkgs.stdenv.mkDerivation (finalAttrs: {
   pnpmInstallFlags = [ "--prod" ];
 
   pnpmDeps = pkgs.fetchPnpmDeps {
-    inherit (finalAttrs) pname version src pnpmInstallFlags;
+    inherit (finalAttrs)
+      pname
+      version
+      src
+      pnpmInstallFlags
+      ;
     inherit pnpm;
     fetcherVersion = 3;
     hash = "sha256-JJQJnX+0bRQoD7i4Ds46m6zFf6hk3dwpb82EVEJbADQ=";
