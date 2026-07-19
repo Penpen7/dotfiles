@@ -34,8 +34,8 @@ pkgs.stdenv.mkDerivation (finalAttrs: {
       pnpmInstallFlags
       ;
     inherit pnpm;
-    fetcherVersion = 3;
-    hash = "sha256-JJQJnX+0bRQoD7i4Ds46m6zFf6hk3dwpb82EVEJbADQ=";
+    fetcherVersion = 4;
+    hash = "sha256-rSuNi81MSTH5YNz8yh5lZ5niG7+p6I5veaySP0/T2eY=";
   };
 
   nativeBuildInputs = [
