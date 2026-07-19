@@ -115,6 +115,7 @@ in
       # "vnc-viewer"
       "zoom"
       "iterm2"
+      "audacity"
     ];
   };
 

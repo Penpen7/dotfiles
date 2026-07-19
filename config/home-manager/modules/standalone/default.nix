@@ -116,7 +116,6 @@
 
     # GUI アプリ
     alacritty # GPU アクセラレーション対応のターミナルエミュレータ
-    audacity # オーディオ編集・録音ツール
     cool-retro-term # レトロ風ターミナルエミュレータ
     keycastr # キー入力を画面に表示するツール ← cask: keycastr
     kitty # GPU アクセラレーション対応のターミナルエミュレータ
