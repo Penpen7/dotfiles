@@ -90,10 +90,6 @@
         (_: _: { nvim = nvim-config.packages.${darwinSystem}.nvim; })
         llm-agents.overlays.shared-nixpkgs
       ];
-      pkgs = import nixpkgs {
-        system = darwinSystem;
-        inherit overlays;
-      };
       mkDarwinSystem =
         profile:
         nix-darwin.lib.darwinSystem {
