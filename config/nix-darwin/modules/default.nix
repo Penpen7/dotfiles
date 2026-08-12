@@ -37,7 +37,7 @@ in
 
     defaults = {
       dock = {
-        orientation = "left";
+        orientation = "bottom";
         tilesize = 128;
         magnification = true;
         largesize = 79;
