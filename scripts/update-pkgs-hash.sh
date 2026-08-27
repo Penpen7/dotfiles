@@ -9,6 +9,14 @@ if [[ -n "${GITHUB_TOKEN:-}" ]]; then
   GITHUB_API_OPTS+=(-H "Authorization: Bearer ${GITHUB_TOKEN}")
 fi
 
+# `sed -i` is not portable: BSD/macOS sed requires a backup suffix argument
+# while GNU sed treats that argument as the script. Edit through a temp file
+# instead so the script behaves identically on darwin and on linux CI.
+sed_i() {
+  local script="$1" file="$2"
+  sed "$script" "$file" > "${file}.tmp" && mv "${file}.tmp" "$file"
+}
+
 validate() {
   local value="$1" pattern="$2" label="$3"
   if [[ ! "$value" =~ $pattern ]]; then
@@ -27,7 +35,7 @@ write_hash() {
     echo "error: ${file} has ${count} 'hash = \"sha256-...\"' fields; write_hash expects exactly 1" >&2
     exit 1
   fi
-  sed -i '' "s|hash = \"sha256-[^\"]*\"|hash = \"${new_hash}\"|" "$file"
+  sed_i "s|hash = \"sha256-[^\"]*\"|hash = \"${new_hash}\"|" "$file"
 }
 
 # Replace only the first `hash = "sha256-..."` line after the line matching
@@ -48,7 +56,8 @@ sri_from_base32() {
 # fetchFromGitHub: update rev to latest commit on default branch,
 # version to "unstable-YYYY-MM-DD", and src hash.
 #
-# npmDepsHash is intentionally left untouched; see manual steps in main().
+# When the file also carries a buildNpmPackage npmDepsHash, it is refreshed
+# from the prefetched source tree via prefetch-npm-deps.
 update_fetchFromGitHub() {
   local file="$1"
   local owner repo current_rev
@@ -83,8 +92,8 @@ update_fetchFromGitHub() {
   store_path=$(echo "$prefetch_out" | tail -1)
   new_hash=$(sri_from_base32 "$base32")
 
-  sed -i '' "s|rev = \"[^\"]*\"|rev = \"${new_rev}\"|" "$file"
-  sed -i '' "s|version = \"unstable-[^\"]*\"|version = \"unstable-${new_date}\"|" "$file"
+  sed_i "s|rev = \"[^\"]*\"|rev = \"${new_rev}\"|" "$file"
+  sed_i "s|version = \"unstable-[^\"]*\"|version = \"unstable-${new_date}\"|" "$file"
   write_hash "$file" "$new_hash"
 
   if grep -q 'npmDepsHash' "$file"; then
@@ -92,7 +101,7 @@ update_fetchFromGitHub() {
     local npm_deps_hash
     npm_deps_hash=$(nix run nixpkgs#prefetch-npm-deps -- "${store_path}/package-lock.json" 2>/dev/null)
     validate "$npm_deps_hash" '^sha256-' "npmDepsHash"
-    sed -i '' "s|npmDepsHash = \"sha256-[^\"]*\"|npmDepsHash = \"${npm_deps_hash}\"|" "$file"
+    sed_i "s|npmDepsHash = \"sha256-[^\"]*\"|npmDepsHash = \"${npm_deps_hash}\"|" "$file"
   fi
 }
 
@@ -128,7 +137,7 @@ update_npm() {
   base32=$(nix-prefetch-url --type sha256 "$new_url" 2>/dev/null)
   new_hash=$(sri_from_base32 "$base32")
 
-  sed -i '' "s|version = \"${current_version}\"|version = \"${new_version}\"|" "$file"
+  sed_i "s|version = \"${current_version}\"|version = \"${new_version}\"|" "$file"
   write_hash "$file" "$new_hash"
 }
 
@@ -187,7 +196,7 @@ update_pnpm_pkg() {
     "https://registry.npmjs.org/${pname}/-/${pname}-${new_version}.tgz" 2>/dev/null)
   dist_hash=$(sri_from_base32 "$base32")
 
-  sed -i '' "s|version = \"${current_version}\"|version = \"${new_version}\"|" "$file"
+  sed_i "s|version = \"${current_version}\"|version = \"${new_version}\"|" "$file"
   write_hash_in_block "$file" 'fetchFromGitHub' "$src_hash"
   write_hash_in_block "$file" 'fetchurl' "$dist_hash"
 
@@ -234,7 +243,7 @@ update_github_releases() {
   shasums=$(curl "${GITHUB_API_OPTS[@]}" \
     "https://github.com/${owner}/${repo}/releases/download/v${new_version}/SHASUMS256.txt")
 
-  sed -i '' "s|version = \"${current_version}\"|version = \"${new_version}\"|" "$file"
+  sed_i "s|version = \"${current_version}\"|version = \"${new_version}\"|" "$file"
 
   # Replace the sha256 hex on the line following each `asset = "..."` line.
   local assets asset fname sha
