@@ -3,7 +3,7 @@ let
   # pnpm_11 同梱の node 24 は macOS で worker スレッド終了時に EXC_GUARD
   # (guarded fd の誤 close) で SIGKILL されるため node 22 で動かす
   pnpm = pkgs.pnpm_11.override { nodejs = pkgs.nodejs_22; };
-  version = "5.0.8";
+  version = "5.0.12";
 in
 pkgs.stdenv.mkDerivation (finalAttrs: {
   pname = "difit";
@@ -15,12 +15,12 @@ pkgs.stdenv.mkDerivation (finalAttrs: {
     owner = "yoshiko-pg";
     repo = "difit";
     tag = "v${version}";
-    hash = "sha256-AT2dUT14+yfMLxcJdJC/CI28RfyElsoa97vxUIMjUo0=";
+    hash = "sha256-1EoC5t+8KjNmwKg5lFLig26tzCnp2byhkeGjctVdRls=";
   };
 
   distSrc = pkgs.fetchurl {
     url = "https://registry.npmjs.org/difit/-/difit-${version}.tgz";
-    hash = "sha256-RGXJlgKComDU4xcxZWkYD84kMM5fR1oM1XsHhpyCvA0=";
+    hash = "sha256-6zye65ZbaTh26njrNidE4GdsLlbElgMvozzQFMOVYlA=";
   };
 
   __structuredAttrs = true;
@@ -35,7 +35,7 @@ pkgs.stdenv.mkDerivation (finalAttrs: {
       ;
     inherit pnpm;
     fetcherVersion = 4;
-    hash = "sha256-rSuNi81MSTH5YNz8yh5lZ5niG7+p6I5veaySP0/T2eY=";
+    hash = "sha256-tljLoDsWQjYk6frvOPn8UAUflj+wgxSSk+SyAxHi2fg=";
   };
 
   nativeBuildInputs = [
