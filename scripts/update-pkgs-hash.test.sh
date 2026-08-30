@@ -209,6 +209,7 @@ case "${1:-}" in
     esac
     ;;
   run)
+    printf '%s\n' "${NPM_FETCHER_VERSION:-unset}" >> "$MOCK_STATE/npm_fetcher_version.calls"
     printf '%s\n' "$SRI_NPM_DEPS"
     ;;
   build)
@@ -278,6 +279,27 @@ pkgs.buildNpmPackage {
     hash = "sha256-OLDGITHUBHASH=";
   };
 
+  npmDepsHash = "sha256-OLDNPMDEPSHASH=";
+}
+NIX
+}
+
+# fetchFromGitHub + buildNpmPackage that pins npmDepsFetcherVersion = 2.
+fixture_github_npm_deps_v2() {
+    cat > "$1" << 'NIX'
+{ pkgs }:
+pkgs.buildNpmPackage {
+  pname = "takt";
+  version = "unstable-2026-07-28";
+
+  src = pkgs.fetchFromGitHub {
+    owner = "nrslib";
+    repo = "takt";
+    rev = "146e5b3e39ebd7628e16503105e024d4c5a99d97";
+    hash = "sha256-OLDGITHUBHASH=";
+  };
+
+  npmDepsFetcherVersion = 2;
   npmDepsHash = "sha256-OLDNPMDEPSHASH=";
 }
 NIX
@@ -610,8 +632,23 @@ test_update_fetchFromGitHub_refreshes_npm_deps_hash() {
         "update_fetchFromGitHub still writes the src hash"
     assert_contains 'prefetch-npm-deps' "$(cat "$MOCK_STATE/nix.calls")" \
         "prefetch-npm-deps is invoked for the npmDepsHash"
+    assert_file_contains '1' "$MOCK_STATE/npm_fetcher_version.calls" \
+        "NPM_FETCHER_VERSION defaults to 1 when npmDepsFetcherVersion is absent"
 }
 test_update_fetchFromGitHub_refreshes_npm_deps_hash
+
+test_update_fetchFromGitHub_passes_fetcher_version_2() {
+    rm -f "$MOCK_STATE/nix.calls" "$MOCK_STATE/npm_fetcher_version.calls"
+    local file="$TMP/gh_npmdeps_v2.nix"
+    fixture_github_npm_deps_v2 "$file"
+    run_fn update_fetchFromGitHub "$file"
+    assert_ok_status "update_fetchFromGitHub exits 0 on a fetcher v2 file"
+    assert_file_contains "npmDepsHash = \"${SRI_NPM_DEPS}\"" "$file" \
+        "update_fetchFromGitHub refreshes npmDepsHash for a fetcher v2 file"
+    assert_file_contains '2' "$MOCK_STATE/npm_fetcher_version.calls" \
+        "NPM_FETCHER_VERSION=2 is passed to prefetch-npm-deps when npmDepsFetcherVersion = 2"
+}
+test_update_fetchFromGitHub_passes_fetcher_version_2
 
 test_update_fetchFromGitHub_skips_npm_deps_when_absent() {
     rm -f "$MOCK_STATE/nix.calls"

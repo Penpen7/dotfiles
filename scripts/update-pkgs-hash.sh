@@ -98,8 +98,15 @@ update_fetchFromGitHub() {
 
   if grep -q 'npmDepsHash' "$file"; then
     echo "  ${owner}/${repo}: updating npmDepsHash..."
-    local npm_deps_hash
-    npm_deps_hash=$(nix run nixpkgs#prefetch-npm-deps -- "${store_path}/package-lock.json" 2>/dev/null)
+    # prefetch-npm-deps は npmDepsFetcherVersion ごとに異なるハッシュを出す
+    # (v2 は hasShrinkwrap 依存等のためのpackument取得を含む)。ファイルの
+    # npmDepsFetcherVersion (未指定なら 1) を NPM_FETCHER_VERSION として渡し、
+    # ビルド側の fetcher と一致させる。不一致だと ENOTCACHED でビルドが落ちる。
+    local npm_deps_hash fetcher_version
+    fetcher_version=$(sed -nE 's/.*npmDepsFetcherVersion = ([0-9]+);.*/\1/p' "$file")
+    fetcher_version=${fetcher_version:-1}
+    npm_deps_hash=$(NPM_FETCHER_VERSION="$fetcher_version" \
+      nix run nixpkgs#prefetch-npm-deps -- "${store_path}/package-lock.json" 2>/dev/null)
     validate "$npm_deps_hash" '^sha256-' "npmDepsHash"
     sed_i "s|npmDepsHash = \"sha256-[^\"]*\"|npmDepsHash = \"${npm_deps_hash}\"|" "$file"
   fi
