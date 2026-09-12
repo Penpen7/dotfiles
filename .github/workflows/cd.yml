@@ -14,7 +14,7 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
   BINARY_CACHE_SECRET_KEY: ${{ secrets.BINARY_CACHE_SECRET_KEY }}
   S3_API_ENDPOINT: ${{ secrets.S3_API_ENDPOINT }}
-  S3_BUCKET: ${{ vars.S3_BUCKET }}
+  S3_BUCKET: ${{ secrets.S3_BUCKET }}
 
 jobs:
   copy:
