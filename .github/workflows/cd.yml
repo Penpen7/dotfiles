@@ -44,6 +44,8 @@ jobs:
 
       - name: Copy package
         env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           S3_API_ENDPOINT: ${{ secrets.S3_API_ENDPOINT }}
           S3_BUCKET: ${{ secrets.S3_BUCKET }}
-        run: nix copy --to s3://$S3_BUCKET\?profile=$AWS_PROFILE_NAME\&endpoint=$S3_API_ENDPOINT\&compression=zstd ./result
+        run: nix copy --to s3://$S3_BUCKET\?profile=$AWS_PROFILE_NAME\&endpoint=$S3_API_ENDPOINT\&region=auto\&compression=zstd ./result
