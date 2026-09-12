@@ -10,11 +10,6 @@ permissions:
 
 env:
   AWS_PROFILE_NAME: builder
-  AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-  BINARY_CACHE_SECRET_KEY: ${{ secrets.BINARY_CACHE_SECRET_KEY }}
-  S3_API_ENDPOINT: ${{ secrets.S3_API_ENDPOINT }}
-  S3_BUCKET: ${{ secrets.S3_BUCKET }}
 
 jobs:
   copy:
@@ -33,14 +28,22 @@ jobs:
         run: nix build .#darwinConfigurations.${{ matrix.profile }}.system --accept-flake-config
 
       - name: Sign package with secret key
+        env:
+          BINARY_CACHE_SECRET_KEY: ${{ secrets.BINARY_CACHE_SECRET_KEY }}
         run: |
           echo $BINARY_CACHE_SECRET_KEY > ./secret.key
           nix store sign --recursive --key-file ./secret.key ./result
 
       - name: Configure AWS credentials
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: |
           nix shell nixpkgs#awscli --command aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile $AWS_PROFILE_NAME
           nix shell nixpkgs#awscli --command aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile $AWS_PROFILE_NAME
 
       - name: Copy package
+        env:
+          S3_API_ENDPOINT: ${{ secrets.S3_API_ENDPOINT }}
+          S3_BUCKET: ${{ secrets.S3_BUCKET }}
         run: nix copy --to s3://$S3_BUCKET\?profile=$AWS_PROFILE_NAME\&endpoint=$S3_API_ENDPOINT\&compression=zstd ./result
