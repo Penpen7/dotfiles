@@ -16,6 +16,13 @@ R2 を選ぶ理由は egress が無料なこと。ダウンロードが何 GB �
 発生せず、課金されるのはストレージ (GB-month) と操作回数だけ。個人利用の規模
 なら月 $0〜1 に収まる。
 
+認証は `~/.aws/credentials` にプロファイルを書き、ストア URI の `profile=`
+で指定する。Nix の `s3://` ストアは aws-sdk-cpp の認証チェーンを使うので環境
+変数でも拾われるはずだが、プロファイル指定のほうが実績がある。
+
+ビルドには `--accept-flake-config` を渡す。これが無いと `flake.nix` の
+`nixConfig` に書いた substituter が CI で黙って無視される。
+
 ## 1. R2 バケットを作る
 
 Cloudflare ダッシュボード → R2 → Create bucket。

@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+env:
+  AWS_PROFILE_NAME: builder
+  AWS_DEFAULT_REGION: auto
+
 # バケットへの書き込みは content-addressed なので同時実行しても壊れないが、
 # macOS ランナーを二重に確保しても得がないので直列化する。実行中のものは
 # アップロード途中で止めないよう cancel しない。
@@ -52,20 +56,38 @@ jobs:
           printf '%s' "${SIGNING_KEY}" > "${keyfile}"
           echo "keyfile=${keyfile}" >> "${GITHUB_OUTPUT}"
 
+      - name: Configure R2 credentials
+        env:
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        run: |
+          set -euo pipefail
+          # Nix の s3:// ストアは aws-sdk-cpp の認証チェーンを使う。環境変数
+          # でも拾われるはずだが、実績のある profile 指定に寄せる。awscli は
+          # closure が大きいだけでこの用途には不要なので直接書く。
+          umask 077
+          mkdir -p "${HOME}/.aws"
+          cat > "${HOME}/.aws/credentials" <<EOF
+          [${AWS_PROFILE_NAME}]
+          aws_access_key_id = ${R2_ACCESS_KEY_ID}
+          aws_secret_access_key = ${R2_SECRET_ACCESS_KEY}
+          EOF
+
       - name: Build darwin system (${{ matrix.profile }})
         id: build
         run: |
           set -euo pipefail
-          out=$(nix build --no-link --print-out-paths \
+          # installable を省くと `.` に既定されるが、この flake には
+          # packages.default が無いので対象を明示する。
+          # --accept-flake-config: flake.nix の nixConfig にある substituter
+          # を CI でも使う。付けないと黙って無視される。
+          out=$(nix build --no-link --print-out-paths --accept-flake-config \
             ".#darwinConfigurations.${{ matrix.profile }}.system")
           echo "out=${out}" >> "${GITHUB_OUTPUT}"
           nix path-info --closure-size --human-readable "${out}"
 
       - name: Push closure to binary cache
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: auto
           BUCKET: ${{ vars.NIX_CACHE_BUCKET }}
           ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID }}
           KEYFILE: ${{ steps.signing-key.outputs.keyfile }}
@@ -80,5 +102,5 @@ jobs:
           # ランナーの時間を食い潰すため。展開は Nix 2.4 以降が対応済み。
           # priority=30: cache.nixos.org (40) より先に引かせる。
           nix copy \
-            --to "s3://${BUCKET}?endpoint=${ACCOUNT_ID}.r2.cloudflarestorage.com&region=auto&compression=zstd&priority=30&secret-key=${KEYFILE}" \
+            --to "s3://${BUCKET}?profile=${AWS_PROFILE_NAME}&endpoint=${ACCOUNT_ID}.r2.cloudflarestorage.com&region=auto&compression=zstd&priority=30&secret-key=${KEYFILE}" \
             "${OUT}"
