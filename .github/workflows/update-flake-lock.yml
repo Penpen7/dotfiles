@@ -37,6 +37,7 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
       - uses: cachix/install-nix-action@630ae543ea3a38a9a4166f03376c02c50f408342 # v31.11.0
       - uses: DeterminateSystems/update-flake-lock@fd9359ac79d0e912f1b4b947a48470b3e2799b56
+        id: update-flake-lock
         with:
           token: ${{ steps.app-token.outputs.token }}
           branch: update_flake_lock_action
@@ -73,3 +74,23 @@ jobs:
             git commit -m "chore: update pkgs hashes"
             git push origin "$branch"
           fi
+
+      # Enable auto-merge so the PR lands on its own once the required status
+      # checks (build-darwin) pass. Uses a merge commit to match how these PRs
+      # have been merged by hand. Skips when no PR exists or auto-merge is
+      # already enabled (the action reuses the same PR on later runs).
+      - name: Enable auto-merge on the PR
+        if: >-
+          steps.update-flake-lock.outputs.pull-request-number != '' &&
+          steps.update-flake-lock.outputs.pull-request-operation != 'closed'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ steps.update-flake-lock.outputs.pull-request-number }}
+        run: |
+          set -euo pipefail
+          if [ "$(gh pr view "$PR_NUMBER" --json autoMergeRequest --jq '.autoMergeRequest != null')" = "true" ]; then
+            echo "Auto-merge already enabled on #$PR_NUMBER."
+            exit 0
+          fi
+          gh pr merge "$PR_NUMBER" --auto --merge
