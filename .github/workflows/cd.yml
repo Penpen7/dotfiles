@@ -12,16 +12,12 @@ env:
   AWS_PROFILE_NAME: builder
   AWS_DEFAULT_REGION: auto
 
-# バケットへの書き込みは content-addressed なので同時実行しても壊れないが、
-# macOS ランナーを二重に確保しても得がないので直列化する。実行中のものは
-# アップロード途中で止めないよう cancel しない。
 concurrency:
   group: cd-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
   push-cache:
-    # キャッシュ未設定のリポジトリで macOS ランナーを無駄に回さない。
     if: vars.NIX_CACHE_BUCKET != ''
     runs-on: macos-latest
     strategy:
@@ -35,8 +31,6 @@ jobs:
 
       - uses: cachix/install-nix-action@630ae543ea3a38a9a4166f03376c02c50f408342 # v31.11.0
         with:
-          # 自前キャッシュを substituter として読む。前回の CD で push 済みの
-          # パスはここで降ってくるので、ビルドは差分だけになる。
           extra_nix_config: |
             extra-substituters = ${{ vars.NIX_CACHE_URL }}
             extra-trusted-public-keys = ${{ vars.NIX_CACHE_PUBLIC_KEY }}
@@ -62,9 +56,6 @@ jobs:
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: |
           set -euo pipefail
-          # Nix の s3:// ストアは aws-sdk-cpp の認証チェーンを使う。環境変数
-          # でも拾われるはずだが、実績のある profile 指定に寄せる。awscli は
-          # closure が大きいだけでこの用途には不要なので直接書く。
           umask 077
           mkdir -p "${HOME}/.aws"
           cat > "${HOME}/.aws/credentials" <<EOF
@@ -77,10 +68,6 @@ jobs:
         id: build
         run: |
           set -euo pipefail
-          # installable を省くと `.` に既定されるが、この flake には
-          # packages.default が無いので対象を明示する。
-          # --accept-flake-config: flake.nix の nixConfig にある substituter
-          # を CI でも使う。付けないと黙って無視される。
           out=$(nix build --no-link --print-out-paths --accept-flake-config \
             ".#darwinConfigurations.${{ matrix.profile }}.system")
           echo "out=${out}" >> "${GITHUB_OUTPUT}"
@@ -94,13 +81,6 @@ jobs:
           OUT: ${{ steps.build.outputs.out }}
         run: |
           set -euo pipefail
-          # nix copy はクロージャ全体を対象にするが、宛先に既にあるパスは
-          # narinfo の有無で判定してスキップする。よって重いのは初回だけで、
-          # 以降は差分アップロードになる。
-          #
-          # compression=zstd: 既定の xz は数十 GB のクロージャを初回に通すと
-          # ランナーの時間を食い潰すため。展開は Nix 2.4 以降が対応済み。
-          # priority=30: cache.nixos.org (40) より先に引かせる。
           nix copy \
             --to "s3://${BUCKET}?profile=${AWS_PROFILE_NAME}&endpoint=${ACCOUNT_ID}.r2.cloudflarestorage.com&region=auto&compression=zstd&priority=30&secret-key=${KEYFILE}" \
             "${OUT}"
