@@ -10,14 +10,14 @@ permissions:
 
 env:
   AWS_PROFILE_NAME: builder
-  AWS_DEFAULT_REGION: auto
-
-concurrency:
-  group: cd-${{ github.ref }}
-  cancel-in-progress: false
+  AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+  BINARY_CACHE_SECRET_KEY: ${{ secrets.BINARY_CACHE_SECRET_KEY }}
+  S3_API_ENDPOINT: ${{ secrets.S3_API_ENDPOINT }}
+  S3_BUCKET: ${{ vars.S3_BUCKET }}
 
 jobs:
-  push-cache:
+  copy:
     runs-on: macos-latest
     strategy:
       fail-fast: false
@@ -27,53 +27,20 @@ jobs:
           - personal
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
-
       - uses: cachix/install-nix-action@630ae543ea3a38a9a4166f03376c02c50f408342 # v31.11.0
-        with:
-          extra_nix_config: |
-            extra-substituters = ${{ vars.NIX_CACHE_URL }}
-            extra-trusted-public-keys = ${{ vars.NIX_CACHE_PUBLIC_KEY }}
 
-      - name: Write cache signing key
-        id: signing-key
-        env:
-          SIGNING_KEY: ${{ secrets.NIX_CACHE_SIGNING_KEY }}
-        run: |
-          set -euo pipefail
-          keyfile="${RUNNER_TEMP}/nix-cache-key"
-          umask 077
-          printf '%s' "${SIGNING_KEY}" > "${keyfile}"
-          echo "keyfile=${keyfile}" >> "${GITHUB_OUTPUT}"
+      - name: Build package
+        run: nix build .#darwinConfigurations.${{ matrix.profile }}.system --accept-flake-config
 
-      - name: Configure R2 credentials
-        env:
-          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      - name: Sign package with secret key
         run: |
-          set -euo pipefail
-          nix shell --inputs-from . nixpkgs#awscli2 --command bash -euo pipefail -c '
-            aws configure set aws_access_key_id "${R2_ACCESS_KEY_ID}" --profile "${AWS_PROFILE_NAME}"
-            aws configure set aws_secret_access_key "${R2_SECRET_ACCESS_KEY}" --profile "${AWS_PROFILE_NAME}"
-            aws configure set region "${AWS_DEFAULT_REGION}" --profile "${AWS_PROFILE_NAME}"
-          '
+          echo $BINARY_CACHE_SECRET_KEY > ./secret.key
+          nix store sign --recursive --key-file ./secret.key ./result
 
-      - name: Build darwin system (${{ matrix.profile }})
-        id: build
+      - name: Configure AWS credentials
         run: |
-          set -euo pipefail
-          out=$(nix build --no-link --print-out-paths --accept-flake-config \
-            ".#darwinConfigurations.${{ matrix.profile }}.system")
-          echo "out=${out}" >> "${GITHUB_OUTPUT}"
-          nix path-info --closure-size --human-readable "${out}"
+          nix shell nixpkgs#awscli --command aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile $AWS_PROFILE_NAME
+          nix shell nixpkgs#awscli --command aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile $AWS_PROFILE_NAME
 
-      - name: Push closure to binary cache
-        env:
-          BUCKET: ${{ vars.NIX_CACHE_BUCKET }}
-          ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID }}
-          KEYFILE: ${{ steps.signing-key.outputs.keyfile }}
-          OUT: ${{ steps.build.outputs.out }}
-        run: |
-          set -euo pipefail
-          nix copy \
-            --to "s3://${BUCKET}?profile=${AWS_PROFILE_NAME}&endpoint=${ACCOUNT_ID}.r2.cloudflarestorage.com&region=auto&compression=zstd&priority=30&secret-key=${KEYFILE}" \
-            "${OUT}"
+      - name: Copy package
+        run: nix copy --to s3://$S3_BUCKET\?profile=$AWS_PROFILE_NAME\&endpoint=$S3_API_ENDPOINT\&compression=zstd ./result
