@@ -4,9 +4,11 @@
   nixConfig = {
     extra-substituters = [
       "https://nix-community.cachix.org"
+      "https://nix.u-naoki.com"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/u5trJQ2w="
     ];
   };
 
