@@ -18,7 +18,6 @@ concurrency:
 
 jobs:
   push-cache:
-    if: vars.NIX_CACHE_BUCKET != ''
     runs-on: macos-latest
     strategy:
       fail-fast: false
@@ -41,10 +40,6 @@ jobs:
           SIGNING_KEY: ${{ secrets.NIX_CACHE_SIGNING_KEY }}
         run: |
           set -euo pipefail
-          if [[ -z "${SIGNING_KEY}" ]]; then
-            echo "::error::NIX_CACHE_SIGNING_KEY secret is not set"
-            exit 1
-          fi
           keyfile="${RUNNER_TEMP}/nix-cache-key"
           umask 077
           printf '%s' "${SIGNING_KEY}" > "${keyfile}"
@@ -56,13 +51,11 @@ jobs:
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: |
           set -euo pipefail
-          umask 077
-          mkdir -p "${HOME}/.aws"
-          cat > "${HOME}/.aws/credentials" <<EOF
-          [${AWS_PROFILE_NAME}]
-          aws_access_key_id = ${R2_ACCESS_KEY_ID}
-          aws_secret_access_key = ${R2_SECRET_ACCESS_KEY}
-          EOF
+          nix shell --inputs-from . nixpkgs#awscli2 --command bash -euo pipefail -c '
+            aws configure set aws_access_key_id "${R2_ACCESS_KEY_ID}" --profile "${AWS_PROFILE_NAME}"
+            aws configure set aws_secret_access_key "${R2_SECRET_ACCESS_KEY}" --profile "${AWS_PROFILE_NAME}"
+            aws configure set region "${AWS_DEFAULT_REGION}" --profile "${AWS_PROFILE_NAME}"
+          '
 
       - name: Build darwin system (${{ matrix.profile }})
         id: build
