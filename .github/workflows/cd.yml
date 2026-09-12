@@ -1,0 +1,84 @@
+name: CD
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# バケットへの書き込みは content-addressed なので同時実行しても壊れないが、
+# macOS ランナーを二重に確保しても得がないので直列化する。実行中のものは
+# アップロード途中で止めないよう cancel しない。
+concurrency:
+  group: cd-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  push-cache:
+    # キャッシュ未設定のリポジトリで macOS ランナーを無駄に回さない。
+    if: vars.NIX_CACHE_BUCKET != ''
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        profile:
+          - work
+          - personal
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - uses: cachix/install-nix-action@630ae543ea3a38a9a4166f03376c02c50f408342 # v31.11.0
+        with:
+          # 自前キャッシュを substituter として読む。前回の CD で push 済みの
+          # パスはここで降ってくるので、ビルドは差分だけになる。
+          extra_nix_config: |
+            extra-substituters = ${{ vars.NIX_CACHE_URL }}
+            extra-trusted-public-keys = ${{ vars.NIX_CACHE_PUBLIC_KEY }}
+
+      - name: Write cache signing key
+        id: signing-key
+        env:
+          SIGNING_KEY: ${{ secrets.NIX_CACHE_SIGNING_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${SIGNING_KEY}" ]]; then
+            echo "::error::NIX_CACHE_SIGNING_KEY secret is not set"
+            exit 1
+          fi
+          keyfile="${RUNNER_TEMP}/nix-cache-key"
+          umask 077
+          printf '%s' "${SIGNING_KEY}" > "${keyfile}"
+          echo "keyfile=${keyfile}" >> "${GITHUB_OUTPUT}"
+
+      - name: Build darwin system (${{ matrix.profile }})
+        id: build
+        run: |
+          set -euo pipefail
+          out=$(nix build --no-link --print-out-paths \
+            ".#darwinConfigurations.${{ matrix.profile }}.system")
+          echo "out=${out}" >> "${GITHUB_OUTPUT}"
+          nix path-info --closure-size --human-readable "${out}"
+
+      - name: Push closure to binary cache
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          BUCKET: ${{ vars.NIX_CACHE_BUCKET }}
+          ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID }}
+          KEYFILE: ${{ steps.signing-key.outputs.keyfile }}
+          OUT: ${{ steps.build.outputs.out }}
+        run: |
+          set -euo pipefail
+          # nix copy はクロージャ全体を対象にするが、宛先に既にあるパスは
+          # narinfo の有無で判定してスキップする。よって重いのは初回だけで、
+          # 以降は差分アップロードになる。
+          #
+          # compression=zstd: 既定の xz は数十 GB のクロージャを初回に通すと
+          # ランナーの時間を食い潰すため。展開は Nix 2.4 以降が対応済み。
+          # priority=30: cache.nixos.org (40) より先に引かせる。
+          nix copy \
+            --to "s3://${BUCKET}?endpoint=${ACCOUNT_ID}.r2.cloudflarestorage.com&region=auto&compression=zstd&priority=30&secret-key=${KEYFILE}" \
+            "${OUT}"
