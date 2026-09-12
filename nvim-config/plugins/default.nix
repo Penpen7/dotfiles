@@ -9,6 +9,10 @@
       telescope-co-author = import ./telescope-co-author.nix { pkgs = final; };
       vim-rest-console = import ./vim-rest-console.nix { pkgs = final; };
       swagger-preview = import ./swagger-preview.nix { pkgs = final; };
+      copilot-lua = import ./copilot-lua.nix {
+        pkgs = final;
+        prev = prev.vimPlugins.copilot-lua;
+      };
     };
   };
 }
