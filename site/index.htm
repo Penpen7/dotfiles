@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>nix.u-naoki.com</title>
+  <meta name="description" content="Nix binary cache for Penpen7/dotfiles.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9D%84%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --bg2: #ffffff;
+      --fg: #1e2430;
+      --muted: #6b7280;
+      --accent: #5277c3;
+      --accent2: #7ebae4;
+      --ok: #22a06b;
+      --code-bg: #eef1f8;
+      --border: #e2e6f0;
+      --shadow: 0 8px 24px rgba(30, 36, 48, .08);
+      --pill: #e8eefb;
+      color-scheme: light;
+    }
+    :root[data-theme="dark"] {
+      --bg: #12151c;
+      --bg2: #1a1e28;
+      --fg: #e7e9ef;
+      --muted: #9aa3b2;
+      --accent: #7eb6ff;
+      --accent2: #5277c3;
+      --ok: #3fcf8e;
+      --code-bg: #232836;
+      --border: #2d3342;
+      --shadow: 0 8px 24px rgba(0, 0, 0, .35);
+      --pill: #263048;
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      padding: 2rem 1rem 4rem;
+      background: var(--bg);
+      color: var(--fg);
+      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Noto Sans JP", Helvetica, Arial, sans-serif;
+      transition: background .3s, color .3s;
+      overflow-x: hidden;
+      position: relative;
+    }
+    main { max-width: 46rem; margin: 0 auto; position: relative; z-index: 1; min-width: 0; }
+    .card, h1 { min-width: 0; }
+
+    /* falling snowflakes */
+    .snow { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .snow span {
+      position: absolute; top: -2rem;
+      font-size: var(--s, 1rem); opacity: .55;
+      animation: fall var(--d, 12s) linear infinite;
+      animation-delay: var(--delay, 0s);
+      left: var(--x, 50%);
+      color: var(--accent2);
+    }
+    @keyframes fall {
+      0%   { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(110vh) rotate(360deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .snow { display: none; }
+      * { animation: none !important; transition: none !important; }
+    }
+
+    header { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .logo {
+      width: 72px; height: 72px; flex: none;
+      filter: drop-shadow(0 4px 10px rgba(82,119,195,.35));
+      transition: transform .6s cubic-bezier(.2,.8,.2,1);
+      cursor: pointer;
+    }
+    .logo:hover, .logo.spin { transform: rotate(180deg) scale(1.08); }
+    h1 { font-size: 1.9rem; margin: 0; letter-spacing: -.01em; }
+    h1 small { display: block; font-size: .95rem; font-weight: 400; color: var(--muted); }
+    .grow { flex: 1; }
+    .theme-btn {
+      border: 1px solid var(--border); background: var(--bg2); color: var(--fg);
+      border-radius: 999px; width: 44px; height: 44px; font-size: 1.25rem; cursor: pointer;
+      box-shadow: var(--shadow); transition: transform .2s;
+    }
+    .theme-btn:hover { transform: rotate(20deg) scale(1.08); }
+    .avatar { position: relative; display: inline-flex; line-height: 0; }
+    .avatar img {
+      border-radius: 50%; border: 2px solid var(--bg2); box-shadow: var(--shadow);
+      transition: transform .25s cubic-bezier(.2,.8,.2,1);
+    }
+    .avatar:hover img { transform: scale(1.12) rotate(-6deg); }
+    .avatar .wave {
+      position: absolute; right: -.4rem; bottom: -.3rem; font-size: 1rem; line-height: 1;
+      opacity: 0; transition: opacity .2s, transform .2s; transform: translateY(4px);
+    }
+    .avatar:hover .wave { opacity: 1; transform: none; animation: wave .6s ease-in-out infinite alternate; }
+    @keyframes wave { from { rotate: -15deg } to { rotate: 20deg } }
+    .made { display: flex; align-items: center; justify-content: center; gap: .35rem; margin: .5rem 0; }
+    .made a { display: inline-flex; align-items: center; gap: .35rem; }
+    .made img { border-radius: 50%; vertical-align: middle; }
+
+    .card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+      padding: 1.25rem 1.4rem; margin: 1rem 0; box-shadow: var(--shadow);
+      transition: transform .2s, box-shadow .2s, background .3s;
+    }
+    .card:hover { transform: translateY(-2px); }
+    .card h2 { font-size: 1.1rem; margin: 0 0 .75rem; display: flex; align-items: center; gap: .5rem; }
+    .card h2 .ico { font-size: 1.35rem; }
+    p { margin: .5rem 0; }
+    .muted { color: var(--muted); }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    code, pre, kbd {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    code { background: var(--code-bg); padding: .12em .4em; border-radius: 6px; font-size: .9em; }
+    .codebox { position: relative; }
+    pre {
+      background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px;
+      padding: .9rem 1rem; overflow-x: auto; margin: .5rem 0; font-size: .85rem; line-height: 1.55;
+    }
+    pre code { background: none; padding: 0; font-size: inherit; }
+    .copy {
+      position: absolute; top: .5rem; right: .5rem;
+      border: 1px solid var(--border); background: var(--bg2); color: var(--fg);
+      border-radius: 8px; padding: .25rem .6rem; font-size: .8rem; cursor: pointer;
+      transition: background .2s, transform .1s;
+    }
+    .copy:hover { background: var(--pill); }
+    .copy:active { transform: scale(.95); }
+    .copy.done { background: var(--ok); color: #fff; border-color: var(--ok); }
+
+    .kv { display: grid; grid-template-columns: max-content 1fr; gap: .4rem 1rem; align-items: center; }
+    .kv dt { color: var(--muted); }
+    .kv dd { margin: 0; overflow-wrap: anywhere; display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+    .kv .copy { position: static; }
+    .kv dd code { min-width: 0; max-width: 100%; overflow-wrap: anywhere; word-break: break-all; }
+    @media (max-width: 520px) { .kv { grid-template-columns: 1fr; gap: .1rem; } .kv dt { margin-top: .5rem; } }
+
+
+    .tabs { display: flex; gap: .4rem; flex-wrap: wrap; margin: .25rem 0 .75rem; }
+    .tab {
+      border: 1px solid var(--border); background: transparent; color: var(--fg);
+      border-radius: 999px; padding: .35rem .9rem; cursor: pointer; font-size: .9rem;
+      transition: background .2s, color .2s;
+    }
+    .tab:hover { background: var(--pill); }
+    .tab[aria-selected="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .panel[hidden] { display: none; }
+
+
+    footer { margin-top: 2.5rem; color: var(--muted); font-size: .9rem; text-align: center; }
+    footer .hearts { letter-spacing: .2em; }
+  </style>
+</head>
+<body>
+<div class="snow" aria-hidden="true"></div>
+<main>
+  <header>
+    <svg class="logo" id="logo" viewBox="0 0 100 100" aria-label="snowflake">
+      <defs>
+        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#7ebae4"/><stop offset="1" stop-color="#5277c3"/>
+        </linearGradient>
+      </defs>
+      <g stroke="url(#g)" stroke-width="7" stroke-linecap="round" fill="none">
+        <line x1="50" y1="8" x2="50" y2="92"/>
+        <line x1="13.6" y1="29" x2="86.4" y2="71"/>
+        <line x1="13.6" y1="71" x2="86.4" y2="29"/>
+        <path d="M50 8 l-9 9 M50 8 l9 9 M50 92 l-9 -9 M50 92 l9 -9"/>
+        <path d="M13.6 29 l12 3 M13.6 29 l3 12 M86.4 71 l-12 -3 M86.4 71 l-3 -12"/>
+        <path d="M13.6 71 l12 -3 M13.6 71 l3 -12 M86.4 29 l-12 3 M86.4 29 l-3 12"/>
+      </g>
+      <circle cx="50" cy="50" r="7" fill="url(#g)"/>
+      <circle cx="43" cy="46" r="2" fill="#fff"/><circle cx="57" cy="46" r="2" fill="#fff"/>
+      <path d="M45 54 q5 4 10 0" stroke="#fff" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    </svg>
+    <h1>nix.u-naoki.com <small>❄️ a cozy little Nix binary cache</small></h1>
+    <span class="grow"></span>
+    <a class="avatar" href="https://github.com/Penpen7" title="Penpen7 on GitHub">
+      <img src="https://avatars.githubusercontent.com/Penpen7?size=96" width="44" height="44" alt="Penpen7">
+      <span class="wave">👋</span>
+    </a>
+    <button class="theme-btn" id="theme" title="Toggle theme" aria-label="Toggle theme">🌙</button>
+  </header>
+
+  <section class="card">
+    <h2><span class="ico">🔑</span> Substituter &amp; key</h2>
+    <dl class="kv">
+      <dt>Substituter</dt>
+      <dd><code id="url">https://nix.u-naoki.com</code><button class="copy" data-copy="#url">copy</button></dd>
+      <dt>Public key</dt>
+      <dd><code id="key">uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/u5trJQ2w=</code><button class="copy" data-copy="#key">copy</button></dd>
+    </dl>
+  </section>
+
+  <section class="card">
+    <h2><span class="ico">⚙️</span> How to use it</h2>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-tab="conf">📄 nix.conf</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="flake">❄️ flake.nix</button>
+    </div>
+
+    <div class="panel" id="p-conf" role="tabpanel">
+      <p>Append to <code>/etc/nix/nix.conf</code> or <code>~/.config/nix/nix.conf</code>:</p>
+      <div class="codebox"><button class="copy" data-copy="#c-conf">copy</button>
+<pre><code id="c-conf">extra-substituters = https://nix.u-naoki.com
+extra-trusted-public-keys = uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/u5trJQ2w=</code></pre></div>
+    </div>
+
+    <div class="panel" id="p-flake" role="tabpanel" hidden>
+      <p>Declare it in <code>nixConfig</code> and run with <code>--accept-flake-config</code>:</p>
+      <div class="codebox"><button class="copy" data-copy="#c-flake">copy</button>
+<pre><code id="c-flake">nixConfig = {
+  extra-substituters = [ "https://nix.u-naoki.com" ];
+  extra-trusted-public-keys = [
+    "uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/u5trJQ2w="
+  ];
+};</code></pre></div>
+    </div>
+
+    <p class="muted">💡 Non-root users can only add substituters listed in
+      <code>trusted-substituters</code>, or if they are in <code>trusted-users</code>.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="ico">📦</span> What's inside</h2>
+    <p>
+      Closures of <code>darwinConfigurations.work.system</code> and
+      <code>darwinConfigurations.personal.system</code> for <code>aarch64-darwin</code>,
+      built by GitHub Actions on every push to <code>master</code> of
+      <a href="https://github.com/Penpen7/dotfiles">Penpen7/dotfiles</a>, signed, and copied here.
+      Anything else will miss and fall through to your other substituters. 🫧
+    </p>
+  </section>
+
+  <footer>
+    <div class="hearts">❄️ 📦 ☁️</div>
+    <p class="made">made with 💙 by
+      <a href="https://github.com/Penpen7"><img src="https://avatars.githubusercontent.com/Penpen7?size=64" width="28" height="28" alt="">Penpen7</a>
+    </p>
+    <a href="https://github.com/Penpen7/dotfiles">github.com/Penpen7/dotfiles</a>
+  </footer>
+</main>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+  // ---- theme -------------------------------------------------------------
+  const root = document.documentElement, themeBtn = $('#theme');
+  const setTheme = (t) => {
+    root.dataset.theme = t;
+    themeBtn.textContent = t === 'dark' ? '☀️' : '🌙';
+    try { localStorage.setItem('theme', t); } catch {}
+  };
+  let saved = null;
+  try { saved = localStorage.getItem('theme'); } catch {}
+  setTheme(saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  themeBtn.addEventListener('click', () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark'));
+
+  // ---- snow --------------------------------------------------------------
+  const snow = $('.snow');
+  for (let i = 0; i < 18; i++) {
+    const s = document.createElement('span');
+    s.textContent = '❄';
+    s.style.setProperty('--x', Math.random() * 100 + '%');
+    s.style.setProperty('--s', (0.6 + Math.random() * 1.1) + 'rem');
+    s.style.setProperty('--d', (9 + Math.random() * 12) + 's');
+    s.style.setProperty('--delay', (-Math.random() * 20) + 's');
+    snow.appendChild(s);
+  }
+
+  // ---- logo --------------------------------------------------------------
+  $('#logo').addEventListener('click', (e) => {
+    e.currentTarget.classList.toggle('spin');
+    for (let i = 0; i < 8; i++) {
+      const s = document.createElement('span');
+      s.textContent = ['❄', '✨', '💙'][i % 3];
+      s.style.setProperty('--x', (e.clientX / innerWidth * 100 + (Math.random() * 10 - 5)) + '%');
+      s.style.setProperty('--s', '1.2rem');
+      s.style.setProperty('--d', '4s');
+      s.style.top = e.clientY + 'px';
+      snow.appendChild(s);
+      setTimeout(() => s.remove(), 4000);
+    }
+  });
+
+  // ---- copy buttons ------------------------------------------------------
+  $$('.copy').forEach(btn => btn.addEventListener('click', async () => {
+    const text = $(btn.dataset.copy).textContent;
+    try {
+      await navigator.clipboard.writeText(text);
+      btn.textContent = '✓ copied'; btn.classList.add('done');
+    } catch {
+      btn.textContent = '✗ failed';
+    }
+    setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('done'); }, 1400);
+  }));
+
+  // ---- tabs --------------------------------------------------------------
+  $$('.tab').forEach(tab => tab.addEventListener('click', () => {
+    $$('.tab').forEach(t => t.setAttribute('aria-selected', t === tab));
+    $$('.panel').forEach(p => p.hidden = p.id !== 'p-' + tab.dataset.tab);
+  }));
+
+})();
+</script>
+</body>
+</html>
