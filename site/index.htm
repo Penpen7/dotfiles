@@ -15,8 +15,6 @@
       --accent: #5277c3;
       --accent2: #7ebae4;
       --ok: #22a06b;
-      --warn: #e0a100;
-      --bad: #d9534f;
       --code-bg: #eef1f8;
       --border: #e2e6f0;
       --shadow: 0 8px 24px rgba(30, 36, 48, .08);
@@ -31,8 +29,6 @@
       --accent: #7eb6ff;
       --accent2: #5277c3;
       --ok: #3fcf8e;
-      --warn: #f2c14e;
-      --bad: #ff7b72;
       --code-bg: #232836;
       --border: #2d3342;
       --shadow: 0 8px 24px rgba(0, 0, 0, .35);
@@ -119,7 +115,7 @@
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    code, pre, kbd, input {
+    code, pre, kbd {
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     }
     code { background: var(--code-bg); padding: .12em .4em; border-radius: 6px; font-size: .9em; }
@@ -146,15 +142,6 @@
     .kv dd code { min-width: 0; max-width: 100%; overflow-wrap: anywhere; word-break: break-all; }
     @media (max-width: 520px) { .kv { grid-template-columns: 1fr; gap: .1rem; } .kv dt { margin-top: .5rem; } }
 
-    .badge {
-      display: inline-flex; align-items: center; gap: .4rem;
-      padding: .2rem .7rem; border-radius: 999px; font-size: .85rem; background: var(--pill);
-    }
-    .dot { width: .6rem; height: .6rem; border-radius: 50%; background: var(--muted); }
-    .dot.ok { background: var(--ok); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 25%, transparent); }
-    .dot.bad { background: var(--bad); }
-    .dot.wait { background: var(--warn); animation: pulse 1s ease-in-out infinite; }
-    @keyframes pulse { 50% { opacity: .3; } }
 
     .tabs { display: flex; gap: .4rem; flex-wrap: wrap; margin: .25rem 0 .75rem; }
     .tab {
@@ -166,23 +153,6 @@
     .tab[aria-selected="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
     .panel[hidden] { display: none; }
 
-    .btn {
-      border: none; background: var(--accent); color: #fff; border-radius: 10px;
-      padding: .55rem 1rem; cursor: pointer; font-size: .95rem; transition: transform .1s, filter .2s;
-    }
-    .btn:hover { filter: brightness(1.08); }
-    .btn:active { transform: scale(.97); }
-    .btn.ghost { background: var(--pill); color: var(--fg); }
-    .row { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
-    input[type="text"] {
-      flex: 1; min-width: 12rem; padding: .55rem .75rem; border-radius: 10px;
-      border: 1px solid var(--border); background: var(--code-bg); color: var(--fg); font-size: .9rem;
-    }
-    input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-    .result { margin-top: .75rem; }
-    .result:empty { display: none; }
-    .shake { animation: shake .3s; }
-    @keyframes shake { 25% { transform: translateX(-4px);} 75% { transform: translateX(4px);} }
 
     footer { margin-top: 2.5rem; color: var(--muted); font-size: .9rem; text-align: center; }
     footer .hearts { letter-spacing: .2em; }
@@ -269,16 +239,6 @@ extra-trusted-public-keys = uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/
   </section>
 
   <section class="card">
-    <h2><span class="ico">🔍</span> Is it cached?</h2>
-    <p>Paste a store path (or just its 32-character hash) to look up its <code>.narinfo</code>.</p>
-    <form class="row" id="lookup">
-      <input type="text" id="q" placeholder="/nix/store/abc123…-hello-2.12" autocomplete="off" spellcheck="false">
-      <button class="btn" type="submit">🔎 look up</button>
-    </form>
-    <div class="result" id="res"></div>
-  </section>
-
-  <section class="card">
     <h2><span class="ico">📦</span> What's inside</h2>
     <p>
       Closures of <code>darwinConfigurations.work.system</code> and
@@ -360,37 +320,6 @@ extra-trusted-public-keys = uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/
     $$('.panel').forEach(p => p.hidden = p.id !== 'p-' + tab.dataset.tab);
   }));
 
-  // ---- narinfo lookup ----------------------------------------------------
-  const fmt = (n) => { n = +n; if (!n) return '—'; const u = ['B','KiB','MiB','GiB']; let i = 0; while (n >= 1024 && i < 3) { n /= 1024; i++; } return n.toFixed(i ? 1 : 0) + ' ' + u[i]; };
-  const esc = (s) => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  $('#lookup').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const input = $('#q'), res = $('#res');
-    const m = input.value.trim().match(/[0-9a-df-np-sv-z]{32}/);
-    if (!m) {
-      input.classList.remove('shake'); void input.offsetWidth; input.classList.add('shake');
-      res.innerHTML = '<span class="badge"><span class="dot bad"></span>that does not look like a store path hash 🙈</span>';
-      return;
-    }
-    res.innerHTML = '<span class="badge"><span class="dot wait"></span>looking…</span>';
-    try {
-      const r = await fetch('/' + m[0] + '.narinfo', { cache: 'no-store' });
-      if (r.status === 404) { res.innerHTML = '<span class="badge"><span class="dot bad"></span>not in cache 😢</span>'; return; }
-      if (!r.ok) throw new Error(r.status);
-      const kv = {}; const refs = [];
-      (await r.text()).split('\n').forEach(l => { const i = l.indexOf(':'); if (i > 0) { const k = l.slice(0, i).trim(), v = l.slice(i + 1).trim(); if (k === 'References') refs.push(...v.split(/\s+/).filter(Boolean)); else kv[k] = v; } });
-      res.innerHTML = `
-        <span class="badge"><span class="dot ok"></span>cached 🎉</span>
-        <dl class="kv" style="margin-top:.6rem">
-          <dt>StorePath</dt><dd><code>${esc(kv.StorePath || '')}</code></dd>
-          <dt>NAR size</dt><dd>${fmt(kv.NarSize)} <span class="muted">(${fmt(kv.FileSize)} compressed, ${esc(kv.Compression || '?')})</span></dd>
-          <dt>References</dt><dd>${refs.length}</dd>
-          <dt>Signed by</dt><dd><code>${esc((kv.Sig || '').split(':')[0] || '—')}</code></dd>
-        </dl>`;
-    } catch {
-      res.innerHTML = '<span class="badge"><span class="dot bad"></span>lookup failed (cache unreachable?)</span>';
-    }
-  });
 })();
 </script>
 </body>
