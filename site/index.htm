@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>nix.u-naoki.com</title>
+  <meta name="description" content="Nix binary cache for Penpen7/dotfiles, hosted on Cloudflare R2.">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #fbfaf7;
+      --fg: #1f2328;
+      --muted: #59636e;
+      --accent: #5277c3;
+      --code-bg: #f0efeb;
+      --border: #d9d6cf;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #16181d;
+        --fg: #e6e6e3;
+        --muted: #9aa1a9;
+        --accent: #7eb6ff;
+        --code-bg: #22252c;
+        --border: #363a43;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 2.5rem 1rem 4rem;
+      background: var(--bg);
+      color: var(--fg);
+      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+    main { max-width: 44rem; margin: 0 auto; }
+    h1 { font-size: 1.75rem; margin: 0 0 .25rem; }
+    h2 { font-size: 1.15rem; margin: 2.25rem 0 .5rem; }
+    p { margin: .5rem 0; }
+    .lead { color: var(--muted); }
+    a { color: var(--accent); }
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .9em;
+    }
+    code { background: var(--code-bg); padding: .1em .35em; border-radius: 4px; }
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: .9rem 1rem;
+      overflow-x: auto;
+      margin: .5rem 0;
+    }
+    pre code { background: none; padding: 0; font-size: .875rem; }
+    dl { display: grid; grid-template-columns: max-content 1fr; gap: .35rem 1rem; margin: .75rem 0; }
+    dt { color: var(--muted); }
+    dd { margin: 0; overflow-wrap: anywhere; }
+    footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--muted); font-size: .9rem; }
+    @media (max-width: 480px) { dl { grid-template-columns: 1fr; gap: 0 } dt { margin-top: .5rem } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>nix.u-naoki.com</h1>
+  <p class="lead">
+    A public Nix binary cache for
+    <a href="https://github.com/Penpen7/dotfiles">Penpen7/dotfiles</a>.
+    Store paths are built by GitHub Actions on every push to <code>master</code>,
+    signed, and copied here.
+  </p>
+
+  <dl>
+    <dt>Substituter</dt>
+    <dd><code>https://nix.u-naoki.com</code></dd>
+    <dt>Public key</dt>
+    <dd><code>uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/u5trJQ2w=</code></dd>
+    <dt>Priority</dt>
+    <dd><a href="/nix-cache-info"><code>/nix-cache-info</code></a></dd>
+  </dl>
+
+  <h2>Use it from nix.conf</h2>
+  <p>Add the cache to <code>/etc/nix/nix.conf</code> (or <code>~/.config/nix/nix.conf</code>):</p>
+<pre><code>extra-substituters = https://nix.u-naoki.com
+extra-trusted-public-keys = uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/u5trJQ2w=</code></pre>
+
+  <h2>Use it from a flake</h2>
+  <p>Declare it in <code>nixConfig</code> and accept it with <code>--accept-flake-config</code>:</p>
+<pre><code>nixConfig = {
+  extra-substituters = [ "https://nix.u-naoki.com" ];
+  extra-trusted-public-keys = [
+    "uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/u5trJQ2w="
+  ];
+};</code></pre>
+
+  <h2>Use it for a single command</h2>
+<pre><code>nix build \
+  --extra-substituters https://nix.u-naoki.com \
+  --extra-trusted-public-keys uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/u5trJQ2w= \
+  github:Penpen7/dotfiles#darwinConfigurations.personal.system</code></pre>
+  <p class="lead">
+    Non-root users can only add substituters that are listed in
+    <code>trusted-substituters</code>, or when they are in <code>trusted-users</code>.
+  </p>
+
+  <h2>What is cached</h2>
+  <p>
+    The closures of <code>darwinConfigurations.work.system</code> and
+    <code>darwinConfigurations.personal.system</code> for <code>aarch64-darwin</code>.
+    Anything not built by those configurations will miss and fall back to your other substituters.
+  </p>
+
+  <footer>
+    Hosted on Cloudflare R2.
+    Source: <a href="https://github.com/Penpen7/dotfiles">github.com/Penpen7/dotfiles</a>
+  </footer>
+</main>
+</body>
+</html>
