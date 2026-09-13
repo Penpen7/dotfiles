@@ -69,6 +69,26 @@ jobs:
           S3_BUCKET: ${{ secrets.S3_BUCKET }}
         run: nix copy --to "s3://$S3_BUCKET?profile=$AWS_PROFILE_NAME&endpoint=$S3_API_ENDPOINT&region=auto&compression=zstd" ./result
 
+  upload-site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      # The landing page lives next to the store paths in the same bucket, so
+      # https://nix.u-naoki.com/index.htm is served by the R2 custom domain.
+      - name: Upload landing page
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          S3_API_ENDPOINT: ${{ secrets.S3_API_ENDPOINT }}
+          S3_BUCKET: ${{ secrets.S3_BUCKET }}
+        run: |
+          aws s3 cp site/index.htm "s3://$S3_BUCKET/index.htm" \
+            --endpoint-url "$S3_API_ENDPOINT" \
+            --content-type "text/html; charset=utf-8" \
+            --cache-control "public, max-age=300"
+
   remove-allowed-ips:
     needs: copy
     if: always()
