@@ -204,7 +204,6 @@
     <div class="tabs" role="tablist">
       <button class="tab" role="tab" aria-selected="true" data-tab="conf">📄 nix.conf</button>
       <button class="tab" role="tab" aria-selected="false" data-tab="flake">❄️ flake.nix</button>
-      <button class="tab" role="tab" aria-selected="false" data-tab="cli">⌨️ one command</button>
     </div>
 
     <div class="panel" id="p-conf" role="tabpanel">
@@ -223,15 +222,6 @@ extra-trusted-public-keys = uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/
     "uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/u5trJQ2w="
   ];
 };</code></pre></div>
-    </div>
-
-    <div class="panel" id="p-cli" role="tabpanel" hidden>
-      <p>Just for this one build:</p>
-      <div class="codebox"><button class="copy" data-copy="#c-cli">copy</button>
-<pre><code id="c-cli">nix build \
-  --extra-substituters https://nix.u-naoki.com \
-  --extra-trusted-public-keys uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/u5trJQ2w= \
-  github:Penpen7/dotfiles#darwinConfigurations.personal.system</code></pre></div>
     </div>
 
     <p class="muted">💡 Non-root users can only add substituters listed in
