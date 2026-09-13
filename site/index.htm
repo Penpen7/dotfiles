@@ -220,21 +220,6 @@
   </header>
 
   <section class="card">
-    <h2><span class="ico">📡</span> Cache status <span class="grow"></span>
-      <span class="badge" id="status"><span class="dot wait"></span><span>checking…</span></span>
-    </h2>
-    <dl class="kv" id="info">
-      <dt>StoreDir</dt><dd id="i-store">—</dd>
-      <dt>Priority</dt><dd id="i-prio">—</dd>
-      <dt>WantMassQuery</dt><dd id="i-mass">—</dd>
-    </dl>
-    <p class="muted" style="margin-top:.75rem">
-      Read live from <a href="/nix-cache-info"><code>/nix-cache-info</code></a>.
-      <button class="btn ghost" id="recheck" style="padding:.25rem .7rem;font-size:.85rem">🔄 check again</button>
-    </p>
-  </section>
-
-  <section class="card">
     <h2><span class="ico">🔑</span> Substituter &amp; key</h2>
     <dl class="kv">
       <dt>Substituter</dt>
@@ -374,26 +359,6 @@ extra-trusted-public-keys = uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/
     $$('.tab').forEach(t => t.setAttribute('aria-selected', t === tab));
     $$('.panel').forEach(p => p.hidden = p.id !== 'p-' + tab.dataset.tab);
   }));
-
-  // ---- cache status ------------------------------------------------------
-  const status = $('#status'), dot = $('.dot', status), label = status.lastElementChild;
-  const setStatus = (cls, text) => { dot.className = 'dot ' + cls; label.textContent = text; };
-  async function check() {
-    setStatus('wait', 'checking…');
-    try {
-      const r = await fetch('/nix-cache-info', { cache: 'no-store' });
-      if (!r.ok) throw new Error(r.status);
-      const kv = Object.fromEntries((await r.text()).split('\n').filter(Boolean).map(l => l.split(/:\s*/, 2)));
-      $('#i-store').textContent = kv.StoreDir || '—';
-      $('#i-prio').textContent = kv.Priority || '—';
-      $('#i-mass').textContent = kv.WantMassQuery === '1' ? 'yes' : (kv.WantMassQuery ?? '—');
-      setStatus('ok', 'online');
-    } catch {
-      setStatus('bad', 'unreachable');
-    }
-  }
-  $('#recheck').addEventListener('click', check);
-  check();
 
   // ---- narinfo lookup ----------------------------------------------------
   const fmt = (n) => { n = +n; if (!n) return '—'; const u = ['B','KiB','MiB','GiB']; let i = 0; while (n >= 1024 && i < 3) { n /= 1024; i++; } return n.toFixed(i ? 1 : 0) + ' ' + u[i]; };
