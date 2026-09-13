@@ -25,7 +25,9 @@ jobs:
       - uses: cachix/install-nix-action@630ae543ea3a38a9a4166f03376c02c50f408342 # v31.11.0
 
       - name: Build package
-        run: nix build .#darwinConfigurations.${{ matrix.profile }}.system --accept-flake-config
+        # TEMP: smoke-test nix copy without the 17-minute darwin build
+        # run: nix build .#darwinConfigurations.${{ matrix.profile }}.system --accept-flake-config
+        run: nix build nixpkgs#hello
 
       - name: Sign package with secret key
         env:
