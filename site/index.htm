@@ -5,115 +5,429 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>nix.u-naoki.com</title>
   <meta name="description" content="Nix binary cache for Penpen7/dotfiles, hosted on Cloudflare R2.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9D%84%EF%B8%8F%3C/text%3E%3C/svg%3E">
   <style>
     :root {
-      color-scheme: light dark;
-      --bg: #fbfaf7;
-      --fg: #1f2328;
-      --muted: #59636e;
+      --bg: #f6f7fb;
+      --bg2: #ffffff;
+      --fg: #1e2430;
+      --muted: #6b7280;
       --accent: #5277c3;
-      --code-bg: #f0efeb;
-      --border: #d9d6cf;
+      --accent2: #7ebae4;
+      --ok: #22a06b;
+      --warn: #e0a100;
+      --bad: #d9534f;
+      --code-bg: #eef1f8;
+      --border: #e2e6f0;
+      --shadow: 0 8px 24px rgba(30, 36, 48, .08);
+      --pill: #e8eefb;
+      color-scheme: light;
     }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #16181d;
-        --fg: #e6e6e3;
-        --muted: #9aa1a9;
-        --accent: #7eb6ff;
-        --code-bg: #22252c;
-        --border: #363a43;
-      }
+    :root[data-theme="dark"] {
+      --bg: #12151c;
+      --bg2: #1a1e28;
+      --fg: #e7e9ef;
+      --muted: #9aa3b2;
+      --accent: #7eb6ff;
+      --accent2: #5277c3;
+      --ok: #3fcf8e;
+      --warn: #f2c14e;
+      --bad: #ff7b72;
+      --code-bg: #232836;
+      --border: #2d3342;
+      --shadow: 0 8px 24px rgba(0, 0, 0, .35);
+      --pill: #263048;
+      color-scheme: dark;
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      padding: 2.5rem 1rem 4rem;
+      padding: 2rem 1rem 4rem;
       background: var(--bg);
       color: var(--fg);
-      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Noto Sans JP", Helvetica, Arial, sans-serif;
+      transition: background .3s, color .3s;
+      overflow-x: hidden;
+      position: relative;
     }
-    main { max-width: 44rem; margin: 0 auto; }
-    h1 { font-size: 1.75rem; margin: 0 0 .25rem; }
-    h2 { font-size: 1.15rem; margin: 2.25rem 0 .5rem; }
+    main { max-width: 46rem; margin: 0 auto; position: relative; z-index: 1; min-width: 0; }
+    .card, h1 { min-width: 0; }
+
+    /* falling snowflakes */
+    .snow { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .snow span {
+      position: absolute; top: -2rem;
+      font-size: var(--s, 1rem); opacity: .55;
+      animation: fall var(--d, 12s) linear infinite;
+      animation-delay: var(--delay, 0s);
+      left: var(--x, 50%);
+      color: var(--accent2);
+    }
+    @keyframes fall {
+      0%   { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(110vh) rotate(360deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .snow { display: none; }
+      * { animation: none !important; transition: none !important; }
+    }
+
+    header { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .logo {
+      width: 72px; height: 72px; flex: none;
+      filter: drop-shadow(0 4px 10px rgba(82,119,195,.35));
+      transition: transform .6s cubic-bezier(.2,.8,.2,1);
+      cursor: pointer;
+    }
+    .logo:hover, .logo.spin { transform: rotate(180deg) scale(1.08); }
+    h1 { font-size: 1.9rem; margin: 0; letter-spacing: -.01em; }
+    h1 small { display: block; font-size: .95rem; font-weight: 400; color: var(--muted); }
+    .grow { flex: 1; }
+    .theme-btn {
+      border: 1px solid var(--border); background: var(--bg2); color: var(--fg);
+      border-radius: 999px; width: 44px; height: 44px; font-size: 1.25rem; cursor: pointer;
+      box-shadow: var(--shadow); transition: transform .2s;
+    }
+    .theme-btn:hover { transform: rotate(20deg) scale(1.08); }
+    .avatar { position: relative; display: inline-flex; line-height: 0; }
+    .avatar img {
+      border-radius: 50%; border: 2px solid var(--bg2); box-shadow: var(--shadow);
+      transition: transform .25s cubic-bezier(.2,.8,.2,1);
+    }
+    .avatar:hover img { transform: scale(1.12) rotate(-6deg); }
+    .avatar .wave {
+      position: absolute; right: -.4rem; bottom: -.3rem; font-size: 1rem; line-height: 1;
+      opacity: 0; transition: opacity .2s, transform .2s; transform: translateY(4px);
+    }
+    .avatar:hover .wave { opacity: 1; transform: none; animation: wave .6s ease-in-out infinite alternate; }
+    @keyframes wave { from { rotate: -15deg } to { rotate: 20deg } }
+    .made { display: flex; align-items: center; justify-content: center; gap: .35rem; margin: .5rem 0; }
+    .made a { display: inline-flex; align-items: center; gap: .35rem; }
+    .made img { border-radius: 50%; vertical-align: middle; }
+
+    .card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+      padding: 1.25rem 1.4rem; margin: 1rem 0; box-shadow: var(--shadow);
+      transition: transform .2s, box-shadow .2s, background .3s;
+    }
+    .card:hover { transform: translateY(-2px); }
+    .card h2 { font-size: 1.1rem; margin: 0 0 .75rem; display: flex; align-items: center; gap: .5rem; }
+    .card h2 .ico { font-size: 1.35rem; }
     p { margin: .5rem 0; }
-    .lead { color: var(--muted); }
-    a { color: var(--accent); }
-    code, pre {
+    .muted { color: var(--muted); }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    code, pre, kbd, input {
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: .9em;
     }
-    code { background: var(--code-bg); padding: .1em .35em; border-radius: 4px; }
+    code { background: var(--code-bg); padding: .12em .4em; border-radius: 6px; font-size: .9em; }
+    .codebox { position: relative; }
     pre {
-      background: var(--code-bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: .9rem 1rem;
-      overflow-x: auto;
-      margin: .5rem 0;
+      background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px;
+      padding: .9rem 1rem; overflow-x: auto; margin: .5rem 0; font-size: .85rem; line-height: 1.55;
     }
-    pre code { background: none; padding: 0; font-size: .875rem; }
-    dl { display: grid; grid-template-columns: max-content 1fr; gap: .35rem 1rem; margin: .75rem 0; }
-    dt { color: var(--muted); }
-    dd { margin: 0; overflow-wrap: anywhere; }
-    footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--muted); font-size: .9rem; }
-    @media (max-width: 480px) { dl { grid-template-columns: 1fr; gap: 0 } dt { margin-top: .5rem } }
+    pre code { background: none; padding: 0; font-size: inherit; }
+    .copy {
+      position: absolute; top: .5rem; right: .5rem;
+      border: 1px solid var(--border); background: var(--bg2); color: var(--fg);
+      border-radius: 8px; padding: .25rem .6rem; font-size: .8rem; cursor: pointer;
+      transition: background .2s, transform .1s;
+    }
+    .copy:hover { background: var(--pill); }
+    .copy:active { transform: scale(.95); }
+    .copy.done { background: var(--ok); color: #fff; border-color: var(--ok); }
+
+    .kv { display: grid; grid-template-columns: max-content 1fr; gap: .4rem 1rem; align-items: center; }
+    .kv dt { color: var(--muted); }
+    .kv dd { margin: 0; overflow-wrap: anywhere; display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+    .kv .copy { position: static; }
+    .kv dd code { min-width: 0; max-width: 100%; overflow-wrap: anywhere; word-break: break-all; }
+    @media (max-width: 520px) { .kv { grid-template-columns: 1fr; gap: .1rem; } .kv dt { margin-top: .5rem; } }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .2rem .7rem; border-radius: 999px; font-size: .85rem; background: var(--pill);
+    }
+    .dot { width: .6rem; height: .6rem; border-radius: 50%; background: var(--muted); }
+    .dot.ok { background: var(--ok); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 25%, transparent); }
+    .dot.bad { background: var(--bad); }
+    .dot.wait { background: var(--warn); animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 50% { opacity: .3; } }
+
+    .tabs { display: flex; gap: .4rem; flex-wrap: wrap; margin: .25rem 0 .75rem; }
+    .tab {
+      border: 1px solid var(--border); background: transparent; color: var(--fg);
+      border-radius: 999px; padding: .35rem .9rem; cursor: pointer; font-size: .9rem;
+      transition: background .2s, color .2s;
+    }
+    .tab:hover { background: var(--pill); }
+    .tab[aria-selected="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .panel[hidden] { display: none; }
+
+    .btn {
+      border: none; background: var(--accent); color: #fff; border-radius: 10px;
+      padding: .55rem 1rem; cursor: pointer; font-size: .95rem; transition: transform .1s, filter .2s;
+    }
+    .btn:hover { filter: brightness(1.08); }
+    .btn:active { transform: scale(.97); }
+    .btn.ghost { background: var(--pill); color: var(--fg); }
+    .row { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
+    input[type="text"] {
+      flex: 1; min-width: 12rem; padding: .55rem .75rem; border-radius: 10px;
+      border: 1px solid var(--border); background: var(--code-bg); color: var(--fg); font-size: .9rem;
+    }
+    input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .result { margin-top: .75rem; }
+    .result:empty { display: none; }
+    .shake { animation: shake .3s; }
+    @keyframes shake { 25% { transform: translateX(-4px);} 75% { transform: translateX(4px);} }
+
+    footer { margin-top: 2.5rem; color: var(--muted); font-size: .9rem; text-align: center; }
+    footer .hearts { letter-spacing: .2em; }
   </style>
 </head>
 <body>
+<div class="snow" aria-hidden="true"></div>
 <main>
-  <h1>nix.u-naoki.com</h1>
-  <p class="lead">
-    A public Nix binary cache for
-    <a href="https://github.com/Penpen7/dotfiles">Penpen7/dotfiles</a>.
-    Store paths are built by GitHub Actions on every push to <code>master</code>,
-    signed, and copied here.
-  </p>
+  <header>
+    <svg class="logo" id="logo" viewBox="0 0 100 100" aria-label="snowflake">
+      <defs>
+        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#7ebae4"/><stop offset="1" stop-color="#5277c3"/>
+        </linearGradient>
+      </defs>
+      <g stroke="url(#g)" stroke-width="7" stroke-linecap="round" fill="none">
+        <line x1="50" y1="8" x2="50" y2="92"/>
+        <line x1="13.6" y1="29" x2="86.4" y2="71"/>
+        <line x1="13.6" y1="71" x2="86.4" y2="29"/>
+        <path d="M50 8 l-9 9 M50 8 l9 9 M50 92 l-9 -9 M50 92 l9 -9"/>
+        <path d="M13.6 29 l12 3 M13.6 29 l3 12 M86.4 71 l-12 -3 M86.4 71 l-3 -12"/>
+        <path d="M13.6 71 l12 -3 M13.6 71 l3 -12 M86.4 29 l-12 3 M86.4 29 l-3 12"/>
+      </g>
+      <circle cx="50" cy="50" r="7" fill="url(#g)"/>
+      <circle cx="43" cy="46" r="2" fill="#fff"/><circle cx="57" cy="46" r="2" fill="#fff"/>
+      <path d="M45 54 q5 4 10 0" stroke="#fff" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    </svg>
+    <h1>nix.u-naoki.com <small>❄️ a cozy little Nix binary cache</small></h1>
+    <span class="grow"></span>
+    <a class="avatar" href="https://github.com/Penpen7" title="Penpen7 on GitHub">
+      <img src="https://avatars.githubusercontent.com/Penpen7?size=96" width="44" height="44" alt="Penpen7">
+      <span class="wave">👋</span>
+    </a>
+    <button class="theme-btn" id="theme" title="Toggle theme" aria-label="Toggle theme">🌙</button>
+  </header>
 
-  <dl>
-    <dt>Substituter</dt>
-    <dd><code>https://nix.u-naoki.com</code></dd>
-    <dt>Public key</dt>
-    <dd><code>uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/u5trJQ2w=</code></dd>
-    <dt>Priority</dt>
-    <dd><a href="/nix-cache-info"><code>/nix-cache-info</code></a></dd>
-  </dl>
+  <section class="card">
+    <h2><span class="ico">📡</span> Cache status <span class="grow"></span>
+      <span class="badge" id="status"><span class="dot wait"></span><span>checking…</span></span>
+    </h2>
+    <dl class="kv" id="info">
+      <dt>StoreDir</dt><dd id="i-store">—</dd>
+      <dt>Priority</dt><dd id="i-prio">—</dd>
+      <dt>WantMassQuery</dt><dd id="i-mass">—</dd>
+    </dl>
+    <p class="muted" style="margin-top:.75rem">
+      Read live from <a href="/nix-cache-info"><code>/nix-cache-info</code></a>.
+      <button class="btn ghost" id="recheck" style="padding:.25rem .7rem;font-size:.85rem">🔄 check again</button>
+    </p>
+  </section>
 
-  <h2>Use it from nix.conf</h2>
-  <p>Add the cache to <code>/etc/nix/nix.conf</code> (or <code>~/.config/nix/nix.conf</code>):</p>
-<pre><code>extra-substituters = https://nix.u-naoki.com
-extra-trusted-public-keys = uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/u5trJQ2w=</code></pre>
+  <section class="card">
+    <h2><span class="ico">🔑</span> Substituter &amp; key</h2>
+    <dl class="kv">
+      <dt>Substituter</dt>
+      <dd><code id="url">https://nix.u-naoki.com</code><button class="copy" data-copy="#url">copy</button></dd>
+      <dt>Public key</dt>
+      <dd><code id="key">uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/u5trJQ2w=</code><button class="copy" data-copy="#key">copy</button></dd>
+    </dl>
+  </section>
 
-  <h2>Use it from a flake</h2>
-  <p>Declare it in <code>nixConfig</code> and accept it with <code>--accept-flake-config</code>:</p>
-<pre><code>nixConfig = {
+  <section class="card">
+    <h2><span class="ico">⚙️</span> How to use it</h2>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-tab="conf">📄 nix.conf</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="flake">❄️ flake.nix</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="cli">⌨️ one command</button>
+    </div>
+
+    <div class="panel" id="p-conf" role="tabpanel">
+      <p>Append to <code>/etc/nix/nix.conf</code> or <code>~/.config/nix/nix.conf</code>:</p>
+      <div class="codebox"><button class="copy" data-copy="#c-conf">copy</button>
+<pre><code id="c-conf">extra-substituters = https://nix.u-naoki.com
+extra-trusted-public-keys = uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/u5trJQ2w=</code></pre></div>
+    </div>
+
+    <div class="panel" id="p-flake" role="tabpanel" hidden>
+      <p>Declare it in <code>nixConfig</code> and run with <code>--accept-flake-config</code>:</p>
+      <div class="codebox"><button class="copy" data-copy="#c-flake">copy</button>
+<pre><code id="c-flake">nixConfig = {
   extra-substituters = [ "https://nix.u-naoki.com" ];
   extra-trusted-public-keys = [
     "uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/u5trJQ2w="
   ];
-};</code></pre>
+};</code></pre></div>
+    </div>
 
-  <h2>Use it for a single command</h2>
-<pre><code>nix build \
+    <div class="panel" id="p-cli" role="tabpanel" hidden>
+      <p>Just for this one build:</p>
+      <div class="codebox"><button class="copy" data-copy="#c-cli">copy</button>
+<pre><code id="c-cli">nix build \
   --extra-substituters https://nix.u-naoki.com \
   --extra-trusted-public-keys uehara-nix-cache:u+qjBIvib1P7LsoLQK6vVNTqryaG3cV6ai/u5trJQ2w= \
-  github:Penpen7/dotfiles#darwinConfigurations.personal.system</code></pre>
-  <p class="lead">
-    Non-root users can only add substituters that are listed in
-    <code>trusted-substituters</code>, or when they are in <code>trusted-users</code>.
-  </p>
+  github:Penpen7/dotfiles#darwinConfigurations.personal.system</code></pre></div>
+    </div>
 
-  <h2>What is cached</h2>
-  <p>
-    The closures of <code>darwinConfigurations.work.system</code> and
-    <code>darwinConfigurations.personal.system</code> for <code>aarch64-darwin</code>.
-    Anything not built by those configurations will miss and fall back to your other substituters.
-  </p>
+    <p class="muted">💡 Non-root users can only add substituters listed in
+      <code>trusted-substituters</code>, or if they are in <code>trusted-users</code>.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="ico">🔍</span> Is it cached?</h2>
+    <p>Paste a store path (or just its 32-character hash) to look up its <code>.narinfo</code>.</p>
+    <form class="row" id="lookup">
+      <input type="text" id="q" placeholder="/nix/store/abc123…-hello-2.12" autocomplete="off" spellcheck="false">
+      <button class="btn" type="submit">🔎 look up</button>
+    </form>
+    <div class="result" id="res"></div>
+  </section>
+
+  <section class="card">
+    <h2><span class="ico">📦</span> What's inside</h2>
+    <p>
+      Closures of <code>darwinConfigurations.work.system</code> and
+      <code>darwinConfigurations.personal.system</code> for <code>aarch64-darwin</code>,
+      built by GitHub Actions on every push to <code>master</code> of
+      <a href="https://github.com/Penpen7/dotfiles">Penpen7/dotfiles</a>, signed, and copied here.
+      Anything else will miss and fall through to your other substituters. 🫧
+    </p>
+  </section>
 
   <footer>
-    Hosted on Cloudflare R2.
-    Source: <a href="https://github.com/Penpen7/dotfiles">github.com/Penpen7/dotfiles</a>
+    <div class="hearts">❄️ 📦 ☁️</div>
+    <p class="made">made with 💙 by
+      <a href="https://github.com/Penpen7"><img src="https://avatars.githubusercontent.com/Penpen7?size=64" width="28" height="28" alt="">Penpen7</a>
+    </p>
+    Hosted on Cloudflare R2 ·
+    <a href="https://github.com/Penpen7/dotfiles">github.com/Penpen7/dotfiles</a>
   </footer>
 </main>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+  // ---- theme -------------------------------------------------------------
+  const root = document.documentElement, themeBtn = $('#theme');
+  const setTheme = (t) => {
+    root.dataset.theme = t;
+    themeBtn.textContent = t === 'dark' ? '☀️' : '🌙';
+    try { localStorage.setItem('theme', t); } catch {}
+  };
+  let saved = null;
+  try { saved = localStorage.getItem('theme'); } catch {}
+  setTheme(saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  themeBtn.addEventListener('click', () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark'));
+
+  // ---- snow --------------------------------------------------------------
+  const snow = $('.snow');
+  for (let i = 0; i < 18; i++) {
+    const s = document.createElement('span');
+    s.textContent = '❄';
+    s.style.setProperty('--x', Math.random() * 100 + '%');
+    s.style.setProperty('--s', (0.6 + Math.random() * 1.1) + 'rem');
+    s.style.setProperty('--d', (9 + Math.random() * 12) + 's');
+    s.style.setProperty('--delay', (-Math.random() * 20) + 's');
+    snow.appendChild(s);
+  }
+
+  // ---- logo --------------------------------------------------------------
+  $('#logo').addEventListener('click', (e) => {
+    e.currentTarget.classList.toggle('spin');
+    for (let i = 0; i < 8; i++) {
+      const s = document.createElement('span');
+      s.textContent = ['❄', '✨', '💙'][i % 3];
+      s.style.setProperty('--x', (e.clientX / innerWidth * 100 + (Math.random() * 10 - 5)) + '%');
+      s.style.setProperty('--s', '1.2rem');
+      s.style.setProperty('--d', '4s');
+      s.style.top = e.clientY + 'px';
+      snow.appendChild(s);
+      setTimeout(() => s.remove(), 4000);
+    }
+  });
+
+  // ---- copy buttons ------------------------------------------------------
+  $$('.copy').forEach(btn => btn.addEventListener('click', async () => {
+    const text = $(btn.dataset.copy).textContent;
+    try {
+      await navigator.clipboard.writeText(text);
+      btn.textContent = '✓ copied'; btn.classList.add('done');
+    } catch {
+      btn.textContent = '✗ failed';
+    }
+    setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('done'); }, 1400);
+  }));
+
+  // ---- tabs --------------------------------------------------------------
+  $$('.tab').forEach(tab => tab.addEventListener('click', () => {
+    $$('.tab').forEach(t => t.setAttribute('aria-selected', t === tab));
+    $$('.panel').forEach(p => p.hidden = p.id !== 'p-' + tab.dataset.tab);
+  }));
+
+  // ---- cache status ------------------------------------------------------
+  const status = $('#status'), dot = $('.dot', status), label = status.lastElementChild;
+  const setStatus = (cls, text) => { dot.className = 'dot ' + cls; label.textContent = text; };
+  async function check() {
+    setStatus('wait', 'checking…');
+    try {
+      const r = await fetch('/nix-cache-info', { cache: 'no-store' });
+      if (!r.ok) throw new Error(r.status);
+      const kv = Object.fromEntries((await r.text()).split('\n').filter(Boolean).map(l => l.split(/:\s*/, 2)));
+      $('#i-store').textContent = kv.StoreDir || '—';
+      $('#i-prio').textContent = kv.Priority || '—';
+      $('#i-mass').textContent = kv.WantMassQuery === '1' ? 'yes' : (kv.WantMassQuery ?? '—');
+      setStatus('ok', 'online');
+    } catch {
+      setStatus('bad', 'unreachable');
+    }
+  }
+  $('#recheck').addEventListener('click', check);
+  check();
+
+  // ---- narinfo lookup ----------------------------------------------------
+  const fmt = (n) => { n = +n; if (!n) return '—'; const u = ['B','KiB','MiB','GiB']; let i = 0; while (n >= 1024 && i < 3) { n /= 1024; i++; } return n.toFixed(i ? 1 : 0) + ' ' + u[i]; };
+  const esc = (s) => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  $('#lookup').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = $('#q'), res = $('#res');
+    const m = input.value.trim().match(/[0-9a-df-np-sv-z]{32}/);
+    if (!m) {
+      input.classList.remove('shake'); void input.offsetWidth; input.classList.add('shake');
+      res.innerHTML = '<span class="badge"><span class="dot bad"></span>that does not look like a store path hash 🙈</span>';
+      return;
+    }
+    res.innerHTML = '<span class="badge"><span class="dot wait"></span>looking…</span>';
+    try {
+      const r = await fetch('/' + m[0] + '.narinfo', { cache: 'no-store' });
+      if (r.status === 404) { res.innerHTML = '<span class="badge"><span class="dot bad"></span>not in cache 😢</span>'; return; }
+      if (!r.ok) throw new Error(r.status);
+      const kv = {}; const refs = [];
+      (await r.text()).split('\n').forEach(l => { const i = l.indexOf(':'); if (i > 0) { const k = l.slice(0, i).trim(), v = l.slice(i + 1).trim(); if (k === 'References') refs.push(...v.split(/\s+/).filter(Boolean)); else kv[k] = v; } });
+      res.innerHTML = `
+        <span class="badge"><span class="dot ok"></span>cached 🎉</span>
+        <dl class="kv" style="margin-top:.6rem">
+          <dt>StorePath</dt><dd><code>${esc(kv.StorePath || '')}</code></dd>
+          <dt>NAR size</dt><dd>${fmt(kv.NarSize)} <span class="muted">(${fmt(kv.FileSize)} compressed, ${esc(kv.Compression || '?')})</span></dd>
+          <dt>References</dt><dd>${refs.length}</dd>
+          <dt>Signed by</dt><dd><code>${esc((kv.Sig || '').split(':')[0] || '—')}</code></dd>
+        </dl>`;
+    } catch {
+      res.innerHTML = '<span class="badge"><span class="dot bad"></span>lookup failed (cache unreachable?)</span>';
+    }
+  });
+})();
+</script>
 </body>
 </html>
