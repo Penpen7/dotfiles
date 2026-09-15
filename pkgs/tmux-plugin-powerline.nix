@@ -1,10 +1,10 @@
 { pkgs }:
 pkgs.tmuxPlugins.tmux-powerline.overrideAttrs (_: {
-  version = "unstable-2026-07-27";
+  version = "unstable-2026-09-14";
   src = pkgs.fetchFromGitHub {
     owner = "erikw";
     repo = "tmux-powerline";
-    rev = "6cfa41c7696f0d530450d509b1e07ce3d778bd4b";
-    hash = "sha256-+DzP+IjP3SZGdT6o4fhB59gqWFO8sjaezhOq44bpUSo=";
+    rev = "c9e142fda99307f82145ef322b8d9611af431ca8";
+    hash = "sha256-0N+5VgwWTUwq33akcD2BE3EezZUhm5pyMWxJEDQk3Ak=";
   };
 })
