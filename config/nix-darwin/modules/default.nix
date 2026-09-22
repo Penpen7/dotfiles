@@ -103,7 +103,6 @@ in
     casks = [
       "adobe-acrobat-reader"
       "alfred"
-      "cleanshot"
       "claude"
       "discord"
       "handbrake-app"
