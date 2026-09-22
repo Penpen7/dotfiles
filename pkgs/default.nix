@@ -12,6 +12,7 @@
     ccstatusline = import ./ccstatusline.nix { pkgs = final; };
     mise = import ./mise.nix { pkgs = final; };
     tableplus = import ./tableplus.nix { pkgs = final; };
+    cleanshot = import ./cleanshot.nix { pkgs = final; };
     # VSCode 1.129 から darwin 版の ripgrep が node_modules.asar.unpacked/ 配下に
     # 移動したが、nixpkgs の postPatch は node_modules/ を決め打ちしていて失敗する。
     # nixpkgs 側が追従したら削除する。
