@@ -1,6 +1,6 @@
 { pkgs }:
 let
-  version = "2026.10.2";
+  version = "2026.10.3";
 
   # nixpkgs の mise は Rust ソースからビルドされてしまうため、
   # GitHub Releases のビルド済みバイナリを取得してビルドを回避する。
@@ -8,19 +8,19 @@ let
     {
       aarch64-darwin = {
         asset = "macos-arm64";
-        sha256 = "a3f67ff009f1436013eee37864c1c1855d9d9a9e4982a660b6495589635384e7";
+        sha256 = "28ecc8640b0a28dab52817766f37fecfd898f1dff82e03f36fcb072e971f9246";
       };
       x86_64-darwin = {
         asset = "macos-x64";
-        sha256 = "cc1497f6c370580d81d386004578f97d36b08031f6534818e0fd2756d54d0aca";
+        sha256 = "791b92b446729c53e6501acd2b84ea207f541659ca9d0480c9c70c291919a321";
       };
       aarch64-linux = {
         asset = "linux-arm64";
-        sha256 = "5d3368679ce0cc37fb222511a04c61426cded69f0cda0f8248d03970dc34f303";
+        sha256 = "e79866e32624b346f6854d93ca8a24294516cd7c0b48ce0e80af508fb7c3d8b8";
       };
       x86_64-linux = {
         asset = "linux-x64";
-        sha256 = "79a2bf0ffc9b8a9a6391344e875b3c3679c15053fda3e8728ddf1790d63db788";
+        sha256 = "04147c68e946902f5226dfdcd54d19907aed3cf54d95b2f27d2b9c778bb26f9e";
       };
     }
     .${pkgs.stdenv.hostPlatform.system}
