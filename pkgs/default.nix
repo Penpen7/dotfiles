@@ -13,6 +13,14 @@
     mise = import ./mise.nix { pkgs = final; };
     tableplus = import ./tableplus.nix { pkgs = final; };
     cleanshot = import ./cleanshot.nix { pkgs = final; };
+    # viceroy 0.21.1 は release ビルドで deny(warnings) を有効にしており、
+    # 新しい rustc で std::u32::MAX の deprecated 警告がエラーになって失敗する
+    # (fastly の依存)。nixpkgs 側が追従したら削除する。
+    viceroy = prev.viceroy.overrideAttrs (old: {
+      env = (old.env or { }) // {
+        RUSTFLAGS = "--cap-lints warn";
+      };
+    });
     # VSCode 1.129 から darwin 版の ripgrep が node_modules.asar.unpacked/ 配下に
     # 移動したが、nixpkgs の postPatch は node_modules/ を決め打ちしていて失敗する。
     # nixpkgs 側が追従したら削除する。
