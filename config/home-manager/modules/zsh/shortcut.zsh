@@ -2,6 +2,7 @@
 
 # ^でcd ..するようにする
 function chpwd() {
+  [[ -o interactive && -t 1 ]] || return 0
   pwd
   eza -F --icons
 }
