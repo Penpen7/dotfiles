@@ -15,6 +15,7 @@ in
     ../../modules/logi-options.nix
     ../../modules/runcat.nix
     ../../modules/rectangle.nix
+    ../../modules/maxfiles.nix
   ];
 
   system.primaryUser = username;
