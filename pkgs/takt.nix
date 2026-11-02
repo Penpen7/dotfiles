@@ -6,8 +6,8 @@ pkgs.buildNpmPackage {
   src = pkgs.fetchFromGitHub {
     owner = "nrslib";
     repo = "takt";
-    rev = "1c52e0c46c434f760557116e8ad327bcfa28cc1b";
-    hash = "sha256-3l9eDM7k/KvQnSNty2Bnv7wfoHSTq9xtKJBqeJx1Rqs=";
+    rev = "7247bb81296569814354e6b72cb4eb1db718f3d6";
+    hash = "sha256-n456f39+aUtJYjy4DHzRnhr02Hn7MQegTVu9abRBKYE=";
   };
 
   npmDepsFetcherVersion = 2;
