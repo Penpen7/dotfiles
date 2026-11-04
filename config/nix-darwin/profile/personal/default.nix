@@ -14,6 +14,7 @@ in
     ../../modules/docker.nix
     ../../modules/runcat.nix
     ../../modules/rectangle.nix
+    ../../modules/maxfiles.nix
     ../../modules/nas.nix
     ../../modules/monitor_wifi.nix
     ../../modules/line.nix
