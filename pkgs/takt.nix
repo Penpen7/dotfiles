@@ -1,13 +1,13 @@
 { pkgs }:
 pkgs.buildNpmPackage {
   pname = "takt";
-  version = "unstable-2026-11-05";
+  version = "unstable-2026-11-06";
 
   src = pkgs.fetchFromGitHub {
     owner = "nrslib";
     repo = "takt";
-    rev = "3c0b0c0167d10e2feab0f6d5cd530a95687106cf";
-    hash = "sha256-fnK5QmH5ia3+JKKUx5oBbNIQOCs2LWJQf9ZpptttVOc=";
+    rev = "d00c3dc7341912303d618aba00d70398c29343c5";
+    hash = "sha256-0Mlj3iCydxgR7VuntiO0aZCarIXmf6yEeRZhsyS8Sx4=";
   };
 
   npmDepsFetcherVersion = 2;
