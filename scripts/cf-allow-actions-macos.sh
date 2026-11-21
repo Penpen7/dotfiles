@@ -2,19 +2,24 @@
 # GitHub の macOS ランナーから nix.u-naoki.com (Cloudflare の Bot Fight Mode 配下) に
 # 届くよう、Meta API の actions_macos の範囲を Cloudflare の IP Access Rule で許可する。
 #
-# Usage: scripts/cf-allow-actions-macos.sh
+# Usage:
+#   scripts/cf-allow-actions-macos.sh [allow]  ルールを同期し、キャッシュに届くまで待つ
+#   scripts/cf-allow-actions-macos.sh cleanup  ほかに動いている CI/CD がなければルールを消す
 #
 # Env:
 #   CLOUDFLARE_API_TOKEN, CLOUDFLARE_ZONE_ID  (必須)
-#   GITHUB_TOKEN    Meta API のレート制限回避用 (任意)
+#   GITHUB_TOKEN    allow: Meta API のレート制限回避用 (任意)
+#                   cleanup: 実行中の workflow run の取得用 (必須、actions: read)
+#   GITHUB_REPOSITORY, GITHUB_RUN_ID  cleanup で必須 (Actions が設定する)
 #
-# ルールは常設で、実行のたびに Meta API の範囲と同期する (足りない範囲は作り、
-# 一覧から外れた範囲は消す)。実行ごとに作って消すと、同時に走っている別の
-# CI/CD が使っているルールまで消してしまうため。同期の対象は notes が
-# $RULE_NOTES のルールだけで、手で作ったルールには触らない。
+# allow は Meta API の範囲と同期する (足りない範囲は作り、一覧から外れた範囲は消す)。
+# 同期のあと nix.u-naoki.com の nix-cache-info が 200 を返すまで待ち、返らなければ exit 1。
 #
-# 同期のあと nix.u-naoki.com の nix-cache-info が 200 を返すまで待ち、
-# 返らなければ exit 1。
+# 同じ範囲を CI と CD で共有するので、実行ごとに作って消すと、同時に走っている
+# 別の実行が使っているルールまで消してしまう。そのため cleanup は、自分以外の
+# CI/CD がすべて終わっているときだけルールを消し、最後に終わった実行が片付ける。
+# 消した直後に新しい実行が始まっていた場合は、ルールを作り直す。
+# 対象は notes が $RULE_NOTES のルールだけで、手で作ったルールには触らない。
 #
 # Bot Fight Mode は WAF のカスタムルールでは回避できず、IP Access Rule の allow
 # だけが効く。IP Access Rule は IPv4 の範囲を /16 か /24 でしか受け付けないので、
@@ -99,9 +104,7 @@ plan_sync() {
         FNR == NR { if ($0 != "") want[$0] = 1; next }
         NF == 2 { have[$2] = 1; if (!($2 in want)) print "delete " $1 " " $2 }
         END { for (r in want) if (!(r in have)) print "create " r }
-    ' <(printf '%s
-' "$desired") <(printf '%s
-' "$existing") | sort
+    ' <(printf '%s\n' "$desired") <(printf '%s\n' "$existing") | sort
 }
 
 wait_for_cache() {
@@ -115,9 +118,31 @@ wait_for_cache() {
     return 1
 }
 
-main() {
-    : "${CLOUDFLARE_API_TOKEN:?}" "${CLOUDFLARE_ZONE_ID:?}"
-    local desired existing action a b ip
+WORKFLOWS=".github/workflows/ci.yml .github/workflows/cd.yml"
+
+active_runs() {
+    local runs_json="$1" self="$2"
+    jq -r --arg self "$self" --arg workflows "$WORKFLOWS" '
+        ($workflows | split(" ")) as $w
+        | .workflow_runs[]
+        | select(.status != "completed")
+        | select(.id | tostring != $self)
+        | select(.path | IN($w[]))
+        | .id
+    ' <<<"$runs_json"
+}
+
+fetch_active_runs() {
+    local runs_json
+    runs_json=$(curl -fsS -G "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/runs" \
+        -H "Authorization: Bearer $GITHUB_TOKEN" \
+        -H "Accept: application/vnd.github+json" \
+        --data-urlencode "per_page=100")
+    active_runs "$runs_json" "$GITHUB_RUN_ID"
+}
+
+sync_rules() {
+    local desired existing action a b
     desired=$(fetch_ranges | to_slash24)
     [[ -n "$desired" ]] || { echo "no actions_macos ranges from Meta API" >&2; return 1; }
     existing=$(list_rules)
@@ -129,12 +154,48 @@ main() {
             delete) delete_rule "$a" "$b" ;;
         esac
     done < <(plan_sync "$desired" "$existing")
+}
 
+cmd_allow() {
+    local ip
+    sync_rules
     if ! wait_for_cache; then
         ip=$(curl -4fsS https://www.cloudflare.com/cdn-cgi/trace | awk -F= '/^ip=/{print $2}' || true)
         echo "::error::nix.u-naoki.com is still blocked for runner IP ${ip:-unknown}" >&2
         return 1
     fi
+}
+
+cmd_cleanup() {
+    : "${GITHUB_TOKEN:?}" "${GITHUB_REPOSITORY:?}" "${GITHUB_RUN_ID:?}"
+    local active id range
+    active=$(fetch_active_runs)
+    if [[ -n "$active" ]]; then
+        echo "other runs are still active, keeping rules: $(tr '\n' ' ' <<<"$active")" >&2
+        return 0
+    fi
+
+    while read -r id range; do
+        [[ -n "$id" ]] && delete_rule "$id" "$range"
+    done < <(list_rules)
+
+    active=$(fetch_active_runs)
+    if [[ -n "$active" ]]; then
+        echo "runs started during cleanup, restoring rules: $(tr '\n' ' ' <<<"$active")" >&2
+        sync_rules
+    fi
+}
+
+main() {
+    : "${CLOUDFLARE_API_TOKEN:?}" "${CLOUDFLARE_ZONE_ID:?}"
+    case "${1:-allow}" in
+        allow) cmd_allow ;;
+        cleanup) cmd_cleanup ;;
+        *)
+            echo "usage: $0 [allow|cleanup]" >&2
+            return 2
+            ;;
+    esac
 }
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then

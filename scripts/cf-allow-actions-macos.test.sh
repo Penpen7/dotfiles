@@ -6,6 +6,7 @@
 # Network を使う関数 (Meta API / Cloudflare API) は対象外で、純粋な関数だけを試す。
 #   to_slash24  - Meta API の CIDR を IP Access Rule で使える /24 に丸める
 #   plan_sync   - 望ましい範囲と既存ルールから create/delete を決める
+#   active_runs - workflow run の一覧から、自分以外で動いている CI/CD を選ぶ
 
 set -uo pipefail
 
@@ -71,6 +72,24 @@ assert_eq "" \
 assert_eq "$(printf '%s\n' "create 13.105.49.0/24" "delete id9 13.105.99.0/24")" \
     "$(plan_sync "$desired" "$(printf '%s\n' "id1 13.105.117.0/24" "id9 13.105.99.0/24")")" \
     "足りない範囲を作り、外れた範囲を消す"
+
+echo "active_runs"
+
+runs='{"workflow_runs": [
+  {"id": 1, "path": ".github/workflows/ci.yml", "status": "in_progress"},
+  {"id": 2, "path": ".github/workflows/cd.yml", "status": "queued"},
+  {"id": 3, "path": ".github/workflows/ci.yml", "status": "completed"},
+  {"id": 4, "path": ".github/workflows/update-flake-lock.yml", "status": "in_progress"},
+  {"id": 5, "path": ".github/workflows/cd.yml", "status": "waiting"}
+]}'
+
+assert_eq "$(printf '%s\n' 2 5)" \
+    "$(active_runs "$runs" 1)" \
+    "自分と完了済みと CI/CD 以外を除き、待機中も含める"
+
+assert_eq "" \
+    "$(active_runs '{"workflow_runs": [{"id": 1, "path": ".github/workflows/ci.yml", "status": "in_progress"}]}' 1)" \
+    "自分しかいなければ空"
 
 echo
 echo "passed: $PASS, failed: $FAIL"

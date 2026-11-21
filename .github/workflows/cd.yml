@@ -59,6 +59,22 @@ jobs:
           S3_BUCKET: ${{ secrets.S3_BUCKET }}
         run: nix copy --to "s3://$S3_BUCKET?profile=$AWS_PROFILE_NAME&endpoint=$S3_API_ENDPOINT&region=auto&compression=zstd" ./result
 
+  cleanup-allow-rules:
+    needs: copy
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - name: Remove Bot Fight Mode allow rules when no other CI/CD is running
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: bash scripts/cf-allow-actions-macos.sh cleanup
+
   upload-site:
     runs-on: ubuntu-latest
     steps:
