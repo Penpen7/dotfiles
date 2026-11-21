@@ -73,7 +73,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
           GITHUB_TOKEN: ${{ github.token }}
-        run: bash scripts/cf-allow-actions-macos.sh cleanup
+        run: bash scripts/cf-cleanup-actions-macos.sh
 
   upload-site:
     runs-on: ubuntu-latest

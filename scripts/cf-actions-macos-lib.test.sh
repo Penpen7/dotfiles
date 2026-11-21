@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Tests for scripts/cf-allow-actions-macos.sh
+# Tests for scripts/cf-actions-macos-lib.sh
 #
-# Usage: bash scripts/cf-allow-actions-macos.test.sh
+# Usage: bash scripts/cf-actions-macos-lib.test.sh
 #
 # Network を使う関数 (Meta API / Cloudflare API) は対象外で、純粋な関数だけを試す。
 #   to_slash24  - Meta API の CIDR を IP Access Rule で使える /24 に丸める
@@ -27,9 +27,8 @@ assert_eq() {
     if [[ "$1" == "$2" ]]; then ok "$3"; else fail "$3" "$1" "$2"; fi
 }
 
-# shellcheck source=scripts/cf-allow-actions-macos.sh
-source "$(dirname "$0")/cf-allow-actions-macos.sh"
-set +e
+# shellcheck source=scripts/cf-actions-macos-lib.sh
+source "$(dirname "$0")/cf-actions-macos-lib.sh"
 
 echo "to_slash24"
 
