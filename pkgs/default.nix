@@ -13,14 +13,6 @@
     mise = import ./mise.nix { pkgs = final; };
     tableplus = import ./tableplus.nix { pkgs = final; };
     cleanshot = import ./cleanshot.nix { pkgs = final; };
-    # viceroy 0.21.1 は release ビルドで deny(warnings) を有効にしており、
-    # 新しい rustc で std::u32::MAX の deprecated 警告がエラーになって失敗する
-    # (fastly の依存)。nixpkgs 側が追従したら削除する。
-    viceroy = prev.viceroy.overrideAttrs (old: {
-      env = (old.env or { }) // {
-        RUSTFLAGS = "--cap-lints warn";
-      };
-    });
     # Qt 6.12 以降、darwin で parts.db 生成後の終了処理中に Fritzing が
     # Bus error で落ちて postFixup が失敗する。DB 自体は書き終わっているので、
     # 異常終了は許容しつつ parts.db が正しく生成されたことだけ確認する。
