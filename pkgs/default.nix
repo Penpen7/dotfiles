@@ -16,8 +16,13 @@
     # Qt 6.12 以降、darwin で parts.db 生成後の終了処理中に Fritzing が
     # Bus error で落ちて postFixup が失敗する。DB 自体は書き終わっているので、
     # 異常終了は許容しつつ parts.db が正しく生成されたことだけ確認する。
+    # nixpkgs ではこの失敗を受けて darwin で broken 扱いになっているので
+    # (NixOS/nixpkgs#588230)、回避策を入れたうえで broken を外す。
     # nixpkgs 側が追従したら削除する。
     fritzing = prev.fritzing.overrideAttrs (old: {
+      meta = old.meta // {
+        broken = false;
+      };
       nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ prev.sqlite ];
       postFixup = ''
         db="$out/share/fritzing/parts/parts.db"
