@@ -50,11 +50,13 @@ jobs:
           CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
         run: |
           ip=$(curl -4fsS https://www.cloudflare.com/cdn-cgi/trace | awk -F= '/^ip=/{print $2}')
-          echo "runner IP: $ip"
+          # macOS ランナーは同じ /24 内の複数の出口 IP を使い分けるので、範囲で許可する。
+          range="${ip%.*}.0/24"
+          echo "runner IP: $ip (allowing $range)"
           id=$(curl -sS -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/firewall/access_rules/rules" \
             -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
             -H 'Content-Type: application/json' \
-            --data "{\"mode\":\"whitelist\",\"configuration\":{\"target\":\"ip\",\"value\":\"$ip\"},\"notes\":\"github-actions run ${{ github.run_id }}\"}" \
+            --data "{\"mode\":\"whitelist\",\"configuration\":{\"target\":\"ip_range\",\"value\":\"$range\"},\"notes\":\"github-actions run ${{ github.run_id }}\"}" \
             | jq -r '.result.id // empty')
           echo "id-${{ matrix.profile }}=$id" >> "$GITHUB_OUTPUT"
 
