@@ -13,6 +13,20 @@
     mise = import ./mise.nix { pkgs = final; };
     tableplus = import ./tableplus.nix { pkgs = final; };
     cleanshot = import ./cleanshot.nix { pkgs = final; };
+    # swift-collections 1.7.6 は darwin で install_name_tool がヘッダの空き不足で失敗する
+    # (pam-watchid が依存)。nixpkgs では NixOS/nixpkgs#590962 で修正済みなので、
+    # nixpkgs-unstable に入ったら削除する。
+    swiftPackages = prev.swiftPackages.overrideScope (
+      sfinal: sprev: {
+        swift-collections = sprev.swift-collections.overrideAttrs (old: {
+          env =
+            (old.env or { })
+            // prev.lib.optionalAttrs prev.stdenv.hostPlatform.isDarwin {
+              NIX_LDFLAGS = "-headerpad_max_install_names";
+            };
+        });
+      }
+    );
     # Qt 6.12 以降、darwin で parts.db 生成後の終了処理中に Fritzing が
     # Bus error で落ちて postFixup が失敗する。DB 自体は書き終わっているので、
     # 異常終了は許容しつつ parts.db が正しく生成されたことだけ確認する。
