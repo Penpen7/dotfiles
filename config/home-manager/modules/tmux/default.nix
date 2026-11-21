@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   home.packages = with pkgs; [
     tmux
@@ -15,6 +15,12 @@
       TMUX_PLUGIN_POWERLINE = "${pkgs.tmuxPlugins.tmux-powerline.rtp}";
     };
   };
+
+  # split.zsh の vi がエイリアス (vi=nvim) で展開されるよう、エイリアス定義 (1100) より後に読み込む
+  programs.zsh.initContent = lib.mkOrder 1110 ''
+    source ${./split.zsh}
+    source ${./tmux.zsh}
+  '';
 
   xdg.configFile = {
     "tmux-powerline" = {
