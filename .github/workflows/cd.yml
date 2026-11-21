@@ -55,7 +55,8 @@ jobs:
             [ "$status" = 200 ] && exit 0
             sleep 5
           done
-          echo "::warning::nix.u-naoki.com is still blocked for $ip; building without the cache"
+          echo "::error::nix.u-naoki.com is still blocked for $ip"
+          exit 1
 
       - name: Build package
         run: nix build .#darwinConfigurations.${{ matrix.profile }}.system --accept-flake-config
