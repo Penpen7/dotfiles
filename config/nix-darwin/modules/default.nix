@@ -1,5 +1,6 @@
 {
   self,
+  lib,
   pkgs,
   config,
   homebrew-core,
@@ -135,4 +136,14 @@ in
     fi
   '';
   environment.shells = [ pkgs.zsh ];
+
+  # Nix のプロファイル (優先度 1000) より後ろ、/usr/bin などのシステムのパス (1200) より前に置く
+  environment.systemPath = lib.mkOrder 1100 [
+    "$HOME/.bun/bin"
+    "$HOME/.local/bin"
+    "$HOME/.cargo/bin"
+    "$HOME/go/bin"
+    "${config.homebrew.prefix}/sbin"
+    "${config.homebrew.prefix}/bin"
+  ];
 }

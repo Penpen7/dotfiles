@@ -1,8 +1,54 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  osConfig,
+  ...
+}:
 let
-  fzfDir = ../../../fzf;
+  # zle ウィジェットとして登録する関数
+  widgets = [
+    "ch"
+    "docker-bash"
+    "docker-run"
+    "docker-sh"
+    "fzf-select-history"
+    "peco-cdr"
+    "__source"
+    "__tig"
+    "__vim"
+  ];
+
+  keybindings = {
+    "jj" = "vi-cmd-mode";
+    "^g" = "ch";
+    "^g^t" = "__tig";
+    "^o" = "peco-cdr";
+    "^r" = "fzf-select-history";
+    "^s" = "__source";
+    "^v" = "__vim";
+    "^x^b" = "docker-bash";
+    "^x^r" = "docker-run";
+    "^x^s" = "docker-sh";
+  };
+
+  # fzf で起動中のコンテナを選び、そのコンテナでコマンドを実行する
+  dockerExec = shell: ''
+    local container
+    container="$(docker container ls -a -f status=running | sed -e '1d' | fzf --height 40% --reverse | awk '{print $1}')"
+    if [ -n "''${container}" ]; then
+      echo "attaching container ..."
+      docker exec -it ''${container} ${shell}
+    fi
+  '';
 in
 {
+  programs.dircolors = {
+    enable = true;
+    # Home Manager の既定値は使わず、nord.dircolors だけを使う
+    settings = lib.mkForce { };
+    extraConfig = builtins.readFile ./nord.dircolors;
+  };
+
   programs.zsh = {
     enable = true;
 
@@ -35,6 +81,7 @@ in
       vi = "nvim";
       v = "nvim";
       gp = "git-foresta --all --style=10 | less -RSX";
+      gitc = "git branch | fzf --reverse --ansi | xargs git checkout";
       aca = "acc submit a.cpp";
       va = "nvim a.cpp";
       ojt = "oj t";
@@ -85,83 +132,128 @@ in
       _compinit
     '';
 
-    initContent = lib.mkMerge [
-      # PATH (後から追加したものほど優先される)
-      (lib.mkOrder 505 ''
-        export PATH="$HOMEBREW_PREFIX/bin":$PATH
-        export PATH="$HOMEBREW_PREFIX/sbin":$PATH
-        export PATH="$GOPATH/bin":$PATH
-        export PATH="$HOME/.cargo/bin:"$PATH
-        export PATH="$HOME/.local/bin:$PATH"
-        export PATH="$HOME/.bun/bin:$PATH"
+    # 関数は autoload で読み込む
+    siteFunctions = {
+      # cd したらディレクトリの中身を表示する
+      chpwd = ''
+        [[ -o interactive && -t 1 ]] || return 0
+        pwd
+        eza -F --icons
+      '';
 
-        # Nix (最後に追加することで優先される)
-        if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
-          source '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+      precmd = ''
+        if [ -n "$TMUX" ] && command -v tmux >/dev/null 2>&1; then
+          tmux refresh-client -S
         fi
-        if [ -d "/etc/profiles/per-user/$USER/bin" ]; then
-          export PATH="/etc/profiles/per-user/$USER/bin:$PATH"
+      '';
+
+      fzf-select-history = ''
+        local selected_command=$(history -n -r 1 | fzf --no-sort --reverse)
+        if [ -n "$selected_command" ]; then
+          BUFFER="''${selected_command}"
         fi
-      '')
+      '';
 
-      (lib.mkOrder 550 ''
-        eval "$(${pkgs.coreutils}/bin/dircolors -b ${./nord.dircolors})"
-        if [ -n "$LS_COLORS" ]; then
-          zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
+      peco-cdr = ''
+        local selected_dir=$(cdr -l | awk '{ print $2 }' | \
+          fzf --reverse --ansi --preview 'f() { zsh -c "eza -1 --icons $1" }; f {}')
+        if [ -n "$selected_dir" ]; then
+          BUFFER="cd ''${selected_dir}"
+          zle accept-line
         fi
-      '')
+      '';
 
-      # 関数の中でもエイリアスが展開されるよう、エイリアス定義 (1100) より後に読み込む
-      (lib.mkOrder 1110 ''
-        # 補完で小文字でも大文字にマッチさせる
-        zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-        zstyle ':completion:*:default' menu select=1
+      # Chrome の閲覧履歴を fzf で選んで開く
+      ch = ''
+        local cols sep google_history open
+        cols=$(( COLUMNS / 3 ))
+        sep='{::}'
 
-        # taskコマンドがある場合のみ補完を有効にする
-        if (( $+commands[task] )); then
-          eval "$(task --completion zsh)"
+        if [ "$(uname)" = "Darwin" ]; then
+          google_history="$HOME/Library/Application Support/Google/Chrome/Default/History"
+          open=open
+        else
+          google_history="$HOME/.config/google-chrome/Default/History"
+          open=xdg-open
         fi
+        \cp -f "$google_history" /tmp/googlechrome_fzf
+        sqlite3 -separator $sep /tmp/googlechrome_fzf \
+          "select substr(title, 1, $cols), url
+            from urls order by last_visit_time desc" |
+        awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' |
+        fzf --reverse --no-hscroll --ansi --multi --preview-window down:0 | sed 's#.*\(https*://\)#\1#' | xargs $open > /dev/null 2> /dev/null
+      '';
 
-        source ${./shortcut.zsh}
-        source ${fzfDir + "/zsh.zsh"}
-        source ${fzfDir + "/ghq.zsh"}
-        source ${fzfDir + "/docker.zsh"}
-      '')
+      # ghq list を fzf で選択して cd する
+      ghqcd = ''
+        local dir
+        dir=$(ghq list | fzf-tmux --query="$LBUFFER" --select-1 --exit-0) && cd "$(ghq root)/$dir"
+      '';
 
-      # ウィジェット名の登録とキー割り当ては、関数を読み込んだあとに行う
-      (lib.mkOrder 1120 ''
-        source ${./keybind.zsh}
-      '')
-
-      (lib.mkAfter ''
-        # dotfilesでgitの差分があればメッセージを出力する
-        if [ -n "$(git -C ~/dotfiles status --porcelain)" ]; then
-          echo "[INFO] dotfilesに差分があります。早めにレポジトリに反映してください。"
+      docker-attach = ''
+        local container
+        container="$(docker container ls -a -f status=running | sed -e '1d' | fzf --height 40% --reverse | awk '{print $1}')"
+        if [ -n "''${container}" ]; then
+          echo "attaching container ..."
+          docker container attach ''${container}
         fi
+      '';
 
-        # Downloads内でのファイル数とサイズを表示
-        function download_info() {
-          # Downloadsが存在しない場合は何もしない
-          if [ ! -d ~/Downloads ]; then
-            return
-          fi
-          echo "Downloads内のファイル数: $(find ~/Downloads -type f | wc -l)"
-          echo "Downloads内のファイルサイズ: $(du -sh ~/Downloads | awk '{print $1}')"
-        }
+      docker-sh = dockerExec "/bin/sh";
+      docker-bash = dockerExec "/bin/bash";
 
-        download_info
+      docker-run = ''
+        local container
+        container="$(docker image ls | sed -e '1d' | fzf --height 40% --reverse | awk -v 'OFS=:' '{print $1,$2}')"
+        if [ -n "''${container}" ]; then
+          echo "runing container from ''${container} ..."
+          docker container run -it ''${container} bash
+        fi
+      '';
 
-        function precmd() {
-          if [ -n "$TMUX" ] && command -v tmux >/dev/null 2>&1; then
-            tmux refresh-client -S
-          fi
-        }
-      '')
-    ];
+      __source = "source ~/.zshrc";
+      __tig = "tig";
+      __vim = "nvim";
+    };
+
+    # Home Manager に設定項目がない zstyle、cdr の設定、キー割り当てだけをここに書く
+    initContent = ''
+      zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
+      # 補完で小文字でも大文字にマッチさせる
+      zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+      zstyle ':completion:*:default' menu select=1
+
+      # cdr
+      autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+      add-zsh-hook chpwd chpwd_recent_dirs
+      zstyle ':completion:*' recent-dirs-insert both
+      zstyle ':chpwd:*' recent-dirs-default true
+      zstyle ':chpwd:*' recent-dirs-max 1000
+      zstyle ':chpwd:*' recent-dirs-file "$HOME/.cache/chpwd-recent-dirs"
+
+      ${lib.concatMapStringsSep "\n" (w: "zle -N ${w}") widgets}
+      ${lib.concatStringsSep "\n" (
+        lib.mapAttrsToList (key: widget: "bindkey ${lib.escapeShellArg key} ${widget}") keybindings
+      )}
+    '';
+
+    # ログインシェルの起動時に表示する
+    loginExtra = ''
+      # dotfilesでgitの差分があればメッセージを出力する
+      if [ -n "$(git -C ~/dotfiles status --porcelain)" ]; then
+        echo "[INFO] dotfilesに差分があります。早めにレポジトリに反映してください。"
+      fi
+
+      # Downloads内でのファイル数とサイズを表示
+      if [ -d ~/Downloads ]; then
+        echo "Downloads内のファイル数: $(find ~/Downloads -type f | wc -l)"
+        echo "Downloads内のファイルサイズ: $(du -sh ~/Downloads | awk '{print $1}')"
+      fi
+    '';
   };
 
   home.sessionVariables = {
-    HOMEBREW_PREFIX = "/opt/homebrew";
+    HOMEBREW_PREFIX = osConfig.homebrew.prefix;
     LC_ALL = "ja_JP.UTF-8";
     GOPATH = "$HOME/go";
     GOBIN = "$HOME/go/bin";

@@ -16,11 +16,72 @@
     };
   };
 
-  # split.zsh の vi がエイリアス (vi=nvim) で展開されるよう、エイリアス定義 (1100) より後に読み込む
-  programs.zsh.initContent = lib.mkOrder 1110 ''
-    source ${./split.zsh}
-    source ${./tmux.zsh}
-  '';
+  programs.zsh = {
+    siteFunctions = {
+      # IDE 風にペインを分割する
+      tsplit = ''
+        if [ "$#" -eq 0 ]; then
+          tmux split-window -v
+          tmux split-window -h
+          tmux resize-pane -D 15
+          tmux select-pane -t 1
+        else
+          case $1 in
+            1)
+              tmux split-window -v
+              tmux resize-pane -D 15
+              tmux select-pane -D
+              clear
+              ;;
+            2)
+              tmux split-window -h
+              tmux split-window -v
+              tmux resize-pane -D 15
+              tmux select-pane -t 1
+              tmux split-window -v
+              tmux select-pane -t 1
+              clear
+              ;;
+            py)
+              cd $2
+              tmux split-window -v
+              tmux split-window -h
+              tmux resize-pane -D 15
+              tmux select-pane -t 1
+              nvim .
+              clear
+              ;;
+            *)
+              echo [ERROR] "$1" は設定されていない引数です。
+              ;;
+          esac
+        fi
+      '';
+
+      # 既存の tmux セッションを fzf で選んでアタッチする。なければ新しく作る
+      tmux-select-session = ''
+        local id create_new_session="Create New Session"
+        id="$(tmux list-sessions)"
+        if [[ -z "$id" ]]; then
+          tmux new-session
+          return
+        fi
+        id="$(echo "$id\n''${create_new_session}:" | fzf | cut -d: -f1)"
+        if [[ "$id" = "''${create_new_session}" ]]; then
+          tmux new-session
+        elif [[ -n "$id" ]]; then
+          tmux attach-session -t "$id"
+        fi
+      '';
+    };
+
+    # iTerm2 でログインしたときに tmux のセッションを選ぶ
+    loginExtra = lib.mkBefore ''
+      if [[ $TERM_PROGRAM == iTerm.app && -z $TMUX ]]; then
+        tmux-select-session
+      fi
+    '';
+  };
 
   xdg.configFile = {
     "tmux-powerline" = {
