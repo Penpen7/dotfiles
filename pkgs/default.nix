@@ -18,11 +18,21 @@
     # 異常終了は許容しつつ parts.db が正しく生成されたことだけ確認する。
     # nixpkgs ではこの失敗を受けて darwin で broken 扱いになっているので
     # (NixOS/nixpkgs#588230)、回避策を入れたうえで broken を外す。
+    # また 1.0.8 の phoenix.pro は x86_64/arm64 の universal ビルドを決め打ちしており、
+    # nix の依存 (Qt, libgit2 など) は単一アーキテクチャなのでリンクに失敗する。
+    # ビルド対象のアーキテクチャだけに絞る。
     # nixpkgs 側が追従したら削除する。
     fritzing = prev.fritzing.overrideAttrs (old: {
       meta = old.meta // {
         broken = false;
       };
+      postPatch =
+        (old.postPatch or "")
+        + prev.lib.optionalString prev.stdenv.hostPlatform.isDarwin ''
+          substituteInPlace phoenix.pro \
+            --replace-fail "QMAKE_APPLE_DEVICE_ARCHS = x86_64 arm64" \
+              "QMAKE_APPLE_DEVICE_ARCHS = ${prev.stdenv.hostPlatform.darwinArch}"
+        '';
       nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ prev.sqlite ];
       postFixup = ''
         db="$out/share/fritzing/parts/parts.db"
