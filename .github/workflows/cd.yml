@@ -38,12 +38,24 @@ jobs:
           CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
         run: |
           ip=$(curl -4fsS https://www.cloudflare.com/cdn-cgi/trace | awk -F= '/^ip=/{print $2}')
+          echo "runner IP: $ip"
           id=$(curl -sS -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/firewall/access_rules/rules" \
             -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
             -H 'Content-Type: application/json' \
             --data "{\"mode\":\"whitelist\",\"configuration\":{\"target\":\"ip\",\"value\":\"$ip\"},\"notes\":\"github-actions run ${{ github.run_id }}\"}" \
             | jq -r '.result.id // empty')
           echo "id-${{ matrix.profile }}=$id" >> "$GITHUB_OUTPUT"
+
+          # ルールが反映される前に Nix が nix-cache-info を取りに行って
+          # チャレンジされると、その実行中はキャッシュが無効扱いになるので、
+          # 通るようになるまで待ってからビルドに進む。
+          for i in $(seq 1 12); do
+            status=$(curl -4 -s -o /dev/null -w '%{http_code}' https://nix.u-naoki.com/nix-cache-info)
+            echo "nix-cache-info: $status (attempt $i)"
+            [ "$status" = 200 ] && exit 0
+            sleep 5
+          done
+          echo "::warning::nix.u-naoki.com is still blocked for $ip; building without the cache"
 
       - name: Build package
         run: nix build .#darwinConfigurations.${{ matrix.profile }}.system --accept-flake-config
