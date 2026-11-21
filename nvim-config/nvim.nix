@@ -92,6 +92,8 @@ let
         snacksNvim = vp.snacks-nvim;
         claudecodeNvim = vp.claudecode-nvim;
         avanteNvim = vp.avante-nvim;
+        megaCmdparse = vp.mega-cmdparse;
+        megaLogging = vp.mega-logging;
         dressingNvim = vp.dressing-nvim;
         nuiNvim = vp.nui-nvim;
         imgClipNvim = vp.img-clip-nvim;

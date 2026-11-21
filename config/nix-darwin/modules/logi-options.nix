@@ -6,8 +6,8 @@
     serviceConfig = {
       ProgramArguments = [
         "/usr/bin/open"
-        "-a"
-        "Logi Options+"
+        "-b"
+        "com.logi.optionsplus"
       ];
       RunAtLoad = true;
       KeepAlive = false;

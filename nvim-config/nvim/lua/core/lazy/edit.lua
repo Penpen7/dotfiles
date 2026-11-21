@@ -109,6 +109,8 @@ return {
     -- 依存関係の設定
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
+      { "ColinKennedy/mega.cmdparse", dir = "@megaCmdparse@" },
+      { "ColinKennedy/mega.logging",  dir = "@megaLogging@" },
       { "stevearc/dressing.nvim", dir = "@dressingNvim@" },
       "nvim-lua/plenary.nvim",
       { "MunifTanjim/nui.nvim",   dir = "@nuiNvim@" },
