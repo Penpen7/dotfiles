@@ -14,6 +14,7 @@
     ./zsh
     ./eza
     ./docker
+    ./fzf
     ./git
     ./tmux
     ./vscode

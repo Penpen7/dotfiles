@@ -1,19 +1,9 @@
 { ... }:
 {
-  my.zsh.keybindings = {
-    "^r" = "fzf-select-history";
-    "^o" = "peco-cdr";
-  };
+  my.zsh.keybindings."^o" = "peco-cdr";
 
   programs.zsh = {
     siteFunctions = {
-      fzf-select-history = ''
-        local selected_command=$(history -n -r 1 | fzf --no-sort --reverse)
-        if [ -n "$selected_command" ]; then
-          BUFFER="''${selected_command}"
-        fi
-      '';
-
       # cdr で記録したディレクトリを fzf で選んで cd する。
       # プレビューは端末に直接出力されないので、アイコンと色は always で出す
       peco-cdr = ''
@@ -24,7 +14,6 @@
           zle accept-line
         fi
       '';
-
     };
 
     # cdr の設定。zstyle に当たる設定項目は Home Manager にないので initContent に書く

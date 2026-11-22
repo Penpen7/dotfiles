@@ -80,7 +80,6 @@
     # ファイル・テキスト操作
     ripgrep # 高速な grep 代替ツール (rg)
     bat # シンタックスハイライト付き cat 代替
-    fzf # コマンドラインのファジーファインダー
     tree # ディレクトリ構造をツリー表示
     coreutils # GNU コアユーティリティ群
     wget # HTTP / FTP ファイルダウンロード
