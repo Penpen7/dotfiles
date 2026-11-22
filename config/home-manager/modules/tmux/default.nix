@@ -18,6 +18,13 @@
 
   programs.zsh = {
     siteFunctions = {
+      # tmux の中ではプロンプトを出すたびにステータスラインを更新する
+      precmd = ''
+        if [ -n "$TMUX" ]; then
+          tmux refresh-client -S
+        fi
+      '';
+
       # IDE 風にペインを分割する
       tsplit = ''
         if [ "$#" -eq 0 ]; then

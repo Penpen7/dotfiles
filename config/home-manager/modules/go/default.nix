@@ -7,4 +7,9 @@
     gotools
     (lib.hiPrio gopls)
   ];
+
+  home.sessionVariables = {
+    GOPATH = "$HOME/go";
+    GOBIN = "$HOME/go/bin";
+  };
 }

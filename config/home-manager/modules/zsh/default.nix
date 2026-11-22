@@ -8,9 +8,7 @@
     ./dircolors.nix
     ./keybind.nix
     ./login.nix
-    ./functions/hooks.nix
     ./functions/fzf.nix
-    ./functions/docker.nix
   ];
 
   programs.zsh = {

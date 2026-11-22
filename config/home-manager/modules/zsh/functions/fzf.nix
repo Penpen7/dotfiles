@@ -1,5 +1,10 @@
 { ... }:
 {
+  my.zsh.keybindings = {
+    "^r" = "fzf-select-history";
+    "^o" = "peco-cdr";
+  };
+
   programs.zsh = {
     siteFunctions = {
       fzf-select-history = ''
@@ -20,32 +25,6 @@
         fi
       '';
 
-      # Chrome の閲覧履歴を fzf で選んで開く
-      ch = ''
-        local cols sep google_history open
-        cols=$(( COLUMNS / 3 ))
-        sep='{::}'
-
-        if [ "$(uname)" = "Darwin" ]; then
-          google_history="$HOME/Library/Application Support/Google/Chrome/Default/History"
-          open=open
-        else
-          google_history="$HOME/.config/google-chrome/Default/History"
-          open=xdg-open
-        fi
-        \cp -f "$google_history" /tmp/googlechrome_fzf
-        sqlite3 -separator $sep /tmp/googlechrome_fzf \
-          "select substr(title, 1, $cols), url
-            from urls order by last_visit_time desc" |
-        awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' |
-        fzf --reverse --no-hscroll --ansi --multi --preview-window down:0 | sed 's#.*\(https*://\)#\1#' | xargs $open > /dev/null 2> /dev/null
-      '';
-
-      # ghq list を fzf で選択して cd する
-      ghqcd = ''
-        local dir
-        dir=$(ghq list | fzf-tmux --query="$LBUFFER" --select-1 --exit-0) && cd "$(ghq root)/$dir"
-      '';
     };
 
     # cdr の設定。zstyle に当たる設定項目は Home Manager にないので initContent に書く
