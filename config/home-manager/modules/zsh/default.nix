@@ -8,8 +8,6 @@
     ./dircolors
     ./keybind.nix
     ./login.nix
-    ./functions/history.nix
-    ./functions/cdr.nix
   ];
 
   programs.zsh = {
