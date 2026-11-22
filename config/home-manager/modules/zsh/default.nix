@@ -5,7 +5,6 @@
     ./history.nix
     ./alias.nix
     ./completion.nix
-    ./dircolors.nix
     ./keybind.nix
     ./login.nix
     ./functions/fzf.nix
