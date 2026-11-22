@@ -1,12 +1,12 @@
 { ... }:
 {
-  my.zsh.keybindings."^o" = "peco-cdr";
+  my.zsh.keybindings."^o" = "fzf-cdr";
 
   programs.zsh = {
     siteFunctions = {
       # cdr で記録したディレクトリを fzf で選んで cd する。
       # プレビューは端末に直接出力されないので、アイコンと色は always で出す
-      peco-cdr = ''
+      fzf-cdr = ''
         local selected_dir=$(cdr -l | awk '{ print $2 }' | \
           fzf --reverse --ansi --preview 'f() { zsh -c "eza -1 --icons=always --color=always $1" }; f {}')
         if [ -n "$selected_dir" ]; then
