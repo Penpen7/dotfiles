@@ -12,7 +12,6 @@
       vim = "nvim";
       vi = "nvim";
       v = "nvim";
-      va = "nvim a.cpp";
       vf = ''nvim $(fzf --preview "head -100 {}")'';
     };
 
