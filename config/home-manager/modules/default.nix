@@ -12,6 +12,9 @@
     ./standalone
     ./nvim
     ./zsh
+    ./eza
+    ./docker
+    ./fzf
     ./git
     ./tmux
     ./vscode

@@ -1,5 +1,6 @@
 {
   self,
+  lib,
   pkgs,
   config,
   homebrew-core,
@@ -135,4 +136,13 @@ in
     fi
   '';
   environment.shells = [ pkgs.zsh ];
+
+  environment.systemPath = lib.mkOrder 1100 [
+    "$HOME/.bun/bin"
+    "$HOME/.local/bin"
+    "$HOME/.cargo/bin"
+    "$HOME/go/bin"
+    "${config.homebrew.prefix}/sbin"
+    "${config.homebrew.prefix}/bin"
+  ];
 }

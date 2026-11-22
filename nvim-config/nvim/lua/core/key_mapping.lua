@@ -1,6 +1,5 @@
 vim.api.nvim_set_keymap("n", "<Space>w", ":w<CR>", { silent = true, noremap = true })
 vim.api.nvim_set_keymap("n", "<Space>v", ":e $HOME/.config/nvim<CR>", { silent = true, noremap = true })
-vim.api.nvim_set_keymap("n", "<Space>c", ":!oj t<CR>", { silent = true, noremap = true })
 vim.api.nvim_set_keymap("n", "<Space>t", ":bo terminal", { silent = true, noremap = true })
 vim.api.nvim_set_keymap("n", "<Space>q", ":q<CR>", { silent = true, noremap = true })
 vim.api.nvim_set_keymap("n", "<F4>", ":<C-u>setlocal relativenumber!<CR>", { silent = true, noremap = true })
