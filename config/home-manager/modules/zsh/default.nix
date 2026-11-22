@@ -13,7 +13,6 @@
   programs.zsh = {
     enable = true;
 
-    # setopt no_global_rcs: /etc/zprofile や /etc/zshrc を読み込まない
     envExtra = ''
       setopt no_global_rcs
     '';

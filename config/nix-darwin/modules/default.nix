@@ -137,7 +137,6 @@ in
   '';
   environment.shells = [ pkgs.zsh ];
 
-  # Nix のプロファイル (優先度 1000) より後ろ、/usr/bin などのシステムのパス (1200) より前に置く
   environment.systemPath = lib.mkOrder 1100 [
     "$HOME/.bun/bin"
     "$HOME/.local/bin"

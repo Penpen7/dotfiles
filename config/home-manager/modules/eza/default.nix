@@ -2,8 +2,6 @@
 {
   programs.eza = {
     enable = true;
-    # eza に --icons auto を付けるエイリアスを作る。
-    # zsh 連携で ls、ll、la、lt、lla のエイリアスも作られる
     icons = "auto";
   };
 

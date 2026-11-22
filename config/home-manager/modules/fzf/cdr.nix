@@ -5,7 +5,6 @@
   programs.zsh = {
     siteFunctions = {
       # cdr で記録したディレクトリを fzf で選んで cd する。
-      # プレビューは端末に直接出力されないので、アイコンと色は always で出す
       fzf-cdr = ''
         local selected_dir=$(cdr -l | awk '{ print $2 }' | \
           fzf --reverse --ansi --preview 'f() { zsh -c "eza -1 --icons=always --color=always $1" }; f {}')
@@ -16,7 +15,6 @@
       '';
     };
 
-    # cdr の設定。zstyle に当たる設定項目は Home Manager にないので initContent に書く
     initContent = ''
       autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
       add-zsh-hook chpwd chpwd_recent_dirs

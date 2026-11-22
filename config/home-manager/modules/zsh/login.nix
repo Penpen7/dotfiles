@@ -1,6 +1,5 @@
 { ... }:
 {
-  # ログインシェルの起動時に表示する
   programs.zsh.loginExtra = ''
     # dotfilesでgitの差分があればメッセージを出力する
     if [ -n "$(git -C ~/dotfiles status --porcelain)" ]; then

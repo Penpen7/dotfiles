@@ -1,7 +1,5 @@
-# docker 本体は nix-darwin で cask として入れる。ここでは zsh の設定だけを持つ
 { ... }:
 let
-  # fzf で起動中のコンテナを選び、そのコンテナでコマンドを実行する
   dockerExec = shell: ''
     local container
     container="$(docker container ls -a -f status=running | sed -e '1d' | fzf --height 40% --reverse | awk '{print $1}')"

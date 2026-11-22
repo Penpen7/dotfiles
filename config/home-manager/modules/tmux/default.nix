@@ -18,7 +18,6 @@
 
   programs.zsh = {
     siteFunctions = {
-      # tmux の中ではプロンプトを出すたびにステータスラインを更新する
       precmd = ''
         if [ -n "$TMUX" ]; then
           tmux refresh-client -S
@@ -82,7 +81,6 @@
       '';
     };
 
-    # iTerm2 でログインしたときに tmux のセッションを選ぶ
     loginExtra = lib.mkBefore ''
       if [[ $TERM_PROGRAM == iTerm.app && -z $TMUX ]]; then
         tmux-select-session
