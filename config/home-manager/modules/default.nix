@@ -13,7 +13,6 @@
     ./nvim
     ./zsh
     ./eza
-    ./dircolors
     ./docker
     ./git
     ./tmux
