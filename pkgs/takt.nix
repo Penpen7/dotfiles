@@ -6,12 +6,12 @@ pkgs.buildNpmPackage {
   src = pkgs.fetchFromGitHub {
     owner = "nrslib";
     repo = "takt";
-    rev = "4f6963958fe0cac33b47754bbfa489afd943819d";
-    hash = "sha256-4MOQKKXMOTf8ZpKmSvZTo/Zd1s5ofB9/X7EEguNlqqE=";
+    rev = "d591bd45df08d3c30286ed4c47fe6509104e945b";
+    hash = "sha256-TyAwqMsenUmCfFRu67MA5zJTVunWjX8qLRHycMBWh4U=";
   };
 
   npmDepsFetcherVersion = 2;
-  npmDepsHash = "sha256-Sk0r3aePlNl5T+0lT/h46cXloe9NViunUFTMR3ERchs=";
+  npmDepsHash = "sha256-wuNotYAoSKFKb8WcPPaozM0eak9k60z47wXf4O6EoZI=";
 
   # playwright の postinstall がビルド時にブラウザをダウンロードしようとして失敗するため抑止
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1";
